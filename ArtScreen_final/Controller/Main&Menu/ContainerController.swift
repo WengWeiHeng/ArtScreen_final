@@ -7,10 +7,13 @@
 
 import UIKit
 
+let screen = UIScreen.main.bounds
+let screenWidth = screen.size.width
+let screenHeight = screen.size.height
+
 class ContainerController: UIViewController {
     
     //MARK: - Properties
-    
     private var mainController = MainViewController()
     private var menuController: MenuController!
     private var isExpanded = false
@@ -73,7 +76,7 @@ class ContainerController: UIViewController {
         menuController.didMove(toParent: self)
         view.insertSubview(menuController.view, at: 0)
         print("DEBUG: \(menuController.view.frame.width)")
-//        menuController.delegate = self
+        menuController.delegate = self
     }
     
     func animateMenu(shouldExpand: Bool, completion: ((Bool) -> Void)? = nil){
@@ -109,5 +112,25 @@ extension ContainerController: MainControllerDelegate {
         isExpanded.toggle()
         animateMenu(shouldExpand: isExpanded)
         print("DEBUG: \(menuController.view.frame.width)")
+    }
+}
+
+//MARK: - MenuControllerDelegate
+extension ContainerController: MenuControllerDelegate {
+    func handleMenuDismissal() {
+        dismissMenu()
+    }
+    
+    func handleShowProfilePage() {
+        let controller = UserProfileController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true) {
+            self.dismissMenu()
+        }
+    }
+    
+    func handleLogout() {
+//        logout()
     }
 }

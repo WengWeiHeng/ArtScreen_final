@@ -9,14 +9,22 @@ import UIKit
 
 private let reuseIdentifier = "MenuTableViewCell"
 
+protocol MenuControllerDelegate: class {
+    func handleMenuDismissal()
+    func handleShowProfilePage()
+    func handleLogout()
+}
+
 class MenuController: UIViewController {
     
     //MARK: - Properties
     var tableView = UITableView()
+    weak var delegate: MenuControllerDelegate?
     
     private lazy var menuHeader: MenuHeader = {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: 200)
         let view = MenuHeader(frame: frame)
+        view.delegate = self
         
         return view
     }()
@@ -93,3 +101,13 @@ extension MenuController: UITableViewDelegate {
     }
 }
 
+//MARK: - MenuHeaderDelegate
+extension MenuController: MenuHeaderDelegate {
+    func handleShowProfilePage() {
+        delegate?.handleShowProfilePage()
+    }
+    
+    func handleMenuDismissal() {
+        delegate?.handleMenuDismissal()
+    }
+}

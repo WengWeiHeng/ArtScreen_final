@@ -19,6 +19,11 @@
 		B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0D25400DAA00199443 /* RegistrationController.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
+		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
+		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
+		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
+		B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D14254164E500E5A203 /* MenuViewModel.swift */; };
+		B0E58D192541655500E5A203 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D182541655500E5A203 /* MenuHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +41,11 @@
 		B04CCA0D25400DAA00199443 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
+		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		B0E58D14254164E500E5A203 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		B0E58D182541655500E5A203 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +80,7 @@
 			children = (
 				B0111448253FDA0C009D55FA /* Utils */,
 				B011144B253FDA1D009D55FA /* View */,
+				B0E58D13254164D500E5A203 /* ViewModel */,
 				B0111449253FDA11009D55FA /* Controller */,
 				B07C74BB25411CD800920F59 /* Model */,
 				B07C74BA25411CD100920F59 /* API */,
@@ -96,7 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				B04CCA0825400C5200199443 /* Auth */,
+				B0E58D08254163BD00E5A203 /* ContainerController.swift */,
 				B0111441253FD7DB009D55FA /* MainViewController.swift */,
+				B0E58D0B2541640000E5A203 /* MenuController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -104,6 +117,7 @@
 		B011144B253FDA1D009D55FA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B0E58D0E2541642B00E5A203 /* Main */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,6 +145,23 @@
 				B07C74BC25411CE700920F59 /* User.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B0E58D0E2541642B00E5A203 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */,
+				B0E58D182541655500E5A203 /* MenuHeader.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B0E58D13254164D500E5A203 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B0E58D14254164E500E5A203 /* MenuViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,12 +235,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */,
+				B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */,
+				B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */,
+				B0E58D192541655500E5A203 /* MenuHeader.swift in Sources */,
 				B0111442253FD7DB009D55FA /* MainViewController.swift in Sources */,
 				B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */,
 				B07C74C12541206400920F59 /* AuthService.swift in Sources */,
+				B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,
 				B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */,
+				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B0111445253FD9FC009D55FA /* Extensions.swift in Sources */,
 			);

@@ -8,6 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		9152F195997FE18A5D95AC7A /* Pods_ArtScreen_final.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9CE8F39F6D50C6154BA906 /* Pods_ArtScreen_final.framework */; };
+		B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073725425C0E00041A01 /* ExhibitionUploadController.swift */; };
+		B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073B25425D5F00041A01 /* AddArtworkInputView.swift */; };
+		B011074025425D8F00041A01 /* AddArtworkInputViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */; };
+		B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074225425DBE00041A01 /* ExhibitionSettingView.swift */; };
+		B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074525425DD400041A01 /* ExhibitionEditView.swift */; };
+		B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074825425DF000041A01 /* ExhibitionSendView.swift */; };
+		B011074C25425E0800041A01 /* ExhibitionSendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */; };
+		B011074F25425FCE00041A01 /* ArtworkInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074E25425FCE00041A01 /* ArtworkInputCell.swift */; };
+		B01107532542613600041A01 /* UserCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107522542613600041A01 /* UserCoverView.swift */; };
+		B01107562542618800041A01 /* UserContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107552542618800041A01 /* UserContentView.swift */; };
+		B0110759254261E100041A01 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110758254261E100041A01 /* UserInfoView.swift */; };
+		B011075C2542620900041A01 /* UserExhibitionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011075B2542620900041A01 /* UserExhibitionView.swift */; };
+		B011075F2542623200041A01 /* UserArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011075E2542623200041A01 /* UserArtworkView.swift */; };
+		B01107622542626600041A01 /* ArtworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107612542626600041A01 /* ArtworkCell.swift */; };
+		B0110765254262C100041A01 /* ExhibitionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110764254262C100041A01 /* ExhibitionCell.swift */; };
+		B01107682542630000041A01 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107672542630000041A01 /* FilterView.swift */; };
+		B011076B2542630F00041A01 /* FilterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011076A2542630F00041A01 /* FilterViewCell.swift */; };
+		B011076E2542634C00041A01 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011076D2542634C00041A01 /* FilterViewModel.swift */; };
+		B0110771254263B300041A01 /* EditToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110770254263B300041A01 /* EditToolBarView.swift */; };
+		B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110773254263DB00041A01 /* EditToolBarCell.swift */; };
+		B0110777254263FA00041A01 /* ToolBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110776254263FA00041A01 /* ToolBarViewModel.swift */; };
 		B011142C253FD777009D55FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011142B253FD777009D55FA /* AppDelegate.swift */; };
 		B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011142D253FD777009D55FA /* SceneDelegate.swift */; };
 		B0111433253FD777009D55FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0111431253FD777009D55FA /* Main.storyboard */; };
@@ -34,6 +55,27 @@
 /* Begin PBXFileReference section */
 		336C3B8C321C6F640BC0297F /* Pods-ArtScreen_final.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArtScreen_final.debug.xcconfig"; path = "Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final.debug.xcconfig"; sourceTree = "<group>"; };
 		613882EDE2F8FC380934E05B /* Pods-ArtScreen_final.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArtScreen_final.release.xcconfig"; path = "Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final.release.xcconfig"; sourceTree = "<group>"; };
+		B011073725425C0E00041A01 /* ExhibitionUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionUploadController.swift; sourceTree = "<group>"; };
+		B011073B25425D5F00041A01 /* AddArtworkInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputView.swift; sourceTree = "<group>"; };
+		B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputViewCell.swift; sourceTree = "<group>"; };
+		B011074225425DBE00041A01 /* ExhibitionSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSettingView.swift; sourceTree = "<group>"; };
+		B011074525425DD400041A01 /* ExhibitionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditView.swift; sourceTree = "<group>"; };
+		B011074825425DF000041A01 /* ExhibitionSendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSendView.swift; sourceTree = "<group>"; };
+		B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSendViewCell.swift; sourceTree = "<group>"; };
+		B011074E25425FCE00041A01 /* ArtworkInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkInputCell.swift; sourceTree = "<group>"; };
+		B01107522542613600041A01 /* UserCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCoverView.swift; sourceTree = "<group>"; };
+		B01107552542618800041A01 /* UserContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentView.swift; sourceTree = "<group>"; };
+		B0110758254261E100041A01 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		B011075B2542620900041A01 /* UserExhibitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExhibitionView.swift; sourceTree = "<group>"; };
+		B011075E2542623200041A01 /* UserArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserArtworkView.swift; sourceTree = "<group>"; };
+		B01107612542626600041A01 /* ArtworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkCell.swift; sourceTree = "<group>"; };
+		B0110764254262C100041A01 /* ExhibitionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionCell.swift; sourceTree = "<group>"; };
+		B01107672542630000041A01 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		B011076A2542630F00041A01 /* FilterViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewCell.swift; sourceTree = "<group>"; };
+		B011076D2542634C00041A01 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
+		B0110770254263B300041A01 /* EditToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolBarView.swift; sourceTree = "<group>"; };
+		B0110773254263DB00041A01 /* EditToolBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolBarCell.swift; sourceTree = "<group>"; };
+		B0110776254263FA00041A01 /* ToolBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewModel.swift; sourceTree = "<group>"; };
 		B0111428253FD777009D55FA /* ArtScreen_final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArtScreen_final.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B011142B253FD777009D55FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B011142D253FD777009D55FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +122,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B011073A25425D5100041A01 /* AddExhibition */ = {
+			isa = PBXGroup;
+			children = (
+				B011073B25425D5F00041A01 /* AddArtworkInputView.swift */,
+				B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */,
+				B011074225425DBE00041A01 /* ExhibitionSettingView.swift */,
+				B011074525425DD400041A01 /* ExhibitionEditView.swift */,
+				B011074825425DF000041A01 /* ExhibitionSendView.swift */,
+				B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */,
+			);
+			path = AddExhibition;
+			sourceTree = "<group>";
+		};
+		B01107512542612300041A01 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				B01107522542613600041A01 /* UserCoverView.swift */,
+				B01107552542618800041A01 /* UserContentView.swift */,
+				B0110758254261E100041A01 /* UserInfoView.swift */,
+				B011075B2542620900041A01 /* UserExhibitionView.swift */,
+				B011075E2542623200041A01 /* UserArtworkView.swift */,
+				B0110770254263B300041A01 /* EditToolBarView.swift */,
+				B0110773254263DB00041A01 /* EditToolBarCell.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
 		B011141F253FD777009D55FA = {
 			isa = PBXGroup;
 			children = (
@@ -102,9 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				B0111448253FDA0C009D55FA /* Utils */,
+				B0111449253FDA11009D55FA /* Controller */,
 				B011144B253FDA1D009D55FA /* View */,
 				B0E58D13254164D500E5A203 /* ViewModel */,
-				B0111449253FDA11009D55FA /* Controller */,
 				B07C74BB25411CD800920F59 /* Model */,
 				B07C74BA25411CD100920F59 /* API */,
 				B011142B253FD777009D55FA /* AppDelegate.swift */,
@@ -143,6 +212,13 @@
 			isa = PBXGroup;
 			children = (
 				B0E58D0E2541642B00E5A203 /* Main */,
+				B011073A25425D5100041A01 /* AddExhibition */,
+				B01107512542612300041A01 /* UserProfile */,
+				B011074E25425FCE00041A01 /* ArtworkInputCell.swift */,
+				B01107612542626600041A01 /* ArtworkCell.swift */,
+				B0110764254262C100041A01 /* ExhibitionCell.swift */,
+				B01107672542630000041A01 /* FilterView.swift */,
+				B011076A2542630F00041A01 /* FilterViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				B0D141152541911000D9A677 /* AddExhibitionController.swift */,
+				B011073725425C0E00041A01 /* ExhibitionUploadController.swift */,
 			);
 			path = AddExhibition;
 			sourceTree = "<group>";
@@ -211,6 +288,8 @@
 			isa = PBXGroup;
 			children = (
 				B0E58D14254164E500E5A203 /* MenuViewModel.swift */,
+				B011076D2542634C00041A01 /* FilterViewModel.swift */,
+				B0110776254263FA00041A01 /* ToolBarViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -339,22 +418,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */,
+				B011074025425D8F00041A01 /* AddArtworkInputViewCell.swift in Sources */,
 				B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */,
+				B011074F25425FCE00041A01 /* ArtworkInputCell.swift in Sources */,
+				B0110777254263FA00041A01 /* ToolBarViewModel.swift in Sources */,
+				B011074C25425E0800041A01 /* ExhibitionSendViewCell.swift in Sources */,
 				B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */,
+				B011075C2542620900041A01 /* UserExhibitionView.swift in Sources */,
 				B0E58D192541655500E5A203 /* MenuHeader.swift in Sources */,
+				B0110765254262C100041A01 /* ExhibitionCell.swift in Sources */,
 				B0111442253FD7DB009D55FA /* MainViewController.swift in Sources */,
+				B011076E2542634C00041A01 /* FilterViewModel.swift in Sources */,
+				B01107682542630000041A01 /* FilterView.swift in Sources */,
 				B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */,
 				B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */,
 				B07C74C12541206400920F59 /* AuthService.swift in Sources */,
+				B011076B2542630F00041A01 /* FilterViewCell.swift in Sources */,
 				B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */,
+				B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */,
 				B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */,
+				B0110771254263B300041A01 /* EditToolBarView.swift in Sources */,
+				B01107532542613600041A01 /* UserCoverView.swift in Sources */,
 				B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */,
+				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,
+				B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */,
 				B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */,
 				B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */,
+				B01107622542626600041A01 /* ArtworkCell.swift in Sources */,
+				B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */,
+				B01107562542618800041A01 /* UserContentView.swift in Sources */,
+				B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */,
+				B0110759254261E100041A01 /* UserInfoView.swift in Sources */,
+				B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */,
 				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
+				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B0111445253FD9FC009D55FA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

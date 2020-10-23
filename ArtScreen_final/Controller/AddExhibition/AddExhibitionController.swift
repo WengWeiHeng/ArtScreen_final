@@ -136,7 +136,12 @@ class AddExhibitionController: UIViewController {
     
     //MARK: - API
     func uploadExhibition() {
-        print("DEBUG: INSERT INTO Exhibition information")
+        print("DEBUG: INSERT INTO Exhibition information AND Next page..")
+        
+        let controller = ExhibitionUploadController()
+        controller.exhibitionTitleText = titleTextField.text
+        navigationController?.pushViewController(controller, animated: true)
+        
     }
     
     //MARK: - Helpers

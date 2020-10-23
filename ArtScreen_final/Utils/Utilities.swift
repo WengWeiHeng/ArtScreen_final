@@ -8,6 +8,27 @@
 import UIKit
 
 class Utilities {
+    func moreButtonView(withImage image: UIImage, text: String) -> UIView {
+        let view = UIView()
+        
+        let label = UILabel()
+        label.text = text
+        label.textColor = .mainPurple
+        label.font = UIFont.boldSystemFont(ofSize: 12)
+        view.addSubview(label)
+        label.anchor(left: view.leftAnchor)
+        label.centerY(inView: view)
+        
+        let iv = UIImageView()
+        iv.image = image
+        iv.setDimensions(width: 5, height: 10)
+        view.addSubview(iv)
+        iv.centerY(inView: label)
+        iv.anchor(left: label.rightAnchor, paddingLeft: 8)
+
+        return view
+    }
+    
     func inputContainerView(withImage image: UIImage, textField: UITextField) -> UIView{
         let view = UIView()
         let iv = UIImageView()
@@ -77,7 +98,52 @@ class Utilities {
         return view
     }
     
-    //MARK: - AddExhibition
+    func titleBarInputview(withTitle title: String, action: Selector) -> UIView {
+        let view = UIView()
+        
+        let label = UILabel()
+        label.text = title
+        label.textColor = .mainPurple
+        label.font = .boldSystemFont(ofSize: 26)
+        
+        let moreView = Utilities().moreButtonView(withImage: #imageLiteral(resourceName: "moreRight"), text: "MORE")
+        moreView.setDimensions(width: 50, height: 10)
+        let tap = UITapGestureRecognizer(target: self, action: action)
+        moreView.addGestureRecognizer(tap)
+        
+        view.addSubview(label)
+        label.centerY(inView: view)
+        label.anchor(left: view.leftAnchor, paddingLeft: 12)
+        
+        view.addSubview(moreView)
+        moreView.anchor(bottom: label.bottomAnchor, right: view.rightAnchor, paddingRight: 12)
+        
+        return view
+    }
+    
+    func customSlider(withMaxValue maxValue: Float, minValue: Float, value: Float, barColor: UIColor = UIColor.mainBackground) -> UISlider {
+        let slider = UISlider()
+        slider.minimumTrackTintColor = barColor
+        slider.maximumTrackTintColor = .mainAlphaGray
+        slider.thumbTintColor = .mainBackground
+        slider.maximumValue = maxValue
+        slider.minimumValue = minValue
+        slider.value = value
+        slider.isContinuous = false
+        slider.setDimensions(width: screenWidth - 120, height: 50)
+    
+        return slider
+    }
+    
+    func sliderTitleLabel(withText text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = .white
+        
+        return label
+    }
+    
     func noArtworkAnnounceView(announceText: String, buttonSelector: Selector) -> UIStackView {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -106,6 +172,25 @@ class Utilities {
         stack.alignment = .center
         stack.widthAnchor.constraint(equalToConstant: 160).isActive = true
 
+        return stack
+    }
+    
+    func customCountStackView(typeText: String, countText: String, textColor: UIColor) -> UIStackView {
+        let typeLabel = UILabel()
+        typeLabel.text = typeText
+        typeLabel.font = UIFont.systemFont(ofSize: 10)
+        typeLabel.textColor = textColor
+        
+        let countLabel = UILabel()
+        countLabel.text = countText
+        countLabel.font = UIFont.boldSystemFont(ofSize: 13)
+        countLabel.textColor = textColor
+        
+        let stack = UIStackView(arrangedSubviews: [typeLabel, countLabel])
+        stack.axis = .horizontal
+        stack.spacing = 6
+        stack.alignment = .bottom
+        
         return stack
     }
 }

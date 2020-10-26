@@ -67,8 +67,11 @@
 		B04CCA06254004AC00199443 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA05254004AC00199443 /* Utilities.swift */; };
 		B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0925400C5C00199443 /* LoginController.swift */; };
 		B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0D25400DAA00199443 /* RegistrationController.swift */; };
+		B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0712F952545447F00438FE3 /* ArtMapController.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
+		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
+		B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */; };
 		B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D1410F25418E0400D9A677 /* UserProfileController.swift */; };
 		B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D14112254190C300D9A677 /* AddArtworkController.swift */; };
 		B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141152541911000D9A677 /* AddExhibitionController.swift */; };
@@ -144,8 +147,11 @@
 		B04CCA05254004AC00199443 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B04CCA0925400C5C00199443 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		B04CCA0D25400DAA00199443 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		B0712F952545447F00438FE3 /* ArtMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtMapController.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
+		B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoInputView.swift; sourceTree = "<group>"; };
 		B0D1410F25418E0400D9A677 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		B0D14112254190C300D9A677 /* AddArtworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkController.swift; sourceTree = "<group>"; };
 		B0D141152541911000D9A677 /* AddExhibitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionController.swift; sourceTree = "<group>"; };
@@ -293,6 +299,7 @@
 				B07C74BA25411CD100920F59 /* API */,
 				B011142B253FD777009D55FA /* AppDelegate.swift */,
 				B011142D253FD777009D55FA /* SceneDelegate.swift */,
+				B09B915B25465752003A1CC1 /* MapStyle.json */,
 				B0111431253FD777009D55FA /* Main.storyboard */,
 				B0111434253FD778009D55FA /* Assets.xcassets */,
 				B0111436253FD778009D55FA /* LaunchScreen.storyboard */,
@@ -321,6 +328,7 @@
 				B0D1412E254197FA00D9A677 /* Main&Menu */,
 				B0D1412D254197D200D9A677 /* AddExhibition */,
 				B0D1412C254197B900D9A677 /* AddArtwork */,
+				B0712F942545446700438FE3 /* ArtMap */,
 				B0D1410F25418E0400D9A677 /* UserProfileController.swift */,
 			);
 			path = Controller;
@@ -333,6 +341,7 @@
 				B011073A25425D5100041A01 /* AddExhibition */,
 				B011078725426B0900041A01 /* AddArtwork */,
 				B01107512542612300041A01 /* UserProfile */,
+				B0712F99254544ED00438FE3 /* ArtMap */,
 				B011074E25425FCE00041A01 /* ArtworkInputCell.swift */,
 				B01107612542626600041A01 /* ArtworkCell.swift */,
 				B0110764254262C100041A01 /* ExhibitionCell.swift */,
@@ -349,6 +358,22 @@
 				B04CCA0D25400DAA00199443 /* RegistrationController.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		B0712F942545446700438FE3 /* ArtMap */ = {
+			isa = PBXGroup;
+			children = (
+				B0712F952545447F00438FE3 /* ArtMapController.swift */,
+			);
+			path = ArtMap;
+			sourceTree = "<group>";
+		};
+		B0712F99254544ED00438FE3 /* ArtMap */ = {
+			isa = PBXGroup;
+			children = (
+				B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */,
+			);
+			path = ArtMap;
 			sourceTree = "<group>";
 		};
 		B07C74BA25411CD100920F59 /* API */ = {
@@ -439,6 +464,7 @@
 				B0111425253FD777009D55FA /* Frameworks */,
 				B0111426253FD777009D55FA /* Resources */,
 				27CE478C1FD6149EE2A9AAD6 /* [CP] Embed Pods Frameworks */,
+				F6A47D0919D45B04C2CA9381 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -486,6 +512,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B09B915C25465752003A1CC1 /* MapStyle.json in Resources */,
 				B0111438253FD778009D55FA /* LaunchScreen.storyboard in Resources */,
 				B0111435253FD778009D55FA /* Assets.xcassets in Resources */,
 				B0111433253FD777009D55FA /* Main.storyboard in Resources */,
@@ -532,6 +559,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F6A47D0919D45B04C2CA9381 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -582,7 +626,9 @@
 				B011078C25426E2200041A01 /* AlbumView.swift in Sources */,
 				B01107532542613600041A01 /* UserCoverView.swift in Sources */,
 				B01107C22542721700041A01 /* DrawView.swift in Sources */,
+				B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */,
 				B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */,
+				B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */,
 				B011078925426D4E00041A01 /* CameraView.swift in Sources */,
 				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,

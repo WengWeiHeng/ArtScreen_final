@@ -7,6 +7,7 @@
 
 import UIKit
 import JGProgressHUD
+import GoogleMaps
 
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
@@ -146,6 +147,20 @@ extension UIViewController {
         let alert = UIAlertController(title: "Oops!", message: errorMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func setMapStyle(mapView: GMSMapView) {
+        do {
+            // Set the map style by passing the URL of the local file.
+            if let styleURL = Bundle.main.url(forResource: "MapStyle", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
     }
 }
 

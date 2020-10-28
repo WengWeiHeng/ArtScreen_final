@@ -183,5 +183,4 @@ class MainViewController: UIViewController {
             self.closeButton.alpha = 0
         }
     }
-    
 }

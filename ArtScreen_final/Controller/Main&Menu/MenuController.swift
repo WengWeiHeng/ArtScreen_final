@@ -78,7 +78,10 @@ extension MenuController: UITableViewDelegate {
         case .notification:
             print("DEBUG: Show notification page..")
         case .placeMap:
-            print("DEBUG: Show place map page..")
+            let controller = ArtMapController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         case .arCamere:
             print("DEBUG: ARCamera")
 //            let controller = ARCameraController()

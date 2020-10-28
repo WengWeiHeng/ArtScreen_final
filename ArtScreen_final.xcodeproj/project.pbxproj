@@ -76,6 +76,8 @@
 		B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D14112254190C300D9A677 /* AddArtworkController.swift */; };
 		B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141152541911000D9A677 /* AddExhibitionController.swift */; };
 		B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */; };
+		B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */; };
+		B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */; };
 		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
 		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
 		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
@@ -156,6 +158,8 @@
 		B0D14112254190C300D9A677 /* AddArtworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkController.swift; sourceTree = "<group>"; };
 		B0D141152541911000D9A677 /* AddExhibitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionController.swift; sourceTree = "<group>"; };
 		B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionUtilities.swift; sourceTree = "<group>"; };
+		B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
+		B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationCell.swift; sourceTree = "<group>"; };
 		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				B01107A52542714100041A01 /* AnimateToolBarView.swift */,
 				B01107A82542715600041A01 /* AnimateToolBarCell.swift */,
 				B01107AB2542716600041A01 /* LayoutCell.swift */,
+				B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */,
 			);
 			path = AddArtwork;
 			sourceTree = "<group>";
@@ -400,6 +405,7 @@
 				B01107912542702D00041A01 /* AnimateController.swift */,
 				B01107942542703C00041A01 /* ConfirmImageController.swift */,
 				B01107982542706400041A01 /* ArtworkInfoSettingController.swift */,
+				B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */,
 			);
 			path = AddArtwork;
 			sourceTree = "<group>";
@@ -585,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */,
 				B01107BC254271F200041A01 /* LassoToolBarCell.swift in Sources */,
 				B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */,
 				B011074025425D8F00041A01 /* AddArtworkInputViewCell.swift in Sources */,
@@ -649,6 +656,7 @@
 				B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */,
 				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,
 				B01107A02542710E00041A01 /* FeatureToolBarViewModel.swift in Sources */,
+				B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */,
 				B01107D32542729C00041A01 /* MoveDrawView.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,

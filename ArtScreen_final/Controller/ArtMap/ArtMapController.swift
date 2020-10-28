@@ -15,6 +15,9 @@ class ArtMapController: UIViewController {
     private let locationManager = CLLocationManager()
     
     lazy var mapView = GMSMapView()
+    private let mapInfoView = MapInfoInputView(frame: .zero)
+    private var mapInfoViewBottom = NSLayoutConstraint()
+    private let mapInfoViewHeight: CGFloat = 300
     
     //MARK: - Init
     override func viewDidLoad() {
@@ -22,16 +25,63 @@ class ArtMapController: UIViewController {
         configureUI()
     }
     
+    //MARK: - Selectors
+    @objc func handleDismissal() {
+        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+            self.mapInfoViewBottom.constant = self.mapInfoViewHeight
+            self.view.layoutIfNeeded()
+        }
+        transitionAnimator.startAnimation()
+    }
+    
+    @objc func handleShowInputView() {
+        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+            self.mapInfoViewBottom.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        transitionAnimator.startAnimation()
+    }
+    
+    @objc func handleCloseMap() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     //MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .mainBackground
-        navigationController?.navigationBar.isHidden = true
+        configureNavigationBar()
         
         setupMapView()
         setupMarker()
+        configureInfoInputView()
         
     }
     
+    func configureNavigationBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleCloseMap))
+    }
+    
+    func configureInfoInputView() {
+        view.addSubview(mapInfoView)
+        mapInfoView.translatesAutoresizingMaskIntoConstraints = false
+        mapInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        mapInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        mapInfoViewBottom = mapInfoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: mapInfoViewHeight)
+        mapInfoViewBottom.isActive = true
+        mapInfoView.heightAnchor.constraint(equalToConstant: mapInfoViewHeight).isActive = true
+        mapInfoView.layer.cornerRadius = 24
+//        mapInfoView.delegate = self
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleDismissal))
+        swipeDown.direction = .down
+        mapInfoView.addGestureRecognizer(swipeDown)
+        
+    }
+    
+    //MARK: - MapView Setting function
     func setupMapView() {
         view.addSubview(mapView)
         mapView.addConstraintsToFillView(view)
@@ -57,6 +107,18 @@ class ArtMapController: UIViewController {
     }
 }
 
+//MARK: - GMSMapViewDelegate
+extension ArtMapController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        handleShowInputView()
+        return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        print("DEBUG: Marker title tapped..")
+    }
+}
+
 //MARK: - CLLocationManagerDelegate
 extension ArtMapController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -68,11 +130,5 @@ extension ArtMapController: CLLocationManagerDelegate {
         let camera = GMSCameraPosition.camera(withLatitude: locationValue.latitude, longitude: locationValue.longitude, zoom: 15.0)
         self.mapView.animate(to: camera)
         locationManager.stopUpdatingLocation()
-    }
-}
-
-extension ArtMapController: GMSMapViewDelegate {
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print("DEBUG: Marker tapped..")
     }
 }

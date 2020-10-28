@@ -77,6 +77,27 @@ class ArtworkInfoSettingController: UIViewController {
         return tf
     }()
     
+    private let addLocationView: UIView = {
+        let view = UIView()
+        
+        let label = AddExhibitionUtilities().customLabel(title: "Location")
+        let iconIV = UIImageView()
+        iconIV.clipsToBounds = true
+        iconIV.contentMode = .scaleAspectFit
+        iconIV.image = #imageLiteral(resourceName: "Next")
+        iconIV.setDimensions(width: 16, height: 16)
+        
+        view.addSubview(label)
+        label.centerY(inView: view)
+        label.anchor(left: view.leftAnchor)
+        
+        view.addSubview(iconIV)
+        iconIV.centerY(inView: view)
+        iconIV.anchor(right: view.rightAnchor)
+        
+        return view
+    }()
+    
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,6 +138,13 @@ class ArtworkInfoSettingController: UIViewController {
         }
     }
     
+    @objc func addLocation() {
+        let controller = AddLocationController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     //MARK: - Helpers
     func configure() {
         view.addSubview(navigationBarView)
@@ -144,6 +172,12 @@ class ArtworkInfoSettingController: UIViewController {
         
         view.addSubview(introductionStack)
         introductionStack.anchor(top: titleStack.bottomAnchor, left: titleStack.leftAnchor, right: titleStack.rightAnchor, paddingTop: 20)
+        
+        view.addSubview(addLocationView)
+        addLocationView.anchor(top: introductionStack.bottomAnchor, left: introductionStack.leftAnchor, right: introductionStack.rightAnchor, paddingTop: 20, height: 20)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(addLocation))
+        addLocationView.addGestureRecognizer(tap)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         

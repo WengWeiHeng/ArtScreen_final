@@ -111,7 +111,6 @@ extension ContainerController: MainControllerDelegate {
     func handleMenuToggle() {
         isExpanded.toggle()
         animateMenu(shouldExpand: isExpanded)
-        print("DEBUG: \(menuController.view.frame.width)")
     }
 }
 

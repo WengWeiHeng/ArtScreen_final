@@ -185,7 +185,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
         return nil
     }
     
-    private func flashOn(device:AVCaptureDevice){
+    private func flashOn(device: AVCaptureDevice) {
         do {
             if (device.hasTorch) {
                 try device.lockForConfiguration()
@@ -262,7 +262,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
 }
 
 //MARK: - Extension
-extension CameraView{
+extension CameraView {
     // カメラの画質の設定
     func setupCaptureSession() {
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
@@ -319,17 +319,5 @@ extension CameraView{
 
         self.cameraPreviewLayer?.frame = CGRect(x: 0, y: 94, width: screenWidth, height: screenWidth)
         self.layer.insertSublayer(self.cameraPreviewLayer!, at: 0)
-    }
-
-    // ボタンのスタイルを設定
-    func styleCaptureButton() {
-//        cameraButton.layer.borderColor = UIColor.white.cgColor
-//        cameraButton.layer.borderWidth = 5
-//        cameraButton.clipsToBounds = true
-//        cameraButton.layer.cornerRadius = min(cameraButton.frame.width, cameraButton.frame.height) / 2
-//        button.layer.borderColor = UIColor.white.cgColor
-//        button.layer.borderWidth = 5
-//        button.clipsToBounds = true
-//        button.layer.cornerRadius = min(cameraButton.frame.width, cameraButton.frame.height) / 2
     }
 }

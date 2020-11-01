@@ -263,13 +263,16 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     }
     
     func didTappedEditInfo() {
-        print("didTappedEditInfo")
-        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            self.blackViewButton.alpha = 0.75
-            self.editViewBottom.constant = 0
-            self.view.layoutIfNeeded()
-        }
-        transitionAnimator.startAnimation()
+//        print("didTappedEditInfo")
+//        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+//            self.blackViewButton.alpha = 0.75
+//            self.editViewBottom.constant = 0
+//            self.view.layoutIfNeeded()
+//        }
+//        transitionAnimator.startAnimation()
+        let controller = ExhibitionEditController()
+        let nav = UINavigationController(rootViewController: controller)
+        present(nav, animated: true, completion: nil)
     }
     
     func didTappedSend() {

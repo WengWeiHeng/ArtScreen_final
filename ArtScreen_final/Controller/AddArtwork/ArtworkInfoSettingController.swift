@@ -54,50 +54,74 @@ class ArtworkInfoSettingController: UIViewController {
     }()
     
     private let titleLabel: UILabel = {
-        let label = AddExhibitionUtilities().customLabel(title: "Artwork Name")
+        let label = AddExhibitionUtilities().customLabel(title: "Artwork Name", color: .white)
         
         return label
     }()
     
     private let titleTextField: UITextField = {
-        let tf = AddExhibitionUtilities().customTextField(placeholder: "Name")
+        let tf = AddExhibitionUtilities().customTextField(placeholder: "Name", textColor: .white)
         
         return tf
     }()
     
     private let introductionLabel: UILabel = {
-        let label = AddExhibitionUtilities().customLabel(title: "Introduction")
+        let label = AddExhibitionUtilities().customLabel(title: "Introduction", color: .white)
         
         return label
     }()
     
     private let introductionTextField: UITextField = {
-        let tf = AddExhibitionUtilities().customTextField(placeholder: "Introduction")
+        let tf = AddExhibitionUtilities().customTextField(placeholder: "Introduction", textColor: .white)
         
         return tf
     }()
     
-    private let addLocationView: UIView = {
+    
+    //MARK: - Location Properties
+    private var locationLat: Double?
+    private var locationLog: Double?
+    
+    private lazy var addLocationView: UIView = {
         let view = UIView()
         
-        let label = AddExhibitionUtilities().customLabel(title: "Location")
         let iconIV = UIImageView()
         iconIV.clipsToBounds = true
         iconIV.contentMode = .scaleAspectFit
         iconIV.image = #imageLiteral(resourceName: "Next")
         iconIV.setDimensions(width: 16, height: 16)
         
-        view.addSubview(label)
-        label.centerY(inView: view)
-        label.anchor(left: view.leftAnchor)
+        let stack = UIStackView(arrangedSubviews: [locationLabel, locationAddressLabel])
+        stack.axis = .vertical
+        stack.spacing = 4
         
         view.addSubview(iconIV)
         iconIV.centerY(inView: view)
         iconIV.anchor(right: view.rightAnchor)
         
+        view.addSubview(stack)
+        stack.centerY(inView: view)
+        stack.anchor(left: view.leftAnchor, right: iconIV.rightAnchor, paddingRight: 12)
+        
         return view
     }()
     
+    private let locationLabel: UILabel = {
+        let label = AddExhibitionUtilities().customLabel(title: "Location", color: .white)
+        
+        return label
+    }()
+    
+    private let locationAddressLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14)
+        label.textColor = .mainAlphaGray
+        label.numberOfLines = 1
+        label.text = "Where are your artwork?"
+        
+        return label
+    }()
+
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,6 +164,7 @@ class ArtworkInfoSettingController: UIViewController {
     
     @objc func addLocation() {
         let controller = AddLocationController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -174,7 +199,7 @@ class ArtworkInfoSettingController: UIViewController {
         introductionStack.anchor(top: titleStack.bottomAnchor, left: titleStack.leftAnchor, right: titleStack.rightAnchor, paddingTop: 20)
         
         view.addSubview(addLocationView)
-        addLocationView.anchor(top: introductionStack.bottomAnchor, left: introductionStack.leftAnchor, right: introductionStack.rightAnchor, paddingTop: 20, height: 20)
+        addLocationView.anchor(top: introductionStack.bottomAnchor, left: introductionStack.leftAnchor, right: introductionStack.rightAnchor, paddingTop: 20, height: 40)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(addLocation))
         addLocationView.addGestureRecognizer(tap)
@@ -185,4 +210,11 @@ class ArtworkInfoSettingController: UIViewController {
     }
 }
 
-
+extension ArtworkInfoSettingController: AddLocationControllerDelegate {
+    func sendLocationData(name: String, address: String, lat: Double, log: Double) {
+        locationLabel.text = name
+        locationAddressLabel.text = address
+        locationLat = lat
+        locationLog = log
+    }
+}

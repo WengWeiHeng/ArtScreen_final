@@ -29,25 +29,25 @@ class AddExhibitionController: UIViewController {
     }()
     
     private let titleLabel: UILabel = {
-        let label = AddExhibitionUtilities().customLabel(title: "Exhibition Title")
+        let label = AddExhibitionUtilities().customLabel(title: "Exhibition Title", color: .white)
         
         return label
     }()
     
     private let titleTextField: UITextField = {
-        let tf = AddExhibitionUtilities().customTextField(placeholder: "Title")
+        let tf = AddExhibitionUtilities().customTextField(placeholder: "Title", textColor: .white)
         
         return tf
     }()
     
     private let introductionLabel: UILabel = {
-        let label = AddExhibitionUtilities().customLabel(title: "Introduction")
+        let label = AddExhibitionUtilities().customLabel(title: "Introduction", color: .white)
         
         return label
     }()
     
     private let introductionTextField: UITextField = {
-        let tf = AddExhibitionUtilities().customTextField(placeholder: "Introduction")
+        let tf = AddExhibitionUtilities().customTextField(placeholder: "Introduction", textColor: .white)
         
         return tf
     }()
@@ -61,7 +61,7 @@ class AddExhibitionController: UIViewController {
     }()
     
     private let onlineLabel: UILabel = {
-        let label = AddExhibitionUtilities().customLabel(title: "Open online")
+        let label = AddExhibitionUtilities().customLabel(title: "Open online", color: .white)
         
         return label
     }()

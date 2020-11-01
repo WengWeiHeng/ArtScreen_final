@@ -20,7 +20,7 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible{
         case .notification:
             return "Notification"
         case .placeMap:
-            return "Place Map"
+            return "Art Map"
         case .arCamere:
             return "AR Camera"
         case .setting:

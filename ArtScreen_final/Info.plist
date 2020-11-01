@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please Confirm to take your location</string>
+	<string>Get location info to show you</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Please Confirm to Always take your locations</string>
 	<key>NSPhotoLibraryUsageDescription</key>

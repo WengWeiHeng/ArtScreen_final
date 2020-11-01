@@ -64,6 +64,7 @@
 		B0111438253FD778009D55FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0111436253FD778009D55FA /* LaunchScreen.storyboard */; };
 		B0111442253FD7DB009D55FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111441253FD7DB009D55FA /* MainViewController.swift */; };
 		B0111445253FD9FC009D55FA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111444253FD9FC009D55FA /* Extensions.swift */; };
+		B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */; };
 		B04CCA06254004AC00199443 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA05254004AC00199443 /* Utilities.swift */; };
 		B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0925400C5C00199443 /* LoginController.swift */; };
 		B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0D25400DAA00199443 /* RegistrationController.swift */; };
@@ -146,6 +147,7 @@
 		B0111439253FD778009D55FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B0111441253FD7DB009D55FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B0111444253FD9FC009D55FA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditController.swift; sourceTree = "<group>"; };
 		B04CCA05254004AC00199443 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B04CCA0925400C5C00199443 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		B04CCA0D25400DAA00199443 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 			children = (
 				B0D141152541911000D9A677 /* AddExhibitionController.swift */,
 				B011073725425C0E00041A01 /* ExhibitionUploadController.swift */,
+				B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */,
 			);
 			path = AddExhibition;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B01107922542702D00041A01 /* AnimateController.swift in Sources */,
+				B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */,
 				B0111445253FD9FC009D55FA /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

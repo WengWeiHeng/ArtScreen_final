@@ -65,10 +65,12 @@
 		B0111442253FD7DB009D55FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111441253FD7DB009D55FA /* MainViewController.swift */; };
 		B0111445253FD9FC009D55FA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111444253FD9FC009D55FA /* Extensions.swift */; };
 		B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */; };
+		B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */; };
 		B04CCA06254004AC00199443 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA05254004AC00199443 /* Utilities.swift */; };
 		B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0925400C5C00199443 /* LoginController.swift */; };
 		B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0D25400DAA00199443 /* RegistrationController.swift */; };
 		B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0712F952545447F00438FE3 /* ArtMapController.swift */; };
+		B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B071E071254FE266007FBB89 /* ARCameraController.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
 		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
@@ -79,6 +81,8 @@
 		B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */; };
 		B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */; };
 		B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */; };
+		B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7929C25540C8500702881 /* ProfileViewModel.swift */; };
+		B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D792A12554191600702881 /* TemplateSettingView.swift */; };
 		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
 		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
 		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
@@ -148,10 +152,12 @@
 		B0111441253FD7DB009D55FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B0111444253FD9FC009D55FA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditController.swift; sourceTree = "<group>"; };
+		B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		B04CCA05254004AC00199443 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B04CCA0925400C5C00199443 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		B04CCA0D25400DAA00199443 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		B0712F952545447F00438FE3 /* ArtMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtMapController.swift; sourceTree = "<group>"; };
+		B071E071254FE266007FBB89 /* ARCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraController.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
@@ -162,6 +168,8 @@
 		B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionUtilities.swift; sourceTree = "<group>"; };
 		B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
 		B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationCell.swift; sourceTree = "<group>"; };
+		B0D7929C25540C8500702881 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B0D792A12554191600702881 /* TemplateSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSettingView.swift; sourceTree = "<group>"; };
 		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -206,6 +214,7 @@
 		B01107512542612300041A01 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
+				B0D792A0255418C800702881 /* Setting function */,
 				B01107522542613600041A01 /* UserCoverView.swift */,
 				B01107552542618800041A01 /* UserContentView.swift */,
 				B0110758254261E100041A01 /* UserInfoView.swift */,
@@ -337,6 +346,7 @@
 				B0D1412C254197B900D9A677 /* AddArtwork */,
 				B0712F942545446700438FE3 /* ArtMap */,
 				B0D1410F25418E0400D9A677 /* UserProfileController.swift */,
+				B071E071254FE266007FBB89 /* ARCameraController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -432,11 +442,20 @@
 			path = "Main&Menu";
 			sourceTree = "<group>";
 		};
+		B0D792A0255418C800702881 /* Setting function */ = {
+			isa = PBXGroup;
+			children = (
+				B0D792A12554191600702881 /* TemplateSettingView.swift */,
+			);
+			path = "Setting function";
+			sourceTree = "<group>";
+		};
 		B0E58D0E2541642B00E5A203 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */,
 				B0E58D182541655500E5A203 /* MenuHeader.swift */,
+				B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -448,6 +467,7 @@
 				B011076D2542634C00041A01 /* FilterViewModel.swift */,
 				B0110776254263FA00041A01 /* ToolBarViewModel.swift */,
 				B011079F2542710E00041A01 /* FeatureToolBarViewModel.swift */,
+				B0D7929C25540C8500702881 /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -595,6 +615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */,
+				B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */,
 				B01107BC254271F200041A01 /* LassoToolBarCell.swift in Sources */,
 				B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */,
 				B011074025425D8F00041A01 /* AddArtworkInputViewCell.swift in Sources */,
@@ -647,8 +668,10 @@
 				B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */,
 				B01107D02542728800041A01 /* MoveSettingView.swift in Sources */,
 				B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */,
+				B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */,
 				B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */,
 				B01107622542626600041A01 /* ArtworkCell.swift in Sources */,
+				B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */,
 				B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */,
 				B01107992542706400041A01 /* ArtworkInfoSettingController.swift in Sources */,
 				B01107E32542743700041A01 /* AlertUtilities.swift in Sources */,
@@ -661,6 +684,7 @@
 				B01107A02542710E00041A01 /* FeatureToolBarViewModel.swift in Sources */,
 				B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */,
 				B01107D32542729C00041A01 /* MoveDrawView.swift in Sources */,
+				B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B01107922542702D00041A01 /* AnimateController.swift in Sources */,

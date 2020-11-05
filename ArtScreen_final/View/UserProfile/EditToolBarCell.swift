@@ -17,6 +17,13 @@ class EditToolBarCell: UICollectionViewCell {
         }
     }
     
+    var templeOption: TempleSettingOption! {
+        didSet {
+            iconImageView.image = UIImage(named: templeOption.iconName)
+            toolTitleLabel.text = templeOption.description
+        }
+    }
+    
     private let iconImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit

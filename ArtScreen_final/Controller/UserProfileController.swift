@@ -17,7 +17,6 @@ class UserProfileController: UIViewController {
     //MARK: - Properties
     let userCoverView = UserCoverView()
     let userContentView = UserContentView()
-    let editToolBarView = EditToolBarView()
     
     private let popupOffset: CGFloat = UIScreen.main.bounds.height
     private var bottomConstraint = NSLayoutConstraint()
@@ -26,6 +25,10 @@ class UserProfileController: UIViewController {
     private var runningAnimators = [UIViewPropertyAnimator]()
     private var animationProgress = [CGFloat]()
     private var isEditting = false
+    
+    // SettingBar Properties
+    let editToolBarView = EditToolBarView()
+    let templeSettingView = TempleSettingView()
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -78,7 +81,28 @@ class UserProfileController: UIViewController {
     }
     
     @objc func handleEditAction() {
-        print("DEBUG: Edit Profile OR Follow me")
+        isEditting.toggle()
+        if isEditting {
+            actionButton.backgroundColor = .mainPurple
+            actionButton.setTitle("Save", for: .normal)
+            actionButton.layer.borderWidth = 0
+            
+            UIView.animate(withDuration: 0.3) {
+                self.userInfoView.alpha = 0
+                self.closeButton.alpha = 0
+                self.editToolBarView.alpha = 1
+            }
+        } else {
+            actionButton.backgroundColor = .none
+            actionButton.setTitle("Edit", for: .normal)
+            actionButton.layer.borderWidth = 1.25
+            
+            UIView.animate(withDuration: 0.3) {
+                self.userInfoView.alpha = 1
+                self.closeButton.alpha = 1
+                self.editToolBarView.alpha = 0
+            }
+        }
     }
     
     @objc private func contentViewPanned(recognizer: UIPanGestureRecognizer) {
@@ -152,12 +176,22 @@ class UserProfileController: UIViewController {
         userContentView.addGestureRecognizer(panRecognizer)
         userContentView.delegate = self
         
+        view.addSubview(closeButton)
+        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 12, paddingRight: 12)
+        
+        configureAllSettingBars()
+    }
+    
+    func configureAllSettingBars() {
         view.addSubview(editToolBarView)
         editToolBarView.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, height: 160)
         editToolBarView.alpha = 0
+        editToolBarView.delegate = self
         
-        view.addSubview(closeButton)
-        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 12, paddingRight: 12)
+        view.addSubview(templeSettingView)
+        templeSettingView.anchor(left: editToolBarView.leftAnchor, bottom: editToolBarView.bottomAnchor, right: editToolBarView.rightAnchor, height: 160)
+        templeSettingView.alpha = 0
+        templeSettingView.delegate = self
     }
     
     // popup animate
@@ -203,6 +237,21 @@ class UserProfileController: UIViewController {
         transitionAnimator.startAnimation()
         runningAnimators.append(transitionAnimator)
     }
+    
+    func settingViewAnimate(open: Bool) {
+        if open {
+            UIView.animate(withDuration: 0.3) {
+                self.templeSettingView.alpha = 1
+                self.editToolBarView.alpha = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.editToolBarView.alpha = 1
+                self.templeSettingView.alpha = 0
+            }
+        }
+        
+    }
 }
 
 extension State {
@@ -214,6 +263,7 @@ extension State {
     }
 }
 
+//MARK: - USerContentViewDelegate
 extension UserProfileController: UserContentViewDelegate {
     func moveToAddExhibition() {
         let controller = AddExhibitionController()
@@ -226,6 +276,18 @@ extension UserProfileController: UserContentViewDelegate {
         let controller = AddArtworkController()
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
+    }
+}
+
+extension UserProfileController: EditToolBarViewDelegate {
+    func showTempleSettingView() {
+        settingViewAnimate(open: true)
+    }
+}
+
+extension UserProfileController: TempleSettingViewDelegate {
+    func handleDismissal() {
+        settingViewAnimate(open: false)
     }
 }
 

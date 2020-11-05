@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import AnimatedCollectionViewLayout
 
 protocol MainControllerDelegate: class {
     func handleMenuToggle()
 }
+
+private let reuseIdentifier = "MainCollectionViewCell"
 
 class MainViewController: UIViewController {
     
@@ -86,6 +89,14 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    private let collectionView: UICollectionView = {
+        let layout = AnimatedCollectionViewLayout()
+        layout.scrollDirection = .horizontal
+        layout.animator = LinearCardAttributesAnimator()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        return cv
+    }()
     
     //MARK: - Init
     override func viewDidLoad() {
@@ -141,7 +152,8 @@ class MainViewController: UIViewController {
     //MARK: - Helper
     func configureUI() {
         view.backgroundColor = .mainBackground
-
+        configureCollectionView()
+        
         view.addSubview(menuButton)
         menuButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 12)
         
@@ -173,8 +185,17 @@ class MainViewController: UIViewController {
         addArtworkView.setDimensions(width: size, height: size)
         addExhibitionView.setDimensions(width: size, height: size)
     }
-
     
+    func configureCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .none
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        view.addSubview(collectionView)
+        collectionView.addConstraintsToFillView(view)
+    }
+
     fileprivate func extractedFunc(animateTime: TimeInterval) {
         UIView.animate(withDuration: animateTime) {
             self.blackButton.alpha = 0
@@ -182,5 +203,30 @@ class MainViewController: UIViewController {
             self.addExhibitionView.alpha = 0
             self.closeButton.alpha = 0
         }
+    }
+}
+
+
+extension MainViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MainCollectionViewCell
+        
+        return cell
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("DEBUG: NO. \(indexPath) was selected..")
+    }
+}
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: screenWidth - 32, height: screenHeight * 0.7)
     }
 }

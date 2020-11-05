@@ -84,10 +84,10 @@ extension MenuController: UITableViewDelegate {
             present(nav, animated: true, completion: nil)
         case .arCamere:
             print("DEBUG: ARCamera")
-//            let controller = ARCameraController()
-//            let nav = UINavigationController(rootViewController: controller)
-//            nav.modalPresentationStyle = .fullScreen
-//            present(nav, animated: true, completion: nil)
+            let controller = ARCameraController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         case .setting:
             print("DEBUG: Show setting page..")
         case .instructions:

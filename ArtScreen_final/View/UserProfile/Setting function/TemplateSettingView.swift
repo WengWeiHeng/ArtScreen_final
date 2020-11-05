@@ -1,22 +1,22 @@
 //
-//  EditToolBarView.swift
+//  TemplateSettingView.swift
 //  ArtScreen_final
 //
-//  Created by Heng on 2020/10/23.
+//  Created by Heng on 2020/11/5.
 //
 
 import UIKit
 
-protocol EditToolBarViewDelegate: class {
-    func showTempleSettingView()
+protocol TempleSettingViewDelegate: class {
+    func handleDismissal()
 }
 
-private let reuseIdentifier = "EditToorBarCell"
+private let reuseIdentifier = "TempleSettingCell"
 
-class EditToolBarView: UIView {
+class TempleSettingView: UIView {
     
     //MARK: - Properties
-    weak var delegate: EditToolBarViewDelegate?
+    weak var delegate: TempleSettingViewDelegate?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -48,47 +48,41 @@ class EditToolBarView: UIView {
     }
 }
 
-extension EditToolBarView: UICollectionViewDataSource {
+extension TempleSettingView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ToolBarOption.allCases.count
+        return TempleSettingOption.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! EditToolBarCell
         
-        let option = ToolBarOption(rawValue: indexPath.row)
-        cell.option = option
+        let option = TempleSettingOption(rawValue: indexPath.row)
+        cell.templeOption = option
         
         return cell
     }
 }
 
-extension EditToolBarView: UICollectionViewDelegate {
+extension TempleSettingView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let option = ToolBarOption(rawValue: indexPath.row)
+        let option = TempleSettingOption(rawValue: indexPath.row)
         
         switch option {
-        case .paint:
-            print("DEBUG: paint action..")
-        case .font:
-            print("DEBUG: font action..")
-        case .typeface:
-            print("DEBUG: typeface action..")
-        case .color:
-            print("DEBUG: color action..")
-        case .photo:
-            print("DEBUG: photo action..")
-        case .template:
-            delegate?.showTempleSettingView()
-        case .delete:
-            print("DEBUG: delete action..")
+        case .close:
+            delegate?.handleDismissal()
+        case .style1:
+            print("DEBUG: style 1 is selected..")
+        case .style2:
+            print("DEBUG: style 2 is selected..")
+        case .style3:
+            print("DEBUG: style 3 is selected..")
         case .none:
             print("Error..")
         }
     }
 }
 
-extension EditToolBarView: UICollectionViewDelegateFlowLayout {
+extension TempleSettingView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let count = CGFloat(ToolBarOption.allCases.count)
@@ -99,4 +93,3 @@ extension EditToolBarView: UICollectionViewDelegateFlowLayout {
         return 18
     }
 }
-

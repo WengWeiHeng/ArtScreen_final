@@ -41,7 +41,27 @@ enum ToolBarOption: Int, CaseIterable {
     }
 }
 
-struct ToolBarState {
+enum TempleSettingOption: Int, CaseIterable {
+    case close
+    case style1
+    case style2
+    case style3
     
+    var description: String {
+        switch self {
+        case .close: return "close"
+        case .style1: return "default"
+        case .style2: return "style 2"
+        case .style3: return "style 3"
+        }
+    }
+    
+    var iconName: String {
+        switch self {
+        case .close: return "close"
+        case .style1: return ""
+        case .style2: return ""
+        case .style3: return ""
+        }
+    }
 }
-

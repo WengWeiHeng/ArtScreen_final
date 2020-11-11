@@ -206,3 +206,11 @@ extension Array where Element: Hashable {
         self = self.removingDuplicates()
     }
 }
+
+//MARK: - NSMutableData
+extension NSMutableData {
+    func appendString(string : String) {
+        let data = string.data(using: .utf8, allowLossyConversion: true)
+        append(data!)
+    }
+}

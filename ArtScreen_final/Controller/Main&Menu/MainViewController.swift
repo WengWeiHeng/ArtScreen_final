@@ -140,10 +140,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-        print("DEBUG: scrollView Width is \(screenWidth * 2.18 + 48)")
-        print("DEBUG: scrollView Height is \(screenHeight * 1.55 + 48)")
-        print("DEBUG: scrollView center is \(scrollView.center)")
     }
     
     //MARK: - Selectors

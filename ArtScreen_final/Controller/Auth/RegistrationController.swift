@@ -36,16 +36,23 @@ class RegistrationController: UIViewController {
         return view
     }()
     
-    private lazy var fullnameContainerView: UIView = {
+    private lazy var usernameContainerView: UIView = {
         let image = #imageLiteral(resourceName: "ic_person_outline_white_2x")
-        let view = Utilities().inputContainerView(withImage: image, textField: fullnameTextField)
+        let view = Utilities().inputContainerView(withImage: image, textField: usernameTextField)
         
         return view
     }()
     
-    private lazy var usernameContainerView: UIView = {
+    private lazy var firstnameContainerView: UIView = {
         let image = #imageLiteral(resourceName: "ic_person_outline_white_2x")
-        let view = Utilities().inputContainerView(withImage: image, textField: usernameTextField)
+        let view = Utilities().inputContainerView(withImage: image, textField: firstnameTextField)
+        
+        return view
+    }()
+    
+    private lazy var lastnameContainerView: UIView = {
+        let image = #imageLiteral(resourceName: "ic_person_outline_white_2x")
+        let view = Utilities().inputContainerView(withImage: image, textField: lastnameTextField)
         
         return view
     }()
@@ -63,14 +70,20 @@ class RegistrationController: UIViewController {
         return tf
     }()
     
-    private let fullnameTextField: UITextField = {
-        let tf = Utilities().textField(withPlaceholder: "Full Name")
+    private let usernameTextField: UITextField = {
+        let tf = Utilities().textField(withPlaceholder: "User Name")
         
         return tf
     }()
     
-    private let usernameTextField: UITextField = {
-        let tf = Utilities().textField(withPlaceholder: "User Name")
+    private let firstnameTextField: UITextField = {
+        let tf = Utilities().textField(withPlaceholder: "First Name")
+        
+        return tf
+    }()
+    
+    private let lastnameTextField: UITextField = {
+        let tf = Utilities().textField(withPlaceholder: "Last Name")
         
         return tf
     }()
@@ -113,6 +126,16 @@ class RegistrationController: UIViewController {
     
     @objc func handleRegistration(){
         print("DEBUG: registration..")
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        guard let username = usernameTextField.text else { return }
+        guard let firstneme = firstnameTextField.text else { return }
+        guard let lastname = lastnameTextField.text else { return }
+        guard let userImage = profileImage else { return }
+        
+        let credentials = RegistrationCredentials(email: email, password: password, username: username, firstname: firstneme, lastname: lastname, profileImage: userImage)
+        AuthService.shared.uploadUser(credentials: credentials)
+        
     }
     
     //MARK: - Helpers
@@ -124,7 +147,7 @@ class RegistrationController: UIViewController {
         plusPhotoButton.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor, paddingTop: 30)
         plusPhotoButton.setDimensions(width: 128, height: 128)
         
-        let stack = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView, fullnameContainerView, usernameContainerView, registrationButton])
+        let stack = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView, usernameContainerView, firstnameContainerView, lastnameContainerView, registrationButton])
         stack.axis = .vertical
         stack.spacing = 20
         stack.distribution = .fillEqually

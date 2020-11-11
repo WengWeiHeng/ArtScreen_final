@@ -56,7 +56,7 @@ class ContainerController: UIViewController {
     }
     
     func configureUI() {
-//        view.backgroundColor = .mainPurple
+        navigationController?.navigationBar.barStyle = .black
         configureMainController()
         configureMenuController()
     }
@@ -67,7 +67,6 @@ class ContainerController: UIViewController {
         mainController.didMove(toParent: self)
         view.addSubview(mainController.view)
         mainController.delegate = self
-        print("DEBUG: \(mainController.view.frame.width)")
     }
     
     func configureMenuController() {
@@ -75,7 +74,6 @@ class ContainerController: UIViewController {
         addChild(menuController)
         menuController.didMove(toParent: self)
         view.insertSubview(menuController.view, at: 0)
-        print("DEBUG: \(menuController.view.frame.width)")
         menuController.delegate = self
     }
     

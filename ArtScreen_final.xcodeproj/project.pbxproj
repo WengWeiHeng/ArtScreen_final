@@ -75,6 +75,8 @@
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
 		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
 		B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */; };
+		B0B8B48C25554D8B003A1EAD /* ARWorldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8B48B25554D8B003A1EAD /* ARWorldController.swift */; };
+		B0B8B4902555520D003A1EAD /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B8B48F2555520D003A1EAD /* art.scnassets */; };
 		B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D1410F25418E0400D9A677 /* UserProfileController.swift */; };
 		B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D14112254190C300D9A677 /* AddArtworkController.swift */; };
 		B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141152541911000D9A677 /* AddExhibitionController.swift */; };
@@ -162,6 +164,8 @@
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoInputView.swift; sourceTree = "<group>"; };
+		B0B8B48B25554D8B003A1EAD /* ARWorldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARWorldController.swift; sourceTree = "<group>"; };
+		B0B8B48F2555520D003A1EAD /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		B0D1410F25418E0400D9A677 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		B0D14112254190C300D9A677 /* AddArtworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkController.swift; sourceTree = "<group>"; };
 		B0D141152541911000D9A677 /* AddExhibitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionController.swift; sourceTree = "<group>"; };
@@ -317,6 +321,7 @@
 				B011142D253FD777009D55FA /* SceneDelegate.swift */,
 				B09B915B25465752003A1CC1 /* MapStyle.json */,
 				B0111431253FD777009D55FA /* Main.storyboard */,
+				B0B8B48F2555520D003A1EAD /* art.scnassets */,
 				B0111434253FD778009D55FA /* Assets.xcassets */,
 				B0111436253FD778009D55FA /* LaunchScreen.storyboard */,
 				B0111439253FD778009D55FA /* Info.plist */,
@@ -347,6 +352,7 @@
 				B0712F942545446700438FE3 /* ArtMap */,
 				B0D1410F25418E0400D9A677 /* UserProfileController.swift */,
 				B071E071254FE266007FBB89 /* ARCameraController.swift */,
+				B0B8B48B25554D8B003A1EAD /* ARWorldController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -543,6 +549,7 @@
 			files = (
 				B09B915C25465752003A1CC1 /* MapStyle.json in Resources */,
 				B0111438253FD778009D55FA /* LaunchScreen.storyboard in Resources */,
+				B0B8B4902555520D003A1EAD /* art.scnassets in Resources */,
 				B0111435253FD778009D55FA /* Assets.xcassets in Resources */,
 				B0111433253FD777009D55FA /* Main.storyboard in Resources */,
 			);
@@ -684,6 +691,7 @@
 				B01107A02542710E00041A01 /* FeatureToolBarViewModel.swift in Sources */,
 				B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */,
 				B01107D32542729C00041A01 /* MoveDrawView.swift in Sources */,
+				B0B8B48C25554D8B003A1EAD /* ARWorldController.swift in Sources */,
 				B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,

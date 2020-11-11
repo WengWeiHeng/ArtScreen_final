@@ -117,6 +117,10 @@ extension UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
     
+    static func rgba(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
+    }
+    
     static let mainPurple = UIColor.rgb(red: 106, green: 0, blue: 223)
     static let mainBackground = UIColor.rgb(red: 241, green: 239, blue: 242)
     static let mainDarkGray = UIColor.rgb(red: 46, green: 46, blue: 46)
@@ -125,6 +129,8 @@ extension UIColor {
     static let mainRed = UIColor.rgb(red: 255, green: 0, blue: 0)
     static let mainGreen = UIColor.rgb(red: 0, green: 255, blue: 0)
     static let mainBlue = UIColor.rgb(red: 0, green: 0, blue: 255)
+    
+    static let mainAlphaWhite = UIColor.rgba(red: 255, green: 255, blue: 255, alpha: 0)
 }
 
 

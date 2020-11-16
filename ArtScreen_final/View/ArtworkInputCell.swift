@@ -15,6 +15,7 @@ class ArtworkInputViewCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 15
+        iv.backgroundColor = .mainBackground
         
         return iv
     }()
@@ -24,6 +25,7 @@ class ArtworkInputViewCell: UICollectionViewCell {
         label.font = .boldSystemFont(ofSize: 14)
         label.numberOfLines = 0
         label.textColor = .mainBackground
+        label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         
         return label
     }()

@@ -159,6 +159,7 @@ class UserProfileController: UIViewController {
         
         view.addSubview(userCoverView)
         userCoverView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: view.frame.height - 160)
+        userCoverView.delegate = self
         
         view.addSubview(userInfoView)
         userInfoView.anchor(top: userCoverView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor)
@@ -250,7 +251,6 @@ class UserProfileController: UIViewController {
                 self.templeSettingView.alpha = 0
             }
         }
-        
     }
 }
 
@@ -279,15 +279,23 @@ extension UserProfileController: UserContentViewDelegate {
     }
 }
 
+//MARK: - EditToolBarViewDelegate
 extension UserProfileController: EditToolBarViewDelegate {
     func showTempleSettingView() {
         settingViewAnimate(open: true)
     }
 }
 
+//MARK: - TempleSettingViewDelegate
 extension UserProfileController: TempleSettingViewDelegate {
     func handleDismissal() {
         settingViewAnimate(open: false)
     }
 }
 
+//MARK: - UserCoverViewDelegate
+extension UserProfileController: UserCoverViewDelegate {
+    func panGestureaction(label: UILabel) {
+//       configurePanGesture(label: label)
+    }
+}

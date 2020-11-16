@@ -56,11 +56,9 @@ class ContainerController: UIViewController {
     }
     
     func configureUI() {
-        navigationController?.navigationBar.barStyle = .black
         configureMainController()
         configureMenuController()
     }
-    
     
     func configureMainController() {
         addChild(mainController)

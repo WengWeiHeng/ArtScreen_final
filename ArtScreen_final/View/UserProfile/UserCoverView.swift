@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol UserCoverViewDelegate: class {
+    func panGestureaction(label: UILabel)
+}
+
 class UserCoverView: UIView {
     
     //MARK: - Properties
+    weak var delegate: UserCoverViewDelegate?
+    
     private let coverImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -44,11 +50,14 @@ class UserCoverView: UIView {
         return label
     }()
     
-    private let bioLabel: UILabel = {
+    private lazy var bioLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.numberOfLines = 0
         label.text = "#Graphic Designer #Calligraphy #Programer #iOS #Swift"
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(sender:)))
+        label.addGestureRecognizer(pan)
         
         return label
     }()
@@ -63,6 +72,12 @@ class UserCoverView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func panGestureAction(sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: bioLabel)
+        bioLabel.center = CGPoint(x: bioLabel.center.x + translation.x, y: bioLabel.center.y + translation.y)
+        sender.setTranslation(CGPoint.zero, in: bioLabel)
     }
     
     //MARK: - Helpers
@@ -92,10 +107,10 @@ class UserCoverView: UIView {
         
         addSubview(stack)
         stack.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 12)
-    }
-    
-    func coverStyle2() {
         
+//        delegate?.panGestureaction(label: bioLabel)
+//        delegate?.panGestureaction(label: fullnameLabel)
+//        delegate?.panGestureaction(label: usernameLabel)
     }
 }
 

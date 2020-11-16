@@ -76,7 +76,10 @@ extension MenuController: UITableViewDelegate {
         
         switch option {
         case .notification:
-            print("DEBUG: Show notification page..")
+            let controller = NotificationController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         case .placeMap:
             let controller = ArtMapController()
             let nav = UINavigationController(rootViewController: controller)

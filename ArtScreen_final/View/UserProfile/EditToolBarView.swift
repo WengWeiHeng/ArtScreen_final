@@ -68,8 +68,6 @@ extension EditToolBarView: UICollectionViewDelegate {
         let option = ToolBarOption(rawValue: indexPath.row)
         
         switch option {
-        case .paint:
-            print("DEBUG: paint action..")
         case .font:
             print("DEBUG: font action..")
         case .typeface:

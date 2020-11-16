@@ -70,14 +70,6 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
             return button
         }()
         
-        let buttonFeature : UIButton = {
-            let button = UIButton()
-            button.setImage(#imageLiteral(resourceName: "Feature"), for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.addTarget(self, action: #selector(tapbuttonFeature), for: .touchUpInside)
-            return button
-        }()
-        
         let buttonSendImage : UIButton = {
             let button = UIButton()
             button.setImage(#imageLiteral(resourceName: "Next"), for: .normal)
@@ -87,14 +79,11 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         }()
         
         view.addSubview(buttonPhotoLibrary)
-        view.addSubview(buttonFeature)
         view.addSubview(buttonSendImage)
         buttonPhotoLibrary.anchor(top: view.topAnchor, left: view.leftAnchor, paddingLeft: 20, width: 28, height: 20)
-        buttonFeature.anchor(top: view.topAnchor, left: buttonPhotoLibrary.rightAnchor, paddingLeft: 14, width: 30, height: 30)
         buttonSendImage.anchor(top: view.topAnchor, right: view.rightAnchor, paddingRight: 12, width: 12, height: 24)
         
         buttonPhotoLibrary.centerY(inView: view)
-        buttonFeature.centerY(inView: view)
         buttonSendImage.centerY(inView: view)
         
         return view

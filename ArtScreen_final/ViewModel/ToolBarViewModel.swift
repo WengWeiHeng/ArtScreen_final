@@ -8,7 +8,6 @@
 import UIKit
 
 enum ToolBarOption: Int, CaseIterable {
-    case paint
     case font
     case typeface
     case color
@@ -18,7 +17,6 @@ enum ToolBarOption: Int, CaseIterable {
     
     var description: String {
         switch self {
-        case .paint: return "Paint"
         case .font: return "Font"
         case .typeface: return "Typeface"
         case .color: return "Color"
@@ -30,7 +28,6 @@ enum ToolBarOption: Int, CaseIterable {
     
     var iconName: String {
         switch self {
-        case .paint: return "paint"
         case .font: return "font"
         case .typeface: return "typeface"
         case .color: return "color"

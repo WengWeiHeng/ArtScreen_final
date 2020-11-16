@@ -6,26 +6,25 @@
 //
 
 import UIKit
-import AnimatedCollectionViewLayout
+
+private let reuseIdentifier = "MainCollectionViewCell"
+let collectionViewCellHeightCoefficient: CGFloat = 1.1
+let collectionViewCellWidthCoefficient: CGFloat = 0.7
 
 protocol MainControllerDelegate: class {
     func handleMenuToggle()
 }
-
-private let reuseIdentifier = "MainCollectionViewCell"
 
 class MainViewController: UIViewController {
     
     //MARK: - Properties
     weak var delegate: MainControllerDelegate?
     private var buttonIsActive: Bool = false
-    var addArtworkButtonCenter: CGPoint!
-    var addExhibitionButtonCenter: CGPoint!
     
     private let menuButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "menu").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .mainPurple
         button.setDimensions(width: 32, height: 20)
         button.addTarget(self, action: #selector(handleMenuAction), for: .touchUpInside)
     
@@ -35,7 +34,7 @@ class MainViewController: UIViewController {
     private let searchButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "search").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .mainPurple
         button.setDimensions(width: 22, height: 24)
         button.addTarget(self, action: #selector(handleSearchAction), for: .touchUpInside)
 
@@ -45,8 +44,8 @@ class MainViewController: UIViewController {
     private let uploadButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "add").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
-        button.setDimensions(width: 24, height: 24)
+        button.tintColor = .mainPurple
+        button.setDimensions(width: 32, height: 32)
         button.addTarget(self, action: #selector(handleUploadAction), for: .touchUpInside)
 
         return button
@@ -55,7 +54,7 @@ class MainViewController: UIViewController {
     private let addArtworkButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "addArtwork").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .mainPurple
         button.setDimensions(width: 32, height: 32)
         button.addTarget(self, action: #selector(handleAddArtwork), for: .touchUpInside)
         button.alpha = 0
@@ -66,7 +65,7 @@ class MainViewController: UIViewController {
     private let addExhibitionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "addExhibition").withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .mainPurple
         button.setDimensions(width: 32, height: 32)
         button.addTarget(self, action: #selector(handleAddExhibition), for: .touchUpInside)
         button.alpha = 0
@@ -74,66 +73,76 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    private let barBGView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .mainPurple
-        view.alpha = 0
-        
-        return view
-    }()
-    
-    private lazy var scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        
-        //scroll view顯示範圍
-        sv.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
-        
-        //內容物實際大小
-        sv.contentSize = CGSize(width: screenWidth * 2.18 + 48, height: screenHeight * 1.55 + 48)
-        
-        //起始位置
-        sv.contentOffset = CGPoint(x: screenWidth * 0.65, y: screenHeight * 0.35)
-        
-        //滾動條顯示
-        sv.showsVerticalScrollIndicator = false
-        sv.showsHorizontalScrollIndicator = false
-        
-        //可滑動
-        sv.isScrollEnabled = true
-        
-        //解鎖單一方向
-        sv.isDirectionalLockEnabled = false
-        
-        //彈回特效
-        sv.bounces = true
-        
-        //預設縮放大小
-        sv.zoomScale = 1.0
-        
-        //可縮小到的最小倍數
-        sv.minimumZoomScale = 0.5
-        
-        //可縮小的最大倍數
-        sv.maximumZoomScale = 2.0
-        
-        //縮放超過極限後的彈回特效設定
-        sv.bouncesZoom = true
-        
-        //以一頁為單位滑動
-        sv.isPagingEnabled = false
-        
-        
-        return sv
-    }()
-    
-    private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let frame = CGRect(x: 0, y: 0, width: screenWidth * 2.18 + 48, height: screenHeight * 1.55 + 48)
-        let cv = UICollectionView(frame: frame, collectionViewLayout: layout)
-        cv.isScrollEnabled = false
+    private lazy var collectionView: UICollectionView = {
+        let layout = GravitySliderFlowLayout(with: CGSize(width: screenWidth * collectionViewCellWidthCoefficient, height: screenWidth * collectionViewCellHeightCoefficient))
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .none
+        cv.decelerationRate = UIScrollView.DecelerationRate(rawValue: 0)
+        cv.dataSource = self
+        cv.delegate = self
         
         return cv
+    }()
+    
+    //MARK: - CellInfoView Properties
+    private let userImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
+        iv.setDimensions(width: 28, height: 28)
+        iv.layer.cornerRadius = 28 / 2
+        iv.backgroundColor = .mainDarkGray
+        
+        return iv
+    }()
+    
+    private lazy var usernameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .mainPurple
+        label.text = "@Loading user information"
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfile))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
+        
+        return label
+    }()
+    
+    private let followButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Follow", for: .normal)
+        button.setTitleColor(.mainPurple, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.mainPurple.cgColor
+        button.setDimensions(width: 80, height: 28)
+        button.layer.cornerRadius = 28 / 2
+        button.addTarget(self, action: #selector(handleFollow), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private let exhibitionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = .mainPurple
+        label.numberOfLines = 3
+        label.text = "@Loading exhibition Information"
+        
+        return label
+    }()
+    
+    private let moreButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("More Exhibition", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .mainPurple
+        button.setDimensions(width: 150, height: 40)
+        button.layer.cornerRadius = 40 / 2
+        button.addTarget(self, action: #selector(handleExhibitionMore), for: .touchUpInside)
+        
+        return button
     }()
     
     //MARK: - Init
@@ -143,14 +152,6 @@ class MainViewController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func handleMenuAction() {
-        delegate?.handleMenuToggle()
-    }
-    
-    @objc func handleSearchAction() {
-        print("DEBUG: Search..")
-    }
-    
     @objc func handleUploadAction() {
         if buttonIsActive == false {
             UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut) {
@@ -170,8 +171,15 @@ class MainViewController: UIViewController {
         print("DEBUG: buttonIsActive is \(buttonIsActive)")
     }
     
-    @objc func handleDismissal() {
-
+    @objc func handleMenuAction() {
+        delegate?.handleMenuToggle()
+    }
+    
+    @objc func handleSearchAction() {
+        let controller = SearchController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     @objc func handleAddArtwork() {
@@ -188,21 +196,55 @@ class MainViewController: UIViewController {
         present(nav, animated: true, completion: nil)
     }
     
+    @objc func handleExhibitionMore() {
+        print("DEBUG: More Exhibition..")
+    }
+    
+    @objc func handleShowUserProfile() {
+        let controller = UserProfileController()
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true, completion: nil)
+    }
+    
+    @objc func handleFollow() {
+        print("DEBUG: handle follow..")
+    }
+    
     //MARK: - Helper
     func configureUI() {
-        view.backgroundColor = .mainDarkGray
-        configureCollectionView()
+        view.backgroundColor = .mainBackground
+        view.addSubview(collectionView)
+        collectionView.addConstraintsToFillView(view)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         view.addSubview(menuButton)
         menuButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 16, paddingLeft: 16)
         
-        view.addSubview(barBGView)
-        barBGView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingRight: 12, width: 48, height: 170)
-        barBGView.layer.cornerRadius = 48 / 2
+        view.addSubview(searchButton)
+        searchButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 16, paddingRight: 16)
+        
+        view.addSubview(exhibitionTitleLabel)
+        exhibitionTitleLabel.anchor(top: menuButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 26, paddingLeft: 16, paddingRight: 12)
+        
+        view.addSubview(userImageView)
+        userImageView.anchor(top: exhibitionTitleLabel.bottomAnchor, left: view.leftAnchor, paddingTop: 12, paddingLeft: 12)
+        
+        view.addSubview(usernameLabel)
+        usernameLabel.anchor(left: userImageView.rightAnchor, paddingLeft: 8)
+        usernameLabel.centerY(inView: userImageView)
+        
+        view.addSubview(followButton)
+        followButton.anchor(right: view.rightAnchor, paddingRight: 16)
+        followButton.centerY(inView: userImageView)
+
+        view.addSubview(moreButton)
+        moreButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40)
+        moreButton.centerX(inView: view)
         
         view.addSubview(uploadButton)
-        uploadButton.centerX(inView: barBGView)
-        uploadButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 16)
+        uploadButton.centerX(inView: searchButton)
+        uploadButton.centerY(inView: moreButton)
         
         view.addSubview(addExhibitionButton)
         addExhibitionButton.centerX(inView: uploadButton)
@@ -211,36 +253,24 @@ class MainViewController: UIViewController {
         view.addSubview(addArtworkButton)
         addArtworkButton.centerX(inView: uploadButton)
         addArtworkButton.anchor(bottom: addExhibitionButton.topAnchor, paddingBottom: 20)
-        
-        view.addSubview(searchButton)
-        searchButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: uploadButton.rightAnchor, paddingTop: 16)
-    }
-    
-    func configureCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .none
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        view.addSubview(scrollView)
-        scrollView.addSubview(collectionView)
     }
     
     func buttonAlpha(alpha: CGFloat) {
         addArtworkButton.alpha = alpha
         addExhibitionButton.alpha = alpha
-        barBGView.alpha = alpha
     }
 }
 
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 25
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MainCollectionViewCell
+        cell.configureData(collectionView: collectionView, index: indexPath.row)
+        cell.delegate = self
         
         return cell
     }
@@ -248,12 +278,53 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG: NO. \(indexPath) was selected..")
+        print("DEBUG: Selected Cell item..")
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! MainCollectionViewCell
+        print("DEBUG: \(selectedCell)")
+        selectedCell.toggle()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let locationFirst = CGPoint(x: collectionView.center.x + scrollView.contentOffset.x, y: collectionView.center.y + scrollView.contentOffset.y)
+        
+        if let indexPathFirst = collectionView.indexPathForItem(at: locationFirst), indexPathFirst.row == indexPathFirst.row {
+            print("DEBUG: indexPathFirst..")
+//            self.animateChangingTitle(for: indexPathFirst)
+        }
     }
 }
 
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (screenWidth - 52) / 2, height: (screenHeight - 69) / 3)
+
+//MARK: - MainCollectionViewCellDelegate
+extension MainViewController: MainCollectionViewCellDelegate {
+    func itemDismissal(isDismissal: Bool) {
+        if isDismissal {
+            self.menuButton.alpha = 0
+            self.searchButton.isHidden = true
+            self.uploadButton.isHidden = true
+            self.userImageView.alpha = 0
+            self.usernameLabel.alpha = 0
+            self.followButton.alpha = 0
+            self.exhibitionTitleLabel.alpha = 0
+            self.moreButton.alpha = 0
+        } else {
+            self.menuButton.alpha = 1
+            self.searchButton.isHidden = false
+            self.uploadButton.isHidden = false
+            self.userImageView.alpha = 1
+            self.usernameLabel.alpha = 1
+            self.followButton.alpha = 1
+            self.exhibitionTitleLabel.alpha = 1
+            self.moreButton.alpha = 1
+        }
+    }
+    
+    func handleShowDetail() {
+        print("DEBUG: show Detail in main controller")
+        let controller = ArtworkDetailController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+//        controller.artwork = artwork
+        present(nav, animated: true, completion: nil)
     }
 }

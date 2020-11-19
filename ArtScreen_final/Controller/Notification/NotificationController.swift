@@ -7,19 +7,21 @@
 
 import UIKit
 
-private let reuseIdentifier = "NotificationCell"
-
-class NotificationController: UITableViewController {
+class NotificationController: UIViewController {
     
     //MARK: - Properties
-    private let headerView = NotificationHeaderView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 70))
+    private var notificationView = NotificationView()
+    private var messageView = MessageView()
+    
+    private let sendView = ExhibitionSendView()
+    private var sendViewBottom = NSLayoutConstraint()
+    private let sendViewHeight: CGFloat = screenHeight * 0.5
     
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavigationBar()
-        configureTableView()
+        configureUI()
     }
     
     //MARK: - Selectors
@@ -28,6 +30,28 @@ class NotificationController: UITableViewController {
     }
     
     //MARK: - Helpers
+    func configureUI() {
+        configureNavigationBar()
+        
+        view.addSubview(notificationView)
+        notificationView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 400)
+        
+        view.addSubview(messageView)
+        messageView.anchor(top: notificationView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, height: 300)
+        messageView.delegate = self
+        
+        view.addSubview(sendView)
+        sendView.translatesAutoresizingMaskIntoConstraints = false
+        sendView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        sendView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        sendViewBottom = sendView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: sendViewHeight)
+        sendViewBottom.isActive = true
+        sendView.heightAnchor.constraint(equalToConstant: sendViewHeight).isActive = true
+        sendView.layer.cornerRadius = 24
+        sendView.delegate = self
+        
+    }
+    
     func configureNavigationBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -36,27 +60,24 @@ class NotificationController: UITableViewController {
         
         view.backgroundColor = .mainBackground
     }
-    
-    func configureTableView() {
-        tableView.backgroundColor = .mainBackground
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.rowHeight = 60
-        tableView.tableHeaderView = headerView
-        tableView.tableFooterView = UIView()
+}
+
+extension NotificationController: MessageViewDelegate {
+    func handleShowSendView() {
+        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+            self.sendViewBottom.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        transitionAnimator.startAnimation()
     }
 }
 
-extension NotificationController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! NotificationCell
-        
-        return cell
+extension NotificationController: ExhibitionSendViewDelegate {
+    func didTappedExhibiSetting_Send_cancel() {
+        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+            self.sendViewBottom.constant = self.sendViewHeight
+            self.view.layoutIfNeeded()
+        }
+        transitionAnimator.startAnimation()
     }
 }
-

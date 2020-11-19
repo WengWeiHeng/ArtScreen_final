@@ -14,5 +14,25 @@ enum CoverStyle: Int, CaseIterable {
 }
 
 struct ProfileViewModel {
+    private let user: User
     
+//    var buttonTitle: String {
+//        if user.isCurrentUser {
+//            return "Edit"
+//        } else {
+//            return "Follow"
+//        }
+//    }
+    
+    var fullnameText: String {
+        return user.fullname
+    }
+    
+    var usernameText: String {
+        return "@" + user.username
+    }
+    
+    init(user: User) {
+        self.user = user
+    }
 }

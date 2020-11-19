@@ -73,9 +73,18 @@ class LoginController: UIViewController {
         configureUI()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     //MARK: - Selectors
     @objc func handleLogin() {
         print("DEBUG: Login..")
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        let credentials = LoginCredentials(username: email, password: password)
+        AuthService.shared.login(credentials: credentials)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func handleShowSignUp() {

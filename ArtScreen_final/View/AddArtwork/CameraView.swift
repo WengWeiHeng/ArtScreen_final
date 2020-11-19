@@ -17,7 +17,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
     //MARK: - Properties
     weak var delegate: CameraViewDelegate?
     
-    var captureSession = AVCaptureSession()
+    var captureSession: AVCaptureSession!
     var mainCamera: AVCaptureDevice?
     var innerCamera: AVCaptureDevice?
     var currentDevice: AVCaptureDevice?
@@ -94,6 +94,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
         setupDevice()
         setupInputOutput()
         setupPreviewLayer()
+        guard let captureSession = captureSession else { return }
         captureSession.startRunning()
         
     }
@@ -124,7 +125,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
         } else {
             self.flashOn(device: currentDevice!)
         }
-        captureSession.commitConfiguration()
+        captureSession!.commitConfiguration()
 
     }
     
@@ -265,6 +266,7 @@ class CameraView: UIView, AVCapturePhotoCaptureDelegate {
 extension CameraView {
     // カメラの画質の設定
     func setupCaptureSession() {
+        guard let captureSession = captureSession else { return }
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
     }
 
@@ -297,6 +299,7 @@ extension CameraView {
             // 指定したデバイスを使用するために入力を初期化
             let captureDeviceInput = try AVCaptureDeviceInput(device: currentDevice!)
             // 指定した入力をセッションに追加
+            guard let captureSession = captureSession else { return }
             captureSession.addInput(captureDeviceInput)
             // 出力データを受け取るオブジェクトの作成
             photoOutput = AVCapturePhotoOutput()
@@ -311,6 +314,7 @@ extension CameraView {
     // カメラのプレビューを表示するレイヤの設定
     func setupPreviewLayer() {
         // 指定したAVCaptureSessionでプレビューレイヤを初期化
+        guard let captureSession = captureSession else { return }
         self.cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         // プレビューレイヤが、カメラのキャプチャーを縦横比を維持した状態で、表示するように設定
         self.cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill

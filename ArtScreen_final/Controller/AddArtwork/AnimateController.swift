@@ -826,7 +826,7 @@ extension AnimateController: LassoToolBarDelegate {
     }
     
     func jointAction() {
-        guard let lasspoint : [CGPoint] = lineView.getPoints() else {return}
+        let lasspoint: [CGPoint] = lineView.getPoints()
         if lasspoint.count > 1 {
         lassoLayerImage = ZImageCropper.cropImage(ofImageView: sampleImageView, withinPoints: lasspoint)!
 //        self.lassoLayerImage = lassoLayerImage

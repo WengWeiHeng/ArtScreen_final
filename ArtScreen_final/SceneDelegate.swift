@@ -7,7 +7,7 @@
 
 import UIKit
 
-var user: NSDictionary!
+var userDefault: NSDictionary!
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

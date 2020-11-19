@@ -212,8 +212,6 @@ extension AddExhibitionController: UIImagePickerControllerDelegate, UINavigation
     }
 }
 
-
-
 //MARK: - Close Keyboard
 extension AddExhibitionController {
     /// tap outside the textField to close the keyboard

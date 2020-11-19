@@ -65,7 +65,7 @@ class ExhibitionUploadController: UIViewController {
     }()
     
     private let announceView: UIStackView = {
-        let stack = Utilities().noArtworkAnnounceView(announceText: "You have not added any Artwork", buttonSelector: #selector(handleShowInputView))
+        let stack = Utilities().noArtworkAnnounceView(announceText: "You have not added any Artwork", buttonSelector: #selector(handleShowInputView), buttonText: "Add", textColor: .white)
         
         return stack
     }()

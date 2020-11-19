@@ -18,6 +18,12 @@ protocol MenuControllerDelegate: class {
 class MenuController: UIViewController {
     
     //MARK: - Properties
+    var user: User? {
+        didSet {
+            menuHeader.user = user
+        }
+    }
+    
     var tableView = UITableView()
     weak var delegate: MenuControllerDelegate?
     
@@ -25,14 +31,26 @@ class MenuController: UIViewController {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: 200)
         let view = MenuHeader(frame: frame)
         view.delegate = self
+        view.user = user
         
         return view
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        print("DEBUG: Menu Controller user \(user?.fullname)")
     }
     
     //MARK: - Helpers
@@ -97,10 +115,13 @@ extension MenuController: UITableViewDelegate {
             print("DEBUG: Show Instructions page..")
         case .logOut:
             print("DEBUG: Logout")
-//            UIView.animate(withDuration: 0.8, animations: {
-//                self.delegate?.handleMenuDismissal()
-//                self.delegate?.handleLogout()
-//            }, completion: nil)
+            UserDefaults.standard.removeObject(forKey: "parseJSON")
+            UserDefaults.standard.synchronize()
+            
+            let controller = LoginController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         default:
             print("Error..")
         }

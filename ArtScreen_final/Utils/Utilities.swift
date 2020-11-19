@@ -9,7 +9,7 @@ import UIKit
 
 class Utilities {
     func moreButtonView(withImage image: UIImage, text: String) -> UIView {
-        let view = UIView()
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 30))
         
         let label = UILabel()
         label.text = text
@@ -144,21 +144,22 @@ class Utilities {
         return label
     }
     
-    func noArtworkAnnounceView(announceText: String, buttonSelector: Selector) -> UIStackView {
+    func noArtworkAnnounceView(announceText: String, buttonSelector: Selector, buttonText: String, textColor: UIColor) -> UIStackView {
         let iv = UIImageView()
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "notice")
+        iv.image = #imageLiteral(resourceName: "notice").withRenderingMode(.alwaysTemplate)
+        iv.tintColor = textColor
         iv.setDimensions(width: 30, height: 30)
         
         let announceLabel = UILabel()
         announceLabel.font = UIFont.systemFont(ofSize: 16)
-        announceLabel.textColor = .white
+        announceLabel.textColor = textColor
         announceLabel.text = announceText
         announceLabel.textAlignment = .center
         announceLabel.numberOfLines = 0
         
         let button = UIButton(type: .system)
-        button.setTitle("ADD", for: .normal)
+        button.setTitle(buttonText, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .mainPurple

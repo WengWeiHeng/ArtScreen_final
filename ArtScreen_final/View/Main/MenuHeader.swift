@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol MenuHeaderDelegate: class {
     func handleMenuDismissal()
@@ -16,6 +17,12 @@ class MenuHeader: UIView {
     
     //MARK: - Properties
     weak var delegate: MenuHeaderDelegate?
+    
+    var user: User? {
+        didSet {
+            configureUserData()
+        }
+    }
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -66,10 +73,9 @@ class MenuHeader: UIView {
         return label
     }()
     
-    //MARK: - Init
+    //MARK: - Init    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         addSubview(closeButton)
         closeButton.anchor(top: topAnchor, left: leftAnchor, paddingTop: 12, paddingLeft: 12)
         
@@ -99,13 +105,12 @@ class MenuHeader: UIView {
     }
     
     //MARK: - Helpers
-//    func configureUserData() {
-//        guard let user = user else { return }
-//        let viewModel = ProfileViewModel(user: user)
-//        fullnameLabel.text = viewModel.fullnameText
-//        usernameLabel.text = viewModel.usernameText
-//        profileImageView.sd_setImage(with: user.profileImageUrl)
-//
-//    }
+    func configureUserData() {
+        guard let user = user else { return }
+        let viewModel = ProfileViewModel(user: user)
+        usernameLabel.text = viewModel.usernameText
+        fullnameLabel.text = viewModel.fullnameText
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+    }
 }
 

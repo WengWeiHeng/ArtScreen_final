@@ -115,6 +115,10 @@ class RegistrationController: UIViewController {
         configureUI()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     //MARK: - Selectors
     @objc func handleAddProfile(){
         present(imagePicker, animated: true, completion: nil)
@@ -135,7 +139,22 @@ class RegistrationController: UIViewController {
         
         let credentials = RegistrationCredentials(email: email, password: password, username: username, firstname: firstneme, lastname: lastname, profileImage: userImage)
         AuthService.shared.uploadUser(credentials: credentials)
-        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height / 2
+            if view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardHeight
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
     }
     
     //MARK: - Helpers
@@ -157,6 +176,10 @@ class RegistrationController: UIViewController {
         
         view.addSubview(alreadyAccountButton)
         alreadyAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 40,  paddingRight: 40)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func configureImagePicker(){
@@ -182,5 +205,18 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
         self.plusPhotoButton.setImage(profileImage.withRenderingMode(.alwaysOriginal), for: .normal)
         
         dismiss(animated: true, completion: nil)
+    }
+}
+
+//MARK: - Close Keyboard
+extension RegistrationController {
+    /// tap outside the textField to close the keyboard
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddExhibitionController.hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

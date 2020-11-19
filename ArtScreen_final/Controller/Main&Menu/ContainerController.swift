@@ -14,6 +14,8 @@ let screenHeight = screen.size.height
 class ContainerController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
+    
     private var mainController = MainViewController()
     private var menuController: MenuController!
     private var isExpanded = false
@@ -23,7 +25,8 @@ class ContainerController: UIViewController {
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        view.backgroundColor = .mainBackground
+        authenticateUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,6 +39,22 @@ class ContainerController: UIViewController {
     
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
         return .slide
+    }
+    
+    //MARK: - API
+    func authenticateUser() {
+        fetchUser()
+        if user == nil {
+            presentLoginScreen()
+        } else {
+            configureUI()
+        }
+    }
+    
+    func fetchUser() {
+        UserService.shared.fetchUser { user in
+            self.user = user
+        }
     }
 
     //MARK: - Selectors
@@ -68,7 +87,8 @@ class ContainerController: UIViewController {
     }
     
     func configureMenuController() {
-        menuController = MenuController()
+        guard let user = user else { return }
+        menuController = MenuController(user: user)
         addChild(menuController)
         menuController.didMove(toParent: self)
         view.insertSubview(menuController.view, at: 0)

@@ -29,7 +29,7 @@ class UserArtworkView: UIView {
     }()
     
     private let announceView: UIStackView = {
-        let stack = Utilities().noArtworkAnnounceView(announceText: "You don't have any Artwork", buttonSelector: #selector(handleAddArtwork))
+        let stack = Utilities().noArtworkAnnounceView(announceText: "You don't have any Artwork", buttonSelector: #selector(handleAddArtwork), buttonText: "Add", textColor: .white)
         
         return stack
     }()

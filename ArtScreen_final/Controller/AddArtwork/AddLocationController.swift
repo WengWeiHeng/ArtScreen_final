@@ -23,9 +23,10 @@ class AddLocationController: UITableViewController {
     private let locationManager = CLLocationManager()
     private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
     
-    let searchQuerys = ["store", "shop", "coffee", "restaurant", "hospital"]
-    var searchResults = [MKMapItem]()
-    var searchAllResults = [MKMapItem]()
+//    let searchQuerys = ["store", "shop", "coffee", "restaurant", "hospital"]
+    var searchQuery: String?
+    var searchResults = [MKPlacemark]()
+    var searchAllResults = [MKPlacemark]()
     
     //MARK: - Init
     override func viewDidLoad() {
@@ -77,59 +78,47 @@ class AddLocationController: UITableViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestLocation()
     }
-}
-
-//MARK: - TableViewDataSource
-extension AddLocationController {
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
-    }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! AddLocationCell
-        cell.locationNameLabel.text = searchResults[indexPath.row].name
-        cell.addressLabel.text = searchResults[indexPath.row].placemark.title
-        
-        return cell
-    }
-}
-
-//MARK: - TableviewDelegate
-extension AddLocationController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let result = searchResults[indexPath.row]
-        guard let locationName = result.name else { return }
-        guard let locationAddress = result.placemark.title else { return }
-        let locationLat = result.placemark.coordinate.latitude
-        let locationLog = result.placemark.coordinate.longitude
-        
-        dismiss(animated: true) {
-            self.delegate?.sendLocationData(name: locationName, address: locationAddress, lat: locationLat, log: locationLog)
-        }
-        
-        
-    }
+//    func searchBy(naturalLanguageQuery: String, completion: @escaping([MKPlacemark]) -> Void){
+//        var results = [MKPlacemark]()
+//        let request = MKLocalSearch.Request()
+//        guard let coordinate = locationManager.location?.coordinate else{ return }
+//        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 50, longitudinalMeters: 50)
+//        request.region = region
+//        request.naturalLanguageQuery = naturalLanguageQuery
+//
+//        let search = MKLocalSearch(request: request)
+//        search.start { (response, error) in
+//            guard let response = response else { return }
+//            response.mapItems.forEach({ item in
+//                results.append(item.placemark)
+//            })
+//            completion(results)
+//        }
+//    }
 }
 
 //MARK: - LocationMenegerDelegate
 extension AddLocationController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         manager.delegate = nil
+        guard let searchQuery = searchQuery else { return }
+
         let request = MKLocalSearch.Request()
         request.region = MKCoordinateRegion(center: locations[0].coordinate, latitudinalMeters: 50, longitudinalMeters: 50)
-        
-        for searchQuery in searchQuerys {
-            request.naturalLanguageQuery = searchQuery
-            let search = MKLocalSearch(request: request)
-            search.start { (response, error) in
-                guard let searchResponse = response else { return }
-                self.searchAllResults.append(contentsOf: searchResponse.mapItems)
+        request.naturalLanguageQuery = searchQuery
+
+        let search = MKLocalSearch(request: request)
+        search.start { (response, error) in
+            guard let response = response else { return }
+            response.mapItems.forEach({ item in
+                self.searchAllResults.append(item.placemark)
                 self.searchResults = self.searchAllResults
-                self.tableView.reloadData()
-            }
+            })
+            self.tableView.reloadData()
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("DEBUG: Error is \(error.localizedDescription)")
     }
@@ -141,18 +130,24 @@ extension AddLocationController: UISearchBarDelegate {
         if searchText.isEmpty {
             searchResults = searchAllResults
         } else {
-            var temp = [MKMapItem]()
+            searchQuery = searchText
+            var temp = [MKPlacemark]()
             for result in searchResults {
                 if (result.name?.lowercased().hasPrefix(searchText.lowercased()))! {
                     temp.append(result)
                 }
             }
-            
+
             self.searchResults = []
             self.searchResults = temp
+
         }
-        
+
         tableView.reloadData()
+//        searchBy(naturalLanguageQuery: searchText) { (results) in
+//            self.searchResults = results
+//            self.tableView.reloadData()
+//        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -162,7 +157,39 @@ extension AddLocationController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        searchQuery = ""
         searchResults = searchAllResults
+//        searchResults.removeAll()
         tableView.reloadData()
+    }
+}
+
+//MARK: - TableViewDataSource
+extension AddLocationController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchResults.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! AddLocationCell
+        cell.locationNameLabel.text = searchResults[indexPath.row].name
+        cell.addressLabel.text = searchResults[indexPath.row].title
+        
+        return cell
+    }
+}
+
+//MARK: - TableviewDelegate
+extension AddLocationController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let result = searchResults[indexPath.row]
+        guard let locationName = result.name else { return }
+        guard let locationAddress = result.title else { return }
+        let locationLat = result.coordinate.latitude
+        let locationLog = result.coordinate.longitude
+        
+        dismiss(animated: true) {
+            self.delegate?.sendLocationData(name: locationName, address: locationAddress, lat: locationLat, log: locationLog)
+        }
     }
 }

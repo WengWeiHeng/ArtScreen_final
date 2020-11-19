@@ -16,10 +16,14 @@ struct RegistrationCredentials {
     let lastname: String
     let profileImage: UIImage
 }
+struct LoginCredentials {
+    let username: String
+    let password: String
+}
 
 struct AuthService {
     static let shared = AuthService()
-
+    
     func uploadUser(credentials: RegistrationCredentials) {
         let url = URL(string: "http://artscreen.sakura.ne.jp/secure/register.php")!
         var uid: String = ""
@@ -46,36 +50,38 @@ struct AuthService {
                             return
                         }
                         //get id from parseJSON dictionary
-                        uid = parseJSON["id"] as! String
+                        print(parseJSON)
+//                        uid = parseJSON["id"] as! String
+                        uploadAva(profileImage: credentials.profileImage, uid: parseJSON["id"] as! String)
+                        
                         //successfully uploaded
-                        if uid != nil {
-                            //save user infomation we received from our host
-                            UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
-                            user = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
-                        } else {
+                        if uid.isEmpty {
                             DispatchQueue.main.async {
                                 let message = parseJSON["message"]
                                 print(message)
                             }
+                        } else {
+                            //save user infomation we received from our host
+                            UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
+                            userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
                         }
                     } catch {
-                        print("Caught an error:\(error)")
+                        print("Caught an error Register:\(error)")
                     }
                 }
                 // if unalble to proceed request
             }else {
-                print("DEBUG: error is \(String(describing: error?.localizedDescription))")
+                print("DEBUG Register: error is \(String(describing: error?.localizedDescription))")
             }
             //launch prepared session
         }.resume()
         
-        uploadAva(profileImage: credentials.profileImage, uid: uid)
     }
     
     func uploadAva(profileImage: UIImage, uid: String) {
         //shorcut id
         let id = uid
-        
+        print("DEBUG id : \(id)")
         //url path to php file
         let url = URL(string: "http://artscreen.sakura.ne.jp/uploadAva.php")!
         //declare request to this file
@@ -102,7 +108,8 @@ struct AuthService {
                     do {
                         //json containes $retrunArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                        //declare new parseJSON to store json
+                        //declare new parseJSON to store json]
+                        print("Upload Avata")
                         guard let parseJSON =  json else {
                             print("Error while parsing")
                             return
@@ -114,7 +121,7 @@ struct AuthService {
                         if id != nil {
                             //save user infomation we received from our host
                             UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
-                            user = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+                            userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
                             
                         //did not give back "id" value from sever
                         } else {
@@ -124,7 +131,7 @@ struct AuthService {
                             }
                         }
                     } catch {
-                        print("Caught an error:\(error)")
+                        print("Caught an error UploadAva:\(error)")
                         DispatchQueue.main.async {
                             let message = error
                             print(message)
@@ -133,7 +140,7 @@ struct AuthService {
                 //error while jsoning
                 } else {
                     DispatchQueue.main.async {
-                        print("DEBUG: Error is \(error?.localizedDescription ?? "")")
+                        print("DEBUG UploadAva: Error is \(error?.localizedDescription ?? "")")
                     }
                 }
             }
@@ -142,13 +149,14 @@ struct AuthService {
     
     func createBodyWithPath(parameters: [String : String], filePathKey: String?, imageDataKey: Data, boundary: String) -> Data{
         let body = NSMutableData()
-        if parameters != nil {
+        if parameters.isEmpty == false {
             for (key, value) in parameters {
                 body.appendString(string: "--\(boundary)\r\n")
                 body.appendString(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
                 body.appendString(string: "\(value)\r\n")
             }
         }
+        
         let filename = "ava.jpg"
         let mimetype = "image/jpg"
         body.appendString(string: "--\(boundary)\r\n")
@@ -156,11 +164,60 @@ struct AuthService {
         body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
         body.append(imageDataKey)
         body.appendString(string: "\r\n")
-        
         body.appendString(string: "--\(boundary)--\r\n")
-            
-        
+
         return body as Data
     }
     
+    func login(credentials: LoginCredentials) {
+        let username = credentials.username.lowercased()
+        let password = credentials.password
+        //send request to mysql db
+        //url to access our php file
+        let url = URL(string: "http://artscreen.sakura.ne.jp/login.php")!
+        //request url
+        let request = NSMutableURLRequest(url: url)
+        //request to pass data POST - cause it is secured
+        request.httpMethod = "POST"
+        let body = "username=\(username)&password=\(password)"
+        //append body to our request that gonna be sent
+        request.httpBody = body.data(using: .utf8)
+        //launch session
+        URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response:URLResponse?, error:Error?) in
+            if error == nil {
+                //get main queue in code process to communicate back to UI
+                DispatchQueue.main.async {
+                    do {
+                        //get json result
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                        //assign json to new var parseJSON in guard/secured way
+                        guard let parseJSON = json else {
+                            print("Error while parsing")
+                            return
+                        }
+                        print(parseJSON)
+                        //get id from parseJSON dictionary
+                        let id = parseJSON["id"]
+                        //if there is some id value
+                        if id != nil {
+                            //save user information we received from host
+                            UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
+                            userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+                            //successfully logged in
+                            print("DEBUG - successfully Login")
+            
+                        } else {
+                            print("error")
+                        }
+                    } catch {
+                        print("Caught an error:\(error)")
+                    }
+                }
+                // if unalble to proceed request
+            }else {
+                print("DEBUG: error is \(String(describing: error?.localizedDescription))")
+            }
+            //launch prepared session
+        }.resume()
+    }
 }

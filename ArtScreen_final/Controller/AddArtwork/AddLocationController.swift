@@ -22,8 +22,7 @@ class AddLocationController: UITableViewController {
     
     private let locationManager = CLLocationManager()
     private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
-    
-//    let searchQuerys = ["store", "shop", "coffee", "restaurant", "hospital"]
+
     var searchQuery: String?
     var searchResults = [MKPlacemark]()
     var searchAllResults = [MKPlacemark]()
@@ -79,44 +78,46 @@ class AddLocationController: UITableViewController {
         locationManager.requestLocation()
     }
     
-//    func searchBy(naturalLanguageQuery: String, completion: @escaping([MKPlacemark]) -> Void){
-//        var results = [MKPlacemark]()
-//        let request = MKLocalSearch.Request()
-//        guard let coordinate = locationManager.location?.coordinate else{ return }
-//        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 50, longitudinalMeters: 50)
-//        request.region = region
-//        request.naturalLanguageQuery = naturalLanguageQuery
-//
-//        let search = MKLocalSearch(request: request)
-//        search.start { (response, error) in
-//            guard let response = response else { return }
-//            response.mapItems.forEach({ item in
-//                results.append(item.placemark)
-//            })
-//            completion(results)
-//        }
-//    }
+    func searchBy(naturalLanguageQuery: String, completion: @escaping([MKPlacemark]) -> Void){
+        var results = [MKPlacemark]()
+        let request = MKLocalSearch.Request()
+        guard let coordinate = locationManager.location?.coordinate else{ return }
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 50, longitudinalMeters: 50)
+        request.region = region
+        request.naturalLanguageQuery = naturalLanguageQuery
+
+        let search = MKLocalSearch(request: request)
+        search.start { (response, error) in
+            guard let response = response else { return }
+            response.mapItems.forEach({ item in
+                results.append(item.placemark)
+            })
+            completion(results)
+        }
+    }
 }
 
 //MARK: - LocationMenegerDelegate
 extension AddLocationController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         manager.delegate = nil
-        guard let searchQuery = searchQuery else { return }
-
-        let request = MKLocalSearch.Request()
-        request.region = MKCoordinateRegion(center: locations[0].coordinate, latitudinalMeters: 50, longitudinalMeters: 50)
-        request.naturalLanguageQuery = searchQuery
-
-        let search = MKLocalSearch(request: request)
-        search.start { (response, error) in
-            guard let response = response else { return }
-            response.mapItems.forEach({ item in
-                self.searchAllResults.append(item.placemark)
-                self.searchResults = self.searchAllResults
-            })
-            self.tableView.reloadData()
-        }
+//        guard let searchQuery = searchQuery else { return }
+//
+//        let request = MKLocalSearch.Request()
+//        request.region = MKCoordinateRegion(center: locations[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+//        request.naturalLanguageQuery = searchQuery
+//
+//        let search = MKLocalSearch(request: request)
+//        search.start { (response, error) in
+//            guard let response = response else { return }
+//            response.mapItems.forEach({ item in
+//                self.searchAllResults.append(item.placemark)
+//                self.searchResults = self.searchAllResults
+//            })
+//
+//            print("DEBUG: in locationDelegate \(self.searchResults)")
+//            self.tableView.reloadData()
+//        }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -127,27 +128,29 @@ extension AddLocationController: CLLocationManagerDelegate {
 //MARK: - SearchBarDelegate
 extension AddLocationController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-            searchResults = searchAllResults
-        } else {
-            searchQuery = searchText
-            var temp = [MKPlacemark]()
-            for result in searchResults {
-                if (result.name?.lowercased().hasPrefix(searchText.lowercased()))! {
-                    temp.append(result)
-                }
-            }
-
-            self.searchResults = []
-            self.searchResults = temp
-
-        }
-
-        tableView.reloadData()
-//        searchBy(naturalLanguageQuery: searchText) { (results) in
-//            self.searchResults = results
-//            self.tableView.reloadData()
+//        if searchText.isEmpty {
+//            searchResults = searchAllResults
+//        } else {
+//            searchQuery = searchText
+//            var temp = [MKPlacemark]()
+//            for result in searchResults {
+//                if (result.name?.lowercased().hasPrefix(searchText.lowercased()))! {
+//                    temp.append(result)
+//                }
+//            }
+//
+//            self.searchResults = []
+//            self.searchResults = temp
+//            print("DEBUG: in searchDelegate \(self.searchResults)")
+//
 //        }
+//
+//        tableView.reloadData()
+        
+        searchBy(naturalLanguageQuery: searchText) { (results) in
+            self.searchResults = results
+            self.tableView.reloadData()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -159,7 +162,6 @@ extension AddLocationController: UISearchBarDelegate {
         searchBar.text = ""
         searchQuery = ""
         searchResults = searchAllResults
-//        searchResults.removeAll()
         tableView.reloadData()
     }
 }

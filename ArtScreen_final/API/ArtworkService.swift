@@ -6,9 +6,74 @@
 //
 
 import Foundation
+import UIKit
+
+struct ArtworkCredentials {
+    let artworkName: String
+    let information: String
+    let artworkImage: UIImage
+    let lat: Double
+    let lng: Double
+}
 
 struct ArtworkService {
     static let shared = ArtworkService()
+    
+    func uploadArtwork(artworkCredentials : ArtworkCredentials, user: User) {
+        //short to data to be passed to php file
+        let uuid = NSUUID().uuidString
+        //url path to php file
+        let url = URL(string: "http://artscreen.sakura.ne.jp/postArtwork.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let param = [
+            "artworkID" : uuid,
+            "userID" : user.id,
+            "artworkName" : artworkCredentials.artworkName,
+            "information" : artworkCredentials.information,
+            "locationLat" : artworkCredentials.lat,
+            "locationLng" : artworkCredentials.lng
+        ] as [String: Any]
+        print("DEBUG: Postartwork uuid = \(uuid)")
+        //body
+        let boundary = "Boundary-\(NSUUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        //if picture is selected, compress it by half
+        var imageData = Data()
+        
+        imageData = artworkCredentials.artworkImage.jpegData(compressionQuality: 0.5)!
+        //... body
+        print("DEBUG: upload data contain is \(param)")
+        print(artworkCredentials.artworkImage.size)
+        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artwork-\(uuid).jpg")
+        request.httpBody = createBody
+        
+        //launch session
+        URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//                        print("DEBUG: Post artWork \(json?.description)")
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("Error:\(error)")
+                    
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    
+                }
+            }
+        }.resume()
+    }
     
     func fetchArtwork(completion: @escaping([Artwork]) -> Void) {
         var artworks = [Artwork]()

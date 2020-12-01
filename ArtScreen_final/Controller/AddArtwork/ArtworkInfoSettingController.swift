@@ -164,7 +164,7 @@ class ArtworkInfoSettingController: UIViewController {
         
         showLoader(true, withText: "Loading..")
         
-        AuthService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
+        ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
         dismiss(animated: true) {
             self.showLoader(false)
         }

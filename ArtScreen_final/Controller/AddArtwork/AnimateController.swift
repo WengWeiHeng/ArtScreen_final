@@ -12,6 +12,8 @@ private let reuseIdentifier = "LayerCell"
 class AnimateController: UIViewController, UIScrollViewDelegate {
     
     //MARK: - Properties
+    var user: User?
+    
     var checkSelectImageIndex: Int = 0
     var checkViewDrawLasso: Bool = false
     var customProtocol: CustomProtocol?
@@ -264,6 +266,15 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
@@ -299,7 +310,8 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         if trimImageView.image == nil {
             showError("Please make your Animate item!")
         } else {
-            let controller = ArtworkInfoSettingController()
+            guard let user = user else { return }
+            let controller = ArtworkInfoSettingController(user: user)
             controller.artworkImage = originalImageView.image
             controller.itemImage = itemImage
 //            controller.itemCredentials = itemCredentials

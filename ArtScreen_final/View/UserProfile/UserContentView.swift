@@ -25,6 +25,11 @@ class UserContentView: UIView {
     
     //MARK: - Properties
     weak var delegate: UserContentViewDelegate?
+    var user: User? {
+        didSet {
+            configureUserData()
+        }
+    }
     
     private var screenOffset: CGFloat = UIScreen.main.bounds.width
     private var rightConstraint = NSLayoutConstraint()
@@ -167,7 +172,10 @@ class UserContentView: UIView {
     
     //MARK: - Helpers
     func configureUserData() {
-        print("DEBUG: Loading User Data")
+        guard let user = user else { return }
+        fullnameLabel.text = user.fullname
+        usernameLabel.text = user.username
+        profileImageView.sd_setImage(with: user.profileImageUrl)
     }
     
     func configureUI() {

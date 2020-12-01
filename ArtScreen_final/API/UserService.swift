@@ -17,7 +17,6 @@ struct UserService {
             let user = User(id: id, dictionary: userDefault)
             completion(user)
         }
-        
     }
 }
 

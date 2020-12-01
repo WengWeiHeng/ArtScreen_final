@@ -18,11 +18,7 @@ protocol MenuControllerDelegate: class {
 class MenuController: UIViewController {
     
     //MARK: - Properties
-    var user: User? {
-        didSet {
-            menuHeader.user = user
-        }
-    }
+    var user: User?
     
     var tableView = UITableView()
     weak var delegate: MenuControllerDelegate?

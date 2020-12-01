@@ -10,7 +10,7 @@ import UIKit
 class AddExhibitionController: UIViewController {
     
     //MARK: - Properties
-//    var user: User?
+    var user: User?
     private var isOnline: Bool = true
     private let imagePicker = UIImagePickerController()
     private var exhibitionImage: UIImage?
@@ -75,6 +75,15 @@ class AddExhibitionController: UIViewController {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -137,8 +146,8 @@ class AddExhibitionController: UIViewController {
     //MARK: - API
     func uploadExhibition() {
         print("DEBUG: INSERT INTO Exhibition information AND Next page..")
-        
-        let controller = ExhibitionUploadController()
+        guard let user = user else { return }
+        let controller = ExhibitionUploadController(user: user)
         controller.exhibitionTitleText = titleTextField.text
         navigationController?.pushViewController(controller, animated: true)
         

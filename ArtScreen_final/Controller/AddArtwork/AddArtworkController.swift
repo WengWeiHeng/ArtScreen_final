@@ -69,6 +69,15 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -169,7 +178,8 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         let alert = UIAlertController(title: "Do you want add AR Animation on your ArtWork",message:"If you don't want to add it now, you can click Edit in your profile page", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Not now", style: .default, handler: { _ in
-            let viewController =  ArtworkInfoSettingController()
+            guard let user = self.user else { return }
+            let viewController =  ArtworkInfoSettingController(user: user)
             let resize: CGSize = CGSize.init(width: screenWidth, height:screenWidth)
             let originalImage = image.resize(size: resize)
             viewController.artworkImage = originalImage
@@ -179,7 +189,8 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         }))
         
         alert.addAction(UIAlertAction(title: "Do it", style: .default, handler: { _ in
-            let controller = AnimateController()
+            guard let user = self.user else { return }
+            let controller = AnimateController(user: user)
             let resize:CGSize = CGSize.init(width: screenWidth, height:screenHeight-240)
             let originalImage = image.resize(size: resize)
             controller.originalImageView.image = originalImage
@@ -196,7 +207,8 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
 //MARK: - CamereViewDelegate
 extension AddArtworkController: CameraViewDelegate {
     func presentPhotoCheck(_ image: UIImage) {
-        let controller = ConfirmImageController()
+        guard let user = user else { return }
+        let controller = ConfirmImageController(user: user)
         controller.image.image = image
         self.navigationController?.pushViewController(controller, animated: true)
 

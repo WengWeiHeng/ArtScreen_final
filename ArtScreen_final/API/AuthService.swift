@@ -16,9 +16,18 @@ struct RegistrationCredentials {
     let lastname: String
     let profileImage: UIImage
 }
+
 struct LoginCredentials {
     let username: String
     let password: String
+}
+
+struct ArtworkCredentials {
+    let artworkName : String
+    let information : String
+    let artworkImage : UIImage
+    let lat : Double
+    let lng : Double
 }
 
 struct AuthService {
@@ -26,7 +35,7 @@ struct AuthService {
     
     func uploadUser(credentials: RegistrationCredentials) {
         let url = URL(string: "http://artscreen.sakura.ne.jp/secure/register.php")!
-        var uid: String = ""
+        let uid: String = ""
         
         //request to this file
         let request = NSMutableURLRequest(url: url)
@@ -58,7 +67,7 @@ struct AuthService {
                         if uid.isEmpty {
                             DispatchQueue.main.async {
                                 let message = parseJSON["message"]
-                                print(message)
+                                print(message as Any)
                             }
                         } else {
                             //save user infomation we received from our host
@@ -97,7 +106,7 @@ struct AuthService {
         guard let imageData = profileImage.jpegData(compressionQuality: 0.5) else { return }
         
         //... body
-        request.httpBody = createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary)
+        request.httpBody = createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary,filename: "ava.jpg")
         //launc session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 
@@ -147,25 +156,26 @@ struct AuthService {
         }.resume()
     }
     
-    func createBodyWithPath(parameters: [String : String], filePathKey: String?, imageDataKey: Data, boundary: String) -> Data{
+    func createBodyWithPath(parameters: [String : Any], filePathKey: String?, imageDataKey: Data, boundary: String, filename : String) -> Data{
         let body = NSMutableData()
-        if parameters.isEmpty == false {
+        if !parameters.isEmpty {
             for (key, value) in parameters {
                 body.appendString(string: "--\(boundary)\r\n")
                 body.appendString(string: "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
                 body.appendString(string: "\(value)\r\n")
             }
         }
-        
-        let filename = "ava.jpg"
+//        let filename = "ava.jpg"
         let mimetype = "image/jpg"
         body.appendString(string: "--\(boundary)\r\n")
         body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
         body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")
         body.append(imageDataKey)
         body.appendString(string: "\r\n")
+        
         body.appendString(string: "--\(boundary)--\r\n")
-
+            
+        
         return body as Data
     }
     
@@ -191,6 +201,7 @@ struct AuthService {
                         //get json result
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                         //assign json to new var parseJSON in guard/secured way
+                        
                         guard let parseJSON = json else {
                             print("Error while parsing")
                             return
@@ -218,6 +229,61 @@ struct AuthService {
                 print("DEBUG: error is \(String(describing: error?.localizedDescription))")
             }
             //launch prepared session
+        }.resume()
+    }
+
+    func uploadArtwork(artworkCredentials : ArtworkCredentials, user: User) {
+        //short to data to be passed to php file
+        let uuid = NSUUID().uuidString
+        //url path to php file
+        let url = URL(string: "http://artscreen.sakura.ne.jp/postArtwork.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let param = [
+            "artworkID" : uuid,
+            "userID" : user.id,
+            "artworkName" : artworkCredentials.artworkName,
+            "information" : artworkCredentials.information,
+            "locationLat" : artworkCredentials.lat,
+            "locationLng" : artworkCredentials.lng
+        ] as [String: Any]
+        print("DEBUG: Postartwork uuid = \(uuid)")
+        //body
+        let boundary = "Boundary-\(NSUUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        //if picture is selected, compress it by half
+        var imageData = Data()
+        
+        imageData = artworkCredentials.artworkImage.jpegData(compressionQuality: 0.5)!
+        //... body
+        print("DEBUG: upload data contain is \(param)")
+        print(artworkCredentials.artworkImage.size)
+        request.httpBody = createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artwork-\(uuid).jpg")
+        
+        //launch session
+        URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//                        print("DEBUG: Post artWork \(json?.description)")
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("Error:\(error)")
+                    
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    
+                }
+            }
         }.resume()
     }
 }

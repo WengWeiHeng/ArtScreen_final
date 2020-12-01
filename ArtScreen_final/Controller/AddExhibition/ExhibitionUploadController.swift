@@ -13,6 +13,8 @@ private let reuseIdenfitier = "ArtworkInputViewCell"
 class ExhibitionUploadController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
+    
     var exhibitionTitleText: String?
     
     private let addArtworkInputView = AddArtworkInputView()
@@ -96,6 +98,15 @@ class ExhibitionUploadController: UIViewController {
     }()
 
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -242,7 +253,8 @@ extension ExhibitionUploadController: WaterfallLayoutDelegate {
 //MARK: - AddArtworkInputViewDelegate
 extension ExhibitionUploadController: AddArtworkInputViewDelegate {
     func moveToAddArtworkController() {
-        let controller = AddArtworkController()
+        guard let user = user else { return }
+        let controller = AddArtworkController(user: user)
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }

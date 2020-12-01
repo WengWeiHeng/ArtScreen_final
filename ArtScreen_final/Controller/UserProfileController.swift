@@ -15,6 +15,8 @@ private enum State {
 class UserProfileController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
+    
     let userCoverView = UserCoverView()
     let userContentView = UserContentView()
     
@@ -63,6 +65,15 @@ class UserProfileController: UIViewController {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -160,6 +171,7 @@ class UserProfileController: UIViewController {
         view.addSubview(userCoverView)
         userCoverView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: view.frame.height - 160)
         userCoverView.delegate = self
+        userCoverView.user = user
         
         view.addSubview(userInfoView)
         userInfoView.anchor(top: userCoverView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor)
@@ -176,6 +188,7 @@ class UserProfileController: UIViewController {
         userContentView.heightAnchor.constraint(equalToConstant: popupOffset).isActive = true
         userContentView.addGestureRecognizer(panRecognizer)
         userContentView.delegate = self
+        userContentView.user = user
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 12, paddingRight: 12)
@@ -266,14 +279,16 @@ extension State {
 //MARK: - USerContentViewDelegate
 extension UserProfileController: UserContentViewDelegate {
     func moveToAddExhibition() {
-        let controller = AddExhibitionController()
+        guard let user = user else { return }
+        let controller = AddExhibitionController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
     
     func moveToAddArtwork() {
-        let controller = AddArtworkController()
+        guard let user = user else { return }
+        let controller = AddArtworkController(user: user)
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }

@@ -12,6 +12,7 @@ import CoreLocation
 class ArtMapController: UIViewController {
     
     //MARK: - Properties
+    var artworks = [Artwork]()
     private let locationManager = CLLocationManager()
     
     lazy var mapView = GMSMapView()
@@ -22,7 +23,10 @@ class ArtMapController: UIViewController {
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchArtwork()
         configureUI()
+        
+        print("DEBUG: artworks count is \(artworks.count)")
     }
     
     //MARK: - Selectors
@@ -44,6 +48,13 @@ class ArtMapController: UIViewController {
     
     @objc func handleCloseMap() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - API
+    func fetchArtwork() {
+        ArtworkService.shared.fetchArtwork { artworks in
+            self.artworks = artworks
+        }
     }
     
     //MARK: - Helpers

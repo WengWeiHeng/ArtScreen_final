@@ -15,6 +15,11 @@ class UserCoverView: UIView {
     
     //MARK: - Properties
     weak var delegate: UserCoverViewDelegate?
+    var user: User? {
+        didSet {
+            configureUserData()
+        }
+    }
     
     private let coverImageView: UIImageView = {
         let iv = UIImageView()
@@ -67,7 +72,7 @@ class UserCoverView: UIView {
         super.init(frame: frame)
         
         coverStyle1()
-        
+        print("DEBUG: user is \(user?.fullname) in UserCoverView")
     }
     
     required init?(coder: NSCoder) {
@@ -82,7 +87,10 @@ class UserCoverView: UIView {
     
     //MARK: - Helpers
     func configureUserData() {
-        print("DEBUG: Loading in User Data")
+        guard let user = user else { return }
+        fullnameLabel.text = user.fullname
+        usernameLabel.text = user.username
+        profileImageView.sd_setImage(with: user.profileImageUrl)
     }
     
     func coverStyle1() {

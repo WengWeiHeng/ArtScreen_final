@@ -12,8 +12,11 @@ protocol CustomProtocol {
 }
 
 class ConfirmImageController: UIViewController, CustomProtocol {
-    weak var delegate: AlbumViewDelegate?
+    
     //MARK: - Properties
+    var user: User?
+    weak var delegate: AlbumViewDelegate?
+    
     let image : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +43,15 @@ class ConfirmImageController: UIViewController, CustomProtocol {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
            super.viewDidLoad()
            self.view.backgroundColor = .black
@@ -62,7 +74,8 @@ class ConfirmImageController: UIViewController, CustomProtocol {
         let alert = UIAlertController(title: "Do you want add AR Animation on your ArtWork",message:"If you don't want to add it now, you can click Edit in your profile page", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Not now", style: .default, handler: { _ in
-            let viewController =  ArtworkInfoSettingController()
+            guard let user = self.user else { return }
+            let viewController =  ArtworkInfoSettingController(user: user)
             viewController.artworkImage = self.image.image
             viewController.heightoriginalImageView = screenWidth
             viewController.widthoriginalImageView = screenWidth
@@ -70,7 +83,8 @@ class ConfirmImageController: UIViewController, CustomProtocol {
         }))
         
         alert.addAction(UIAlertAction(title: "Do it", style: .default, handler: { _ in
-            let controller = AnimateController()
+            guard let user = self.user else { return }
+            let controller = AnimateController(user: user)
             controller.originalImageView.image = self.image.image
             controller.heightoriginalImageView = screenWidth
             controller.widthoriginalImageView = screenWidth

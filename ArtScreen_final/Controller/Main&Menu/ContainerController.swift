@@ -16,7 +16,7 @@ class ContainerController: UIViewController {
     //MARK: - Properties
     var user: User?
     
-    private var mainController = MainViewController()
+    private var mainController: MainViewController!
     private var menuController: MenuController!
     private var isExpanded = false
     private lazy var xOrigin = self.view.frame.width - 200
@@ -80,6 +80,8 @@ class ContainerController: UIViewController {
     }
     
     func configureMainController() {
+        guard let user = user else { return }
+        mainController = MainViewController(user: user)
         addChild(mainController)
         mainController.didMove(toParent: self)
         view.addSubview(mainController.view)
@@ -137,7 +139,8 @@ extension ContainerController: MenuControllerDelegate {
     }
     
     func handleShowProfilePage() {
-        let controller = UserProfileController()
+        guard let user = user else { return }
+        let controller = UserProfileController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true) {

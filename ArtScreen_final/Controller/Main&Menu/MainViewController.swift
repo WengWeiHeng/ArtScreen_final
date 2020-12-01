@@ -18,6 +18,7 @@ protocol MainControllerDelegate: class {
 class MainViewController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
     weak var delegate: MainControllerDelegate?
     private var buttonIsActive: Bool = false
     
@@ -146,6 +147,15 @@ class MainViewController: UIViewController {
     }()
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -183,14 +193,16 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleAddArtwork() {
-        let controller = AddArtworkController()
+        guard let user = user else { return }
+        let controller = AddArtworkController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
     
     @objc func handleAddExhibition() {
-        let controller = AddExhibitionController()
+        guard let user = user else { return }
+        let controller = AddExhibitionController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -201,7 +213,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleShowUserProfile() {
-        let controller = UserProfileController()
+        guard let user = user else { return }
+        let controller = UserProfileController(user: user)
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }

@@ -10,6 +10,8 @@ import UIKit
 class ArtworkInfoSettingController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
+    
     var customProtocol: CustomProtocol?
     var artworkImage: UIImage?
     var itemImage: UIImage?
@@ -79,8 +81,8 @@ class ArtworkInfoSettingController: UIViewController {
     
     
     //MARK: - Location Properties
-    private var locationLat: Double?
-    private var locationLog: Double?
+    private var locationLat: Double = 0.0
+    private var locationLng: Double = 0.0
     
     private lazy var addLocationView: UIView = {
         let view = UIView()
@@ -123,6 +125,15 @@ class ArtworkInfoSettingController: UIViewController {
     }()
 
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -144,7 +155,20 @@ class ArtworkInfoSettingController: UIViewController {
     }
     
     @objc func tapbuttonSendImage() {
-        print("DEBUG: Upload Artwork Data..")
+        guard let artworkname = titleTextField.text else { return }
+        guard let information = introductionTextField.text else { return }
+        guard let artworkImage = artworkImage else { return }
+        guard let user = user else { return }
+
+        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, lat: locationLat, lng: locationLng)
+        
+        showLoader(true, withText: "Loading..")
+        
+        AuthService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
+        dismiss(animated: true) {
+            self.showLoader(false)
+        }
+        
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -215,6 +239,6 @@ extension ArtworkInfoSettingController: AddLocationControllerDelegate {
         locationLabel.text = name
         locationAddressLabel.text = address
         locationLat = lat
-        locationLog = log
+        locationLng = log
     }
 }

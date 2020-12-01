@@ -40,8 +40,8 @@ class ARWorldController: UIViewController {
             let results = sceneView.hitTest(touchLocation, options: [SCNHitTestOption.searchMode: 1])
             
             if let hitResult = results.first {
-                let boxScene = SCNScene(named: "art.scnassets/portal.scn")!
-                if let boxNode = boxScene.rootNode.childNode(withName: "portal", recursively: true) {
+                let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
+                if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
                     boxNode.position = SCNVector3(hitResult.simdModelTransform.columns.3.x, hitResult.simdModelTransform.columns.3.y + 0.05, hitResult.simdModelTransform.columns.3.z)
 
                     sceneView.scene.rootNode.addChildNode(boxNode)

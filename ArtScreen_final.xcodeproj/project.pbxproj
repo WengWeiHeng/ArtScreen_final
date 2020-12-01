@@ -100,6 +100,7 @@
 		B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D14112254190C300D9A677 /* AddArtworkController.swift */; };
 		B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141152541911000D9A677 /* AddExhibitionController.swift */; };
 		B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */; };
+		B0D39B4625709774001E3ABA /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D39B4525709774001E3ABA /* Artwork.swift */; };
 		B0D3BBF42547C07C00A5E8F8 /* AddLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */; };
 		B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */; };
 		B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7929C25540C8500702881 /* ProfileViewModel.swift */; };
@@ -208,6 +209,7 @@
 		B0D14112254190C300D9A677 /* AddArtworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkController.swift; sourceTree = "<group>"; };
 		B0D141152541911000D9A677 /* AddExhibitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionController.swift; sourceTree = "<group>"; };
 		B0D141182541924300D9A677 /* AddExhibitionUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExhibitionUtilities.swift; sourceTree = "<group>"; };
+		B0D39B4525709774001E3ABA /* Artwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 		B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationController.swift; sourceTree = "<group>"; };
 		B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationCell.swift; sourceTree = "<group>"; };
 		B0D7929C25540C8500702881 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				B01107D8254272DC00041A01 /* Lasso */,
 				B07C74BC25411CE700920F59 /* User.swift */,
+				B0D39B4525709774001E3ABA /* Artwork.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */,
 				B01107D02542728800041A01 /* MoveSettingView.swift in Sources */,
 				B024BB122562A3F400FAA319 /* SearchController.swift in Sources */,
+				B0D39B4625709774001E3ABA /* Artwork.swift in Sources */,
 				B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */,
 				B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */,
 				B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */,

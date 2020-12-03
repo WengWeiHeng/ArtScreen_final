@@ -185,7 +185,7 @@ struct AuthService {
         //append body to our request that gonna be sent
         request.httpBody = body.data(using: .utf8)
         //launch session
-        URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response:URLResponse?, error:Error?) in
+        URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response: URLResponse?, error: Error?) in
             if error == nil {
                 //get main queue in code process to communicate back to UI
                 DispatchQueue.main.async {

@@ -10,6 +10,12 @@ import UIKit
 class AddArtworkInputViewCell: UICollectionViewCell {
     
     //MARK: - Properties
+    var artwork: ArtworkDetail? {
+        didSet {
+            configureData()
+        }
+    }
+    
     private let imageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -34,6 +40,7 @@ class AddArtworkInputViewCell: UICollectionViewCell {
     
     //MARK: - Helper
     func configureData() {
-        print("DEBUG: Loading Artwork Data")
+        guard let artwork = artwork else { return }
+        imageView.sd_setImage(with: artwork.path)
     }
 }

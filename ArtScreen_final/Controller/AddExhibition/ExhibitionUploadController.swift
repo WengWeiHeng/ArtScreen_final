@@ -15,6 +15,8 @@ class ExhibitionUploadController: UIViewController {
     //MARK: - Properties
     var user: User?
     
+    private var artworks = [ArtworkDetail]()
+    
     var exhibitionTitleText: String?
     
     private let addArtworkInputView = AddArtworkInputView()
@@ -185,6 +187,7 @@ class ExhibitionUploadController: UIViewController {
         addArtworkInputView.heightAnchor.constraint(equalToConstant: inputViewHeight).isActive = true
         addArtworkInputView.layer.cornerRadius = 24
         addArtworkInputView.delegate = self
+        addArtworkInputView.user = user
         
         view.addSubview(exhibitionSettingView)
         exhibitionSettingView.translatesAutoresizingMaskIntoConstraints = false
@@ -228,11 +231,12 @@ class ExhibitionUploadController: UIViewController {
 //MARK: - UICollectionViewDataSource
 extension ExhibitionUploadController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return artworks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdenfitier, for: indexPath) as! ArtworkInputViewCell
+        cell.artwork = artworks[indexPath.row]
         
         return cell
     }
@@ -252,6 +256,18 @@ extension ExhibitionUploadController: WaterfallLayoutDelegate {
 
 //MARK: - AddArtworkInputViewDelegate
 extension ExhibitionUploadController: AddArtworkInputViewDelegate {
+    func AddInArtwork(artwork: ArtworkDetail) {
+        print("DEBUG: Artwork is remove successfully and add in this exhibition..")
+        
+        UIView.animate(withDuration: 0.3) {
+            self.announceView.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+        
+        self.artworks.append(artwork)
+        self.collectionView.reloadData()
+    }
+    
     func moveToAddArtworkController() {
         guard let user = user else { return }
         let controller = AddArtworkController(user: user)

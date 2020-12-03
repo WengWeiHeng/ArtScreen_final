@@ -10,6 +10,8 @@ import UIKit
 class MapInfoInputView: UIView {
     
     //MARK: - Properties
+    var artwork: ArtworkDetail?
+    
     private let userImageView: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true

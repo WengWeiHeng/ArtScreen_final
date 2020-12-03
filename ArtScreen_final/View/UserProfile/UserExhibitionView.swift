@@ -13,6 +13,8 @@ private let reuseIdentifier = "ExhibitionCell"
 class UserExhibitionView: UIView {
     
     //MARK: - Properties
+    var user: User?
+    
     private lazy var collectionView: UICollectionView = {
         let layout = WaterfallLayout()
         layout.delegate = self

@@ -10,6 +10,8 @@ import UIKit
 protocol AddArtworkInputViewDelegate: class {
     func handleCloseInputView()
     func moveToAddArtworkController()
+    func AddInArtwork(artwork: ArtworkDetail)
+    
 }
 
 private let reuseIdentifier = "AddArtworkInputViewCell"
@@ -18,6 +20,14 @@ class AddArtworkInputView: UIView {
     
     //MARK: - Properties
     weak var delegate: AddArtworkInputViewDelegate?
+    
+    var user: User? {
+        didSet {
+            fetchUserArtwork()
+        }
+    }
+    
+    var artworks = [ArtworkDetail]()
     
     private let titleBarView: UIView = {
         let view = UIView()
@@ -74,6 +84,18 @@ class AddArtworkInputView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - API
+    func fetchUserArtwork() {
+        guard let user = user else { return }
+        ArtworkService.shared.fetchUserArtwork(forUser: user) { artworks in
+            self.artworks = artworks
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     //MARK: - Selectors
     @objc func handleDismissal() {
         delegate?.handleCloseInputView()
@@ -100,11 +122,12 @@ class AddArtworkInputView: UIView {
 //MARK: - UICollectionViewDataSource
 extension AddArtworkInputView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return artworks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AddArtworkInputViewCell
+        cell.artwork = artworks[indexPath.row]
         
         return cell
     }
@@ -113,7 +136,8 @@ extension AddArtworkInputView: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension AddArtworkInputView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG: Handle Cell Selected..")
+        let selected = artworks[indexPath.row]
+        delegate?.AddInArtwork(artwork: selected)
     }
 }
 

@@ -72,7 +72,6 @@ class UserCoverView: UIView {
         super.init(frame: frame)
         
         coverStyle1()
-        print("DEBUG: user is \(user?.fullname) in UserCoverView")
     }
     
     required init?(coder: NSCoder) {

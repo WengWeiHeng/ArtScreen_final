@@ -13,6 +13,15 @@ private let reuseIdentifier = "ArtworkCell"
 class UserArtworkView: UIView {
     
     //MARK: - Properties
+    var user: User? {
+        didSet {
+            fetchUserArtwork()
+        }
+    }
+    
+    private var artworks = [ArtworkDetail]()
+    
+    
     private lazy var collectionView: UICollectionView = {
         let layout = WaterfallLayout()
         layout.delegate = self
@@ -28,23 +37,14 @@ class UserArtworkView: UIView {
         return cv
     }()
     
-    private let announceView: UIStackView = {
-        let stack = Utilities().noArtworkAnnounceView(announceText: "You don't have any Artwork", buttonSelector: #selector(handleAddArtwork), buttonText: "Add", textColor: .white)
-        
-        return stack
-    }()
-    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        fetchUserArtwork()
         backgroundColor = .mainDarkGray
         collectionView.backgroundColor = .mainDarkGray
         collectionView.register(ArtworkCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
-        
-//        addSubview(announceView)
-//        announceView.anchor(top: topAnchor, paddingTop: 100)
-//        announceView.centerX(inView: self)
         
         addSubview(collectionView)
         collectionView.addConstraintsToFillView(self)
@@ -52,6 +52,18 @@ class UserArtworkView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - API
+    func fetchUserArtwork() {
+        guard let user = user else { return }
+        ArtworkService.shared.fetchUserArtwork(forUser: user) { (artworks) in
+            self.artworks = artworks
+//            print("DEBUG: artwork count: \(self.artworks.count)")
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -63,11 +75,12 @@ class UserArtworkView: UIView {
 //MARK: - UICollectionViewDataSource
 extension UserArtworkView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return artworks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ArtworkCell
+        cell.artwork = artworks[indexPath.row]
         
         return cell
     }

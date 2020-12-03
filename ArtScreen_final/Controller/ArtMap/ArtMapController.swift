@@ -12,7 +12,18 @@ import CoreLocation
 class ArtMapController: UIViewController {
     
     //MARK: - Properties
-    var artworks = [Artwork]()
+    var artworks = [ArtworkDetail]() {
+        didSet {
+            DispatchQueue.main.async {
+                for count in 0..<self.artworks.count {
+                    self.setupMarker(lat: self.artworks[count].locationLat,
+                                     lng: self.artworks[count].locationLng,
+                                     title: self.artworks[count].artworkName)
+                }
+            }
+        }
+    }
+    
     private let locationManager = CLLocationManager()
     
     lazy var mapView = GMSMapView()
@@ -25,8 +36,6 @@ class ArtMapController: UIViewController {
         super.viewDidLoad()
         fetchArtwork()
         configureUI()
-        
-        print("DEBUG: artworks count is \(artworks.count)")
     }
     
     //MARK: - Selectors
@@ -63,7 +72,6 @@ class ArtMapController: UIViewController {
         configureNavigationBar()
         
         setupMapView()
-        setupMarker()
         configureInfoInputView()
         
     }
@@ -110,10 +118,10 @@ class ArtMapController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
-    func setupMarker() {
-        let position = CLLocationCoordinate2D(latitude: 35.6981313, longitude: 139.6941118)
+    func setupMarker(lat: Double, lng: Double, title: String) {
+        let position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         let marker = GMSMarker(position: position)
-        marker.title = "Hey"
+        marker.title = title
         marker.map = mapView
     }
 }

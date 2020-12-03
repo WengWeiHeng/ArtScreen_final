@@ -28,6 +28,8 @@ class UserContentView: UIView {
     var user: User? {
         didSet {
             configureUserData()
+            userExhibitionView.user = user
+            userArtworkView.user = user
         }
     }
     
@@ -190,7 +192,6 @@ class UserContentView: UIView {
         
         addSubview(stack)
         stack.anchor(top: profileInfoView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 12, paddingRight: 12)
-        
         
         addSubview(userExhibitionView)
         userExhibitionView.anchor(top: stack.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 20, width: screenOffset)

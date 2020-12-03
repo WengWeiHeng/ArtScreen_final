@@ -17,6 +17,8 @@ struct ArtworkDetail: Decodable {
     var artworkName: String
     var information: String
     var path: URL
+    var width: Float
+    var height: Float
     var locationLat: Double
     var locationLng: Double
 }

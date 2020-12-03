@@ -13,6 +13,7 @@ class ArtworkInfoSettingController: UIViewController {
     var user: User?
     
     var customProtocol: CustomProtocol?
+    var itemCredentials : ArtworkItemCredentials?
     var artworkImage: UIImage?
     var itemImage: UIImage?
     var heightoriginalImageView: CGFloat!
@@ -158,13 +159,20 @@ class ArtworkInfoSettingController: UIViewController {
         guard let artworkname = titleTextField.text else { return }
         guard let information = introductionTextField.text else { return }
         guard let artworkImage = artworkImage else { return }
+        guard let width = artworkImageWidth else { return }
+        guard let height = artworkImageHeight else { return }
+        
         guard let user = user else { return }
 
-        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, lat: locationLat, lng: locationLng)
+        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(width), height: Float(height), lat: locationLat, lng: locationLng)
         
         showLoader(true, withText: "Loading..")
         
-        ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
+        if itemCredentials == nil {
+            ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
+        } else {
+            ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user, artworkItemCredentials: itemCredentials)
+        }
         dismiss(animated: true) {
             self.showLoader(false)
         }

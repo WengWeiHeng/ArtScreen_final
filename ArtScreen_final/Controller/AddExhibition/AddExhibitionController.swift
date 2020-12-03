@@ -149,8 +149,13 @@ class AddExhibitionController: UIViewController {
         guard let user = user else { return }
         let controller = ExhibitionUploadController(user: user)
         controller.exhibitionTitleText = titleTextField.text
+        var privacy : Int = 0
+        if isOnline {
+            privacy = 1
+        }
+        let exhibitionCredentials = ExhibitionCredentials(exhibitionName: titleTextField.text!, information: introductionTextField.text!, exhibitionImage: exhibitionImage!, privacy: privacy)
+        ExhibitonService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
         navigationController?.pushViewController(controller, animated: true)
-        
     }
     
     //MARK: - Helpers

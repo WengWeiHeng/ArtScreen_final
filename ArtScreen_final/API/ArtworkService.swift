@@ -12,6 +12,8 @@ struct ArtworkCredentials {
     let artworkName: String
     let information: String
     let artworkImage: UIImage
+    let width: Float
+    let height: Float
     let lat: Double
     let lng: Double
 }
@@ -25,7 +27,7 @@ struct ArtworkService {
     static let shared = ArtworkService()
     
     //MARK: - Upload Artwork
-    func uploadArtwork(artworkCredentials : ArtworkCredentials, user: User) {
+    func uploadArtwork(artworkCredentials : ArtworkCredentials, user: User, artworkItemCredentials: ArtworkItemCredentials? = nil) {
         //short to data to be passed to php file
         let uuid = NSUUID().uuidString
         //url path to php file
@@ -34,13 +36,16 @@ struct ArtworkService {
         request.httpMethod = "POST"
 
         let param = [
-            "artworkID" : uuid,
-            "userID" : user.id,
-            "artworkName" : artworkCredentials.artworkName,
-            "information" : artworkCredentials.information,
-            "locationLat" : artworkCredentials.lat,
-            "locationLng" : artworkCredentials.lng
+            "artworkID": uuid,
+            "userID": user.id,
+            "artworkName": artworkCredentials.artworkName,
+            "information": artworkCredentials.information,
+            "width": artworkCredentials.width,
+            "height": artworkCredentials.height,
+            "locationLat": artworkCredentials.lat,
+            "locationLng": artworkCredentials.lng
         ] as [String: Any]
+        
         print("DEBUG: Postartwork uuid = \(uuid)")
         //body
         let boundary = "Boundary-\(NSUUID().uuidString)"
@@ -50,18 +55,19 @@ struct ArtworkService {
         var imageData = Data()
         
         imageData = artworkCredentials.artworkImage.jpegData(compressionQuality: 0.5)!
-        //... body
-        print("DEBUG: upload data contain is \(param)")
-        print(artworkCredentials.artworkImage.size)
+        
         let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artwork-\(uuid).jpg")
         request.httpBody = createBody
         
         //launch session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            print("DEBUG: data is \(String(data: data!, encoding: .utf8))")
             DispatchQueue.main.async {
                 if error == nil {
                     do {
                         //json containers $returnArray from php
+                        
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
 //                        print("DEBUG: Post artWork \(json?.description)")
                         //declare new var to store json inf
@@ -79,6 +85,9 @@ struct ArtworkService {
                 }
             }
         }.resume()
+        
+        guard let artworkItem = artworkItemCredentials else { return }
+        ArtworkItemService.shared.uploadArtworkItem(artworkID: uuid, user: user, artworkItem: artworkItem)
     }
 
     //MARK: - Fetch Artwork
@@ -96,26 +105,9 @@ struct ArtworkService {
         let body = "userID=\(user.id)"
         request.httpBody = body.data(using: .utf8)
         
-        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
-            guard let jsonData = data else {
-                print("DEBUG: data is nil..")
-                return
-            }
-            
-            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
-
-            do {
-                let decoder = JSONDecoder()
-                let artworks = try decoder.decode(Artworks.self, from: jsonData)
-                let artworkDetail = artworks.artworks
-                completion(artworkDetail)
-            } catch {
-                print("DEBUG: \(error.localizedDescription)")
-            }
-        }
-        task.resume()
-        
         print("DEBUG: user is \(user.fullname), id: \(user.id)")
+        
+        readArtworkData(request: request, completion: completion)
     }
     
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {

@@ -300,12 +300,12 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     @objc func tapbuttonSendImage() {
         getAnimationData()
         guard let itemImage = trimImageView.image else { return }
-//        let width = trimImageView.frame.width
-//        let height = trimImageView.frame.height
-//        let x = trimImageView.frame.minX - originalImageView.frame.minX
-//        let y = trimImageView.frame.minY - originalImageView.frame.minY
-//        
-//        let itemCredentials = ArtworkItemCredentials(artworkItemImage: itemImage, width: Float(width), height: Float(height), x: Float(x), y: Float(y), emitterSize: Float(emitterSize), emitterSpeed: Float(emitterSpeed), emitterRedValue: Float(redValue), emitterGreenValue: Float(greenValue), emitterBlueValue: Float(blueValue), moveAnimateSpeed: moveSpeed, rotateFromValue: Float(rotateFromValue), rotateToValue: Float(rotateToValue), rotateAnimateSpeed: rotateAnimateSpeed, scaleFromValue: Float(scaleFromValue), scaleToValue: Float(scaleToValue), scaleAnimateSpeed: scaleAnimateSpeed, opacityFromValue: Float(opacityFromValue), opacityToValue: Float(opacityToValue), opacityAnimateSpeed: opacityAnimateSpeed)
+        let width = trimImageView.frame.width
+        let height = trimImageView.frame.height
+        let x = trimImageView.frame.minX - originalImageView.frame.minX
+        let y = trimImageView.frame.minY - originalImageView.frame.minY
+      
+        let itemCredentials = ArtworkItemCredentials(artworkItemImage: itemImage, width: Float(width), height: Float(height), x: Float(x), y: Float(y), scaleTo: Float(scaleToValue), scaleFrom: Float(scaleFromValue), scaleSpeed: Float(scaleAnimateSpeed), rotateTo: Float(rotateToValue), rotateFrom: Float(rotateFromValue), rotateSpeed: Float(rotateAnimateSpeed), opacityTo: Float(opacityToValue), opacityFrom: Float(opacityFromValue), opacitySpeed: Float(opacityAnimateSpeed), emitterBlue: Float(blueValue), emitterRed: Float(redValue), emitterGreen: Float(greenValue), emitterSize: Float(emitterSize), emitterSpeed: Float(emitterSpeed))
         
         if trimImageView.image == nil {
             showError("Please make your Animate item!")
@@ -314,7 +314,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
             let controller = ArtworkInfoSettingController(user: user)
             controller.artworkImage = originalImageView.image
             controller.itemImage = itemImage
-//            controller.itemCredentials = itemCredentials
+            controller.itemCredentials = itemCredentials
             controller.heightoriginalImageView = heightoriginalImageView
             controller.widthoriginalImageView = widthoriginalImageView
             controller.artworkImageWidth = originalImageView.frame.size.width

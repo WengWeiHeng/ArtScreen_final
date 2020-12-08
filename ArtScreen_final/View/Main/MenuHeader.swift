@@ -110,7 +110,7 @@ class MenuHeader: UIView {
         let viewModel = ProfileViewModel(user: user)
         usernameLabel.text = viewModel.usernameText
         fullnameLabel.text = viewModel.fullnameText
-        profileImageView.sd_setImage(with: user.profileImageUrl)
+        profileImageView.sd_setImage(with: user.ava)
     }
 }
 

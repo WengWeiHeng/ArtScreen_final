@@ -74,6 +74,7 @@
 		B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0925400C5C00199443 /* LoginController.swift */; };
 		B04CCA0E25400DAA00199443 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA0D25400DAA00199443 /* RegistrationController.swift */; };
 		B050EEB82578C74100D26268 /* ExhibitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B050EEB72578C74100D26268 /* ExhibitionService.swift */; };
+		B050EEBB2578C8E000D26268 /* Exhibition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B050EEBA2578C8E000D26268 /* Exhibition.swift */; };
 		B056F41F25613AB000DF186E /* NotificationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B056F41E25613AB000DF186E /* NotificationHeaderView.swift */; };
 		B0662FF425787BD1008171D0 /* ArtworkItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0662FF325787BD1008171D0 /* ArtworkItemService.swift */; };
 		B0662FF92578858D008171D0 /* ARResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0662FF82578858D008171D0 /* ARResultController.swift */; };
@@ -187,6 +188,7 @@
 		B04CCA0925400C5C00199443 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		B04CCA0D25400DAA00199443 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		B050EEB72578C74100D26268 /* ExhibitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionService.swift; sourceTree = "<group>"; };
+		B050EEBA2578C8E000D26268 /* Exhibition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exhibition.swift; sourceTree = "<group>"; };
 		B056F41E25613AB000DF186E /* NotificationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHeaderView.swift; sourceTree = "<group>"; };
 		B0662FF325787BD1008171D0 /* ArtworkItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkItemService.swift; sourceTree = "<group>"; };
 		B0662FF82578858D008171D0 /* ARResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARResultController.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 				B07C74BC25411CE700920F59 /* User.swift */,
 				B0D39B4525709774001E3ABA /* Artwork.swift */,
 				B0662FFB257886B6008171D0 /* ArtworkItem.swift */,
+				B050EEBA2578C8E000D26268 /* Exhibition.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -809,6 +812,7 @@
 				B01107D32542729C00041A01 /* MoveDrawView.swift in Sources */,
 				B0B8B48C25554D8B003A1EAD /* ARWorldController.swift in Sources */,
 				B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */,
+				B050EEBB2578C8E000D26268 /* Exhibition.swift in Sources */,
 				B047BD8C255E29FB0059B342 /* NotificationCell.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B047BD87255E29D40059B342 /* NotificationController.swift in Sources */,

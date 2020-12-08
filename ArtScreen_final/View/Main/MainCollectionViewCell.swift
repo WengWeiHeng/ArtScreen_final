@@ -21,12 +21,14 @@ enum CellState {
 
 protocol MainCollectionViewCellDelegate: class {
     func itemDismissal(isDismissal: Bool)
-    func handleShowDetail()
+    func handleShowDetail(artwork: ArtworkDetail)
 }
 
 class MainCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
+    var user: User?
+    
     private var artworkInputView = ArtworkInputView()
     private var rightConstraint = NSLayoutConstraint()
     private let artworkInputViewWidth: CGFloat = screenWidth
@@ -372,16 +374,23 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Helpers
-    func configureData(collectionView: UICollectionView, index: Int) {
-//        exhibitionImage.sd_setImage(with: exhibition.exhibitionImageUrl)
-//        exhibitionTitleLabel.text = exhibition.name
-//        exhibitionIntroduction.text = exhibition.introduction
-//
-//        let viewModel = ExhibitionViewModel(exhibition: exhibition)
-//        userImageView.sd_setImage(with: viewModel.profileImageUrl)
-//        usernameLabel.text = viewModel.usernameText
-//        artworkInputView.exhibitionTitleLabel.text = exhibition.name
-//        artworkInputView.exhibitionID = exhibition.exhibitionID
+    func configureData(with exhibition: ExhibitionDetail, collectionView: UICollectionView, index: Int) {
+        
+        exhibitionImage.sd_setImage(with: exhibition.path)
+        exhibitionTitleLabel.text = exhibition.exhibitionName
+        exhibitionIntroduction.text = exhibition.information
+        
+        artworkInputView.exhibitionTitleLabel.text = exhibition.exhibitionName
+        artworkInputView.exhibitionID = exhibition.exhibitionID
+        
+        UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
+            self.user = user
+            
+            DispatchQueue.main.async {
+                self.userImageView.sd_setImage(with: user.ava)
+                self.usernameLabel.text = user.username
+            }
+        }
 
         self.collectionView = collectionView
         self.index = index
@@ -492,7 +501,7 @@ extension MainCollectionViewCell: UIGestureRecognizerDelegate {
 
 //MARK: - ArtworkInputViewdelegate
 extension MainCollectionViewCell: ArtworkInputViewDelegate {
-    func showArtworkDetail() {
-        delegate?.handleShowDetail()
+    func showArtworkDetail(artwork: ArtworkDetail) {
+        delegate?.handleShowDetail(artwork: artwork)
     }
 }

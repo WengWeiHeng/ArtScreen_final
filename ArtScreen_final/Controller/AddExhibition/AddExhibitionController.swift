@@ -147,14 +147,22 @@ class AddExhibitionController: UIViewController {
     func uploadExhibition() {
         print("DEBUG: INSERT INTO Exhibition information AND Next page..")
         guard let user = user else { return }
-        let controller = ExhibitionUploadController(user: user)
-        controller.exhibitionTitleText = titleTextField.text
-        var privacy : Int = 0
+        guard let image = exhibitionImage else { return }
+        guard let exhibitionName = titleTextField.text else { return }
+        guard let information = introductionTextField.text else { return }
+        var privacy: Int = 0
+        
         if isOnline {
             privacy = 1
         }
-        let exhibitionCredentials = ExhibitionCredentials(exhibitionName: titleTextField.text!, information: introductionTextField.text!, exhibitionImage: exhibitionImage!, privacy: privacy)
-        ExhibitonService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
+        
+        let exhibitionCredentials = ExhibitionCredentials(exhibitionName: exhibitionName, information: information, exhibitionImage: image, privacy: privacy)
+        let exhibitionID = ExhibitionService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
+//        ExhibitionService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
+        
+        let controller = ExhibitionUploadController(user: user)
+        controller.exhibitionTitleText = titleTextField.text
+        controller.exhibitionID = exhibitionID
         navigationController?.pushViewController(controller, animated: true)
     }
     

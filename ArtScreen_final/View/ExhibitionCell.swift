@@ -10,6 +10,11 @@ import UIKit
 class ExhibitionCell: UICollectionViewCell {
     
     //MARK: - Properties
+    var exhibition: ExhibitionDetail? {
+        didSet {
+            configureData()
+        }
+    }
     let imageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -61,6 +66,9 @@ class ExhibitionCell: UICollectionViewCell {
     
     //MARK: - Helpers
     func configureData() {
-        print("DEBUG: Loading Exhibition Data")
+        guard let exhibition = exhibition else { return }
+        imageView.sd_setImage(with: exhibition.path)
+        titleLabel.text = exhibition.exhibitionName
+        introductionLabel.text = exhibition.information
     }
 }

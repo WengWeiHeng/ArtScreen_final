@@ -89,7 +89,7 @@ class UserCoverView: UIView {
         guard let user = user else { return }
         fullnameLabel.text = user.fullname
         usernameLabel.text = user.username
-        profileImageView.sd_setImage(with: user.profileImageUrl)
+        profileImageView.sd_setImage(with: user.ava)
     }
     
     func coverStyle1() {

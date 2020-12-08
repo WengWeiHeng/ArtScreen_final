@@ -13,7 +13,13 @@ private let reuseIdentifier = "ExhibitionCell"
 class UserExhibitionView: UIView {
     
     //MARK: - Properties
-    var user: User?
+    var user: User? {
+        didSet {
+            fetchUserExhibition()
+        }
+    }
+    
+    var exhibitions = [ExhibitionDetail]()
     
     private lazy var collectionView: UICollectionView = {
         let layout = WaterfallLayout()
@@ -44,17 +50,30 @@ class UserExhibitionView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - API
+    func fetchUserExhibition() {
+        guard let user = user else { return }
+        ExhibitionService.shared.fetchUserExhibition(forUser: user) { exhibitions in
+            self.exhibitions = exhibitions
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource
 extension UserExhibitionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return exhibitions.count
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExhibitionCell
+        cell.exhibition = exhibitions[indexPath.row]
         
         return cell
     }

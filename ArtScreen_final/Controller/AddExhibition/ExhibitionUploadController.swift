@@ -16,6 +16,8 @@ class ExhibitionUploadController: UIViewController {
     var user: User?
     
     private var artworks = [ArtworkDetail]()
+    private var selectedArtwork = [ArtworkDetail]()
+    var exhibitionID: String!
     
     var exhibitionTitleText: String?
     
@@ -121,6 +123,11 @@ class ExhibitionUploadController: UIViewController {
     
     //MARK: - Selectors
     @objc func handleBackAction() {
+        print("DEBUG: Done - Access Upload ExhibitionID to Artwork")
+        for i in 0..<selectedArtwork.count {
+            let updateExhibitionID = UpdateArtworkID_Exhibiton(exhibitionID: exhibitionID, artworkID: selectedArtwork[i].artworkID, userID: selectedArtwork[i].userID)
+            ExhibitionService.shared.updateArtworkID(updateArtworkID: updateExhibitionID)
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -264,6 +271,7 @@ extension ExhibitionUploadController: AddArtworkInputViewDelegate {
             self.view.layoutIfNeeded()
         }
         
+        self.selectedArtwork.append(artwork)
         self.artworks.append(artwork)
         self.collectionView.reloadData()
     }

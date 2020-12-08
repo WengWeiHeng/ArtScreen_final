@@ -19,6 +19,9 @@ class MainViewController: UIViewController {
     
     //MARK: - Properties
     var user: User?
+    
+    var exhibitions = [ExhibitionDetail]()
+    
     weak var delegate: MainControllerDelegate?
     private var buttonIsActive: Bool = false
     
@@ -159,6 +162,18 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchExhibitions()
+    }
+    
+    //MARK: - API
+    func fetchExhibitions() {
+        ExhibitionService.shared.fetchExhibitions { exhibitions in
+            self.exhibitions = exhibitions
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -277,12 +292,12 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return exhibitions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MainCollectionViewCell
-        cell.configureData(collectionView: collectionView, index: indexPath.row)
+        cell.configureData(with: exhibitions[indexPath.row], collectionView: collectionView, index: indexPath.row)
         cell.delegate = self
         
         return cell
@@ -332,12 +347,12 @@ extension MainViewController: MainCollectionViewCellDelegate {
         }
     }
     
-    func handleShowDetail() {
+    func handleShowDetail(artwork: ArtworkDetail) {
         print("DEBUG: show Detail in main controller")
         let controller = ArtworkDetailController()
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-//        controller.artwork = artwork
+        controller.artwork = artwork
         present(nav, animated: true, completion: nil)
     }
 }

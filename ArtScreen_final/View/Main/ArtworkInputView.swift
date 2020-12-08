@@ -11,13 +11,19 @@ import WaterfallLayout
 private let reuseIdentifier = "ArtworkInputViewCell"
 
 protocol ArtworkInputViewDelegate: class {
-    func showArtworkDetail()
+    func showArtworkDetail(artwork: ArtworkDetail)
 }
 
 class ArtworkInputView: UIView {
     
     //MARK: - Properties
     weak var delegate: ArtworkInputViewDelegate?
+    var artworks = [ArtworkDetail]()
+    var exhibitionID: String? {
+        didSet {
+            fetchExhibitionArtwork()
+        }
+    }
     
     let exhibitionTitleLabel: UILabel = {
         let label = UILabel()
@@ -63,16 +69,29 @@ class ArtworkInputView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - API
+    func fetchExhibitionArtwork() {
+        guard let exhibitionID = exhibitionID else { return }
+        ArtworkService.shared.fetchExhibitionArtwork(forExhibitionID: exhibitionID) { artworks in
+            self.artworks = artworks
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 }
 
 //MARK: - UICollectionViewDataSource
 extension ArtworkInputView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return artworks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ArtworkInputViewCell
+        cell.artwork = artworks[indexPath.row]
         
         return cell
     }
@@ -81,7 +100,7 @@ extension ArtworkInputView: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension ArtworkInputView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.showArtworkDetail()
+        delegate?.showArtworkDetail(artwork: artworks[indexPath.row])
     }
 }
 

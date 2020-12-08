@@ -15,10 +15,16 @@ struct ExhibitionCredentials {
     let privacy: Int
 }
 
-class ExhibitonService {
-    static let shared = ExhibitonService()
+struct UpdateArtworkID_Exhibiton {
+    let exhibitionID: String
+    let artworkID: String
+    let userID: Int
+}
+
+class ExhibitionService {
+    static let shared = ExhibitionService()
     
-    func uploadExhibiton(exhibitionCredentials : ExhibitionCredentials, user : User) {
+    func uploadExhibiton(exhibitionCredentials : ExhibitionCredentials, user : User) -> String {
         let uuid = NSUUID().uuidString
         //url path to php file
         let url = URL(string: "http://artscreen.sakura.ne.jp/postExhibition.php")!
@@ -52,7 +58,7 @@ class ExhibitonService {
             DispatchQueue.main.async {
                 if error == nil {
                     do {
-                        print("DEBUG: -echo \(String(data: data!, encoding: .utf8))")
+                        print("DEBUG: - echo \(String(data: data!, encoding: .utf8) ?? "")")
                         //json containers $returnArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
 //                        print("DEBUG: Post artWork \(json?.description)")
@@ -70,6 +76,79 @@ class ExhibitonService {
                     
                 }
             }
-        }.resume()    }
+        }.resume()
+        return uuid
+    }
+    
+    func updateArtworkID(updateArtworkID: UpdateArtworkID_Exhibiton) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/postExhibition_updateArtworkID.php")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "exhibitionID=\(updateArtworkID.exhibitionID)&userID=\(updateArtworkID.userID)&artworkID=\(updateArtworkID.artworkID)"
+        request.httpBody = body.data(using: String.Encoding.utf8)
+
+        URLSession.shared.dataTask(with: request) { (data, request, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        print("DEBUG: -updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//                        print("DEBUG: Post artWork \(json?.description)")
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("Error:\(error)")
+                    
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    
+                }
+            }
+        }.resume()
+    }
+    
+    //MARK: - Fetch Exhibition
+    func fetchExhibitions(completion: @escaping([ExhibitionDetail]) -> Void) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/getAllExhibition.php")!
+        let request = NSMutableURLRequest(url: url)
+        
+        readExhibitionData(request: request, completion: completion)
+    }
+    
+    func fetchUserExhibition(forUser user: User, completion: @escaping([ExhibitionDetail]) -> Void) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/getUserExhibition.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(user.id)"
+        request.httpBody = body.data(using: .utf8)
+        
+        readExhibitionData(request: request, completion: completion)
+    }
+    
+    func readExhibitionData(request: NSMutableURLRequest, completion: @escaping([ExhibitionDetail]) -> Void) {
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            print("DEBUG: user exhibition data: \(String(data: data!, encoding: .utf8))")
+
+            do {
+                let decoder = JSONDecoder()
+                let exhibition = try decoder.decode(Exhibitions.self, from: jsonData)
+                let exhibitionDetail = exhibition.exhibitions
+                completion(exhibitionDetail)
+            } catch {
+                print("DEBUG: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
+    
 }
 

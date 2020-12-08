@@ -18,6 +18,32 @@ struct UserService {
             completion(user)
         }
     }
+    
+    func fetchUserOfExhibition(withExhibition exhibition: ExhibitionDetail, completion: @escaping(User) -> Void) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/getUserOfExhibition.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(exhibition.userID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            print("DEBUG: user data: \(String(data: data!, encoding: .utf8))")
+
+            do {
+                let decoder = JSONDecoder()
+                let user = try decoder.decode(User.self, from: jsonData)
+//                let exhibitionDetail = exhibition.exhibitions
+                completion(user)
+            } catch {
+                print("DEBUG: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
 }
 
 

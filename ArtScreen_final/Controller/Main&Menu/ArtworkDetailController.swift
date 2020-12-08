@@ -13,6 +13,7 @@ private let commentIdentifier = "ArtworkCommentCell"
 class ArtworkDetailController: UITableViewController {
     
     //MARK: - Properties
+    var artwork: ArtworkDetail?
     
     private lazy var headerView: ArtworkDetailHeaderView = {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 500)
@@ -45,6 +46,7 @@ class ArtworkDetailController: UITableViewController {
         
         configureTableView()
         configureNavigationBar()
+        configureArtworkData()
     }
 
     //MARK: - Selectors
@@ -81,6 +83,11 @@ class ArtworkDetailController: UITableViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    func configureArtworkData() {
+        guard let artwork = artwork else { return }
+        headerView.artworkImageView.sd_setImage(with: artwork.path)
+    }
 }
 
 extension ArtworkDetailController {
@@ -93,8 +100,8 @@ extension ArtworkDetailController {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ArtworkDetailCell
-//            cell.artworkNameLabel.text = artwork?.name
-//            cell.introductionLabel.text = artwork?.introduction
+            cell.artworkNameLabel.text = artwork?.artworkName
+            cell.introductionLabel.text = artwork?.information
             
             return cell
         case 1:

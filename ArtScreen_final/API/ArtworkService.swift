@@ -110,6 +110,16 @@ struct ArtworkService {
         readArtworkData(request: request, completion: completion)
     }
     
+    func fetchExhibitionArtwork(forExhibitionID exhibitionID: String, completion: @escaping([ArtworkDetail]) -> Void) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/getExhibitionArtwork.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "exhibitionID=\(exhibitionID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        readArtworkData(request: request, completion: completion)
+    }
+    
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {

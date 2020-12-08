@@ -136,7 +136,7 @@ class ExhibitionService {
                 print("DEBUG: data is nil..")
                 return
             }
-            print("DEBUG: user exhibition data: \(String(data: data!, encoding: .utf8))")
+//            print("DEBUG: user exhibition data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()

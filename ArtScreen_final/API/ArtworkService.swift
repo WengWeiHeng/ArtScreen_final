@@ -62,7 +62,7 @@ struct ArtworkService {
         //launch session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            print("DEBUG: data is \(String(data: data!, encoding: .utf8))")
+//            print("DEBUG: data is \(String(data: data!, encoding: .utf8))")
             DispatchQueue.main.async {
                 if error == nil {
                     do {
@@ -127,7 +127,7 @@ struct ArtworkService {
                 return
             }
             
-            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
+//            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()

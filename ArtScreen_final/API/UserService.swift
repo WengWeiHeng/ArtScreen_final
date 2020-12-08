@@ -31,7 +31,7 @@ struct UserService {
                 print("DEBUG: data is nil..")
                 return
             }
-            print("DEBUG: user data: \(String(data: data!, encoding: .utf8))")
+//            print("DEBUG: user data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()

@@ -43,12 +43,10 @@ class UserProfileController: UIViewController {
     
     private let actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1.25
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
         button.setDimensions(width: 100, height: 36)
         button.layer.cornerRadius = 36 / 2
 
@@ -78,6 +76,11 @@ class UserProfileController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        guard let user = user else {
+            return
+        }
+        
+        checkUserIs(user: user)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +88,8 @@ class UserProfileController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
     }
+    
+    //MARK: - API
     
     //MARK: - Selectors
     @objc func handleDismissMenu() {
@@ -161,6 +166,13 @@ class UserProfileController: UIViewController {
             runningAnimators.forEach{ $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
         default:
             ()
+        }
+    }
+    
+    @objc func handleFollowAction() {
+        guard let user = user else { return }
+        UserService.shared.followingUser(user: user) {
+            print("DEBUG: \(userDefault["username"]) is following \(user.username)")
         }
     }
     
@@ -263,6 +275,17 @@ class UserProfileController: UIViewController {
                 self.editToolBarView.alpha = 1
                 self.templeSettingView.alpha = 0
             }
+        }
+    }
+    
+    func checkUserIs(user: User) {
+        let myUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+        if user.username != myUser!["username"] as! String {
+            actionButton.setTitle("Follow", for: .normal)
+            actionButton.addTarget(self, action: #selector(handleFollowAction), for: .touchUpInside)
+        } else {
+            actionButton.setTitle("Edit", for: .normal)
+            actionButton.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
         }
     }
 }

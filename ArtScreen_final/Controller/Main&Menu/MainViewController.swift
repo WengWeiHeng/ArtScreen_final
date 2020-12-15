@@ -362,6 +362,13 @@ extension MainViewController: UICollectionViewDelegate {
 
 //MARK: - MainCollectionViewCellDelegate
 extension MainViewController: MainCollectionViewCellDelegate {
+    func handleMoveUserProfile(user: User) {
+        let controller = UserProfileController(user: user)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     func itemDismissal(isDismissal: Bool) {
         if isDismissal {
             self.menuButton.alpha = 0

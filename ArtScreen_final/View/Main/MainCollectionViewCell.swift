@@ -22,6 +22,7 @@ enum CellState {
 protocol MainCollectionViewCellDelegate: class {
     func itemDismissal(isDismissal: Bool)
     func handleShowDetail(artwork: ArtworkDetail)
+    func handleMoveUserProfile(user: User)
 }
 
 class MainCollectionViewCell: UICollectionViewCell {
@@ -130,11 +131,15 @@ class MainCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    private let usernameLabel: UILabel = {
+    private lazy var usernameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
         label.textColor = .mainPurple
         label.text = "Jack Mauris"
+        
+        let tap = UIGestureRecognizer(target: self, action: #selector(handleShowUserProfile))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
         
         return label
     }()
@@ -373,6 +378,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     @objc func handleFollow() {
         print("DEBUG: Handle Follow..")
+    }
+    
+    @objc func handleShowUserProfile() {
+        guard let user = user else { return }
+        delegate?.handleMoveUserProfile(user: user)
     }
     
     //MARK: - Helpers

@@ -19,6 +19,7 @@ class MainViewController: UIViewController {
     
     //MARK: - Properties
     var user: User?
+    var costUser: User?
     
     var exhibitions = [ExhibitionDetail]()
     
@@ -178,6 +179,7 @@ class MainViewController: UIViewController {
             let exhibition = exhibitions[0]
             UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
                 DispatchQueue.main.async {
+                    self.costUser = user
                     self.usernameLabel.text = user.username
                     self.userImageView.sd_setImage(with: user.ava)
                 }
@@ -238,8 +240,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleShowUserProfile() {
-        guard let user = user else { return }
-        let controller = UserProfileController(user: user)
+        guard let costUser = costUser else { return }
+        let controller = UserProfileController(user: costUser)
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }
@@ -312,6 +314,7 @@ class MainViewController: UIViewController {
             UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
                 DispatchQueue.main.async {
                     self.usernameLabel.text = user.username
+                    self.costUser = user
                 }
             }
             

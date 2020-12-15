@@ -52,7 +52,7 @@ struct UserService {
         request.httpMethod = "POST"
         let body = "check=1"
         request.httpBody = body.data(using: .utf8)
-        readUser(request: request, completion: completion)
+        readUserData(request: request, completion: completion)
     }
     
     func fetchSearch(keyword: String, completion: @escaping([User]) -> Void) {
@@ -62,41 +62,85 @@ struct UserService {
         let body = "check=2&keyword=\(keyword)"
         request.httpBody = body.data(using: .utf8)
                 
-        readUser(request: request, completion: completion)
+        readUserData(request: request, completion: completion)
     }
     
     //MARK: - Follow
-    func followingUser(user: User, completion: @escaping() -> Void) {
-//        let currentUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+    func followingUser(user: User) {
+        guard let id = Int(userDefault["id"] as! String) else { return }
+        let uuid = NSUUID().uuidString
+        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/following.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "followingID=\(uuid)&userID=\(id))&followingUserID=\(user.id)"
+        request.httpBody = body.data(using: .utf8)
+        
+        uploadFollowData(request: request)
+    }
+    
+    func followedUser(user: User) {
+        guard let id = Int(userDefault["id"] as! String) else { return }
+        let uuid = NSUUID().uuidString
+        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/followed.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "followedID=\(uuid)&userID=\(user.id))&followedUserID=\(id)"
+        request.httpBody = body.data(using: .utf8)
+        
+        uploadFollowData(request: request)
+    }
+    
+    func unfollowUser(user: User) {
         guard let id = Int(userDefault["id"] as! String) else { return }
         
-        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/following.php")!
+        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/unfollow.php")!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "userID=\(id))&followingUserID=\(user.id)"
         request.httpBody = body.data(using: .utf8)
         
+        uploadFollowData(request: request)
+    }
+    
+    func checkUserIsFollowing(user: User, completion: @escaping(Bool) -> Void) {
+        guard let id = Int(userDefault["id"] as! String) else { return }
+        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/checkUserIsFollowing.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(id)&checkID=\(user.id)"
+        request.httpBody = body.data(using: .utf8)
+        
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
-            guard let jsonData = data else {
+            guard let data = data else {
                 print("DEBUG: data is nil..")
                 return
             }
-            print("DEBUG: jsonData is \(jsonData)")
+            
+            let checkData = String(data: data, encoding: .utf8)
+            var isFollowed = false
+            
+            if checkData == " 0" {
+                isFollowed = false
+            } else {
+                isFollowed = true
+            }
+            completion(isFollowed)
         }
         task.resume()
     }
     
-//    func followedUser(user: User, completion: @escaping() -> Void) {
-//        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/followed.php")!
-//        let request = NSMutableURLRequest(url: url)
-//    }
-    
-    func unfollowUser(user: User, completion: @escaping() -> Void) {
-        
+    //MARK: - Helper
+    func uploadFollowData(request: NSMutableURLRequest) {
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard data != nil else {
+                print("DEBUG: data is nil..")
+                return
+            }
+        }
+        task.resume()
     }
     
-    //MARK: - Helper
-    func readUser(request: NSMutableURLRequest, completion: @escaping([User]) -> Void) {
+    func readUserData(request: NSMutableURLRequest, completion: @escaping([User]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {
                 print("DEBUG: data is nil..")

@@ -16,6 +16,7 @@ class UserProfileController: UIViewController {
     
     //MARK: - Properties
     var user: User?
+    var isFollowed = false
     
     let userCoverView = UserCoverView()
     let userContentView = UserContentView()
@@ -44,8 +45,6 @@ class UserProfileController: UIViewController {
     private let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.white, for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1.25
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setDimensions(width: 100, height: 36)
         button.layer.cornerRadius = 36 / 2
@@ -75,12 +74,10 @@ class UserProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
-        guard let user = user else {
-            return
-        }
-        
+        guard let user = user else { return }
         checkUserIs(user: user)
+        configureUI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +87,39 @@ class UserProfileController: UIViewController {
     }
     
     //MARK: - API
+    func checkUserIs(user: User) {
+        let currentUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+        if user.username != currentUser!["username"] as! String {
+            checkUserisFollowing(user: user)
+        } else {
+            actionButton.setTitle("Edit", for: .normal)
+            actionButton.layer.borderColor = UIColor.white.cgColor
+            actionButton.layer.borderWidth = 1.25
+            actionButton.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
+        }
+    }
+    
+    func checkUserisFollowing(user: User) {
+        UserService.shared.checkUserIsFollowing(user: user) { (isFollowed) in
+            DispatchQueue.main.async {
+                self.isFollowed = isFollowed
+                self.actionButtonStyle(isFollowed: isFollowed)
+            }
+        }
+    }
+    
+    func userFollowing() {
+        guard let user = user else { return }
+        UserService.shared.followingUser(user: user)
+        UserService.shared.followedUser(user: user)
+        actionButtonStyle(isFollowed: true)
+    }
+    
+    func unfollowUser() {
+        guard let user = user else { return }
+        UserService.shared.unfollowUser(user: user)
+        actionButtonStyle(isFollowed: false)
+    }
     
     //MARK: - Selectors
     @objc func handleDismissMenu() {
@@ -170,10 +200,11 @@ class UserProfileController: UIViewController {
     }
     
     @objc func handleFollowAction() {
-        guard let user = user else { return }
-        UserService.shared.followingUser(user: user) {
-            print("DEBUG: \(userDefault["username"]) is following \(user.username)")
-        }
+        userFollowing()
+    }
+    
+    @objc func handleUnfollowAction() {
+        unfollowUser()
     }
     
     //MARK: - Helpers
@@ -278,14 +309,24 @@ class UserProfileController: UIViewController {
         }
     }
     
-    func checkUserIs(user: User) {
-        let myUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
-        if user.username != myUser!["username"] as! String {
-            actionButton.setTitle("Follow", for: .normal)
-            actionButton.addTarget(self, action: #selector(handleFollowAction), for: .touchUpInside)
+    func actionButtonStyle(isFollowed: Bool) {
+        if isFollowed {
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("Unfollow", for: .normal)
+                self.actionButton.backgroundColor = .mainPurple
+                self.actionButton.layer.borderWidth = 0
+                self.actionButton.addTarget(self, action: #selector(self.handleUnfollowAction), for: .touchUpInside)
+                self.isFollowed = false
+            }
         } else {
-            actionButton.setTitle("Edit", for: .normal)
-            actionButton.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("follow", for: .normal)
+                self.actionButton.layer.borderColor = UIColor.white.cgColor
+                self.actionButton.layer.borderWidth = 1.25
+                self.actionButton.backgroundColor = .none
+                self.actionButton.addTarget(self, action: #selector(self.handleFollowAction), for: .touchUpInside)
+                self.isFollowed = true
+            }
         }
     }
 }
@@ -299,7 +340,7 @@ extension State {
     }
 }
 
-//MARK: - USerContentViewDelegate
+//MARK: - UserContentViewDelegate
 extension UserProfileController: UserContentViewDelegate {
     func moveToAddExhibition() {
         guard let user = user else { return }

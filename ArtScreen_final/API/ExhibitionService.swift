@@ -112,7 +112,7 @@ class ExhibitionService {
         }.resume()
     }
     
-    //MARK: - Fetch Exhibition
+    //MARK: - Fetch Exhibition    
     func fetchExhibitions(completion: @escaping([ExhibitionDetail]) -> Void) {
         let url = URL(string: "http://artscreen.sakura.ne.jp/getAllExhibition.php")!
         let request = NSMutableURLRequest(url: url)

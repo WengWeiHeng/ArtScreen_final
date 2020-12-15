@@ -8,6 +8,10 @@
 import UIKit
 import WaterfallLayout
 
+protocol UserExhibitionViewDelegate: class {
+    func handlePushToDetailPage(exhibition: ExhibitionDetail)
+}
+
 private let reuseIdentifier = "ExhibitionCell"
 
 class UserExhibitionView: UIView {
@@ -18,6 +22,8 @@ class UserExhibitionView: UIView {
             fetchUserExhibition()
         }
     }
+    
+    weak var delegate: UserExhibitionViewDelegate?
     
     var exhibitions = [ExhibitionDetail]()
     
@@ -83,6 +89,8 @@ extension UserExhibitionView: UICollectionViewDataSource {
 extension UserExhibitionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("DEBUG: Exhibition cell did selected..")
+        let selectedCell = exhibitions[indexPath.row]
+        delegate?.handlePushToDetailPage(exhibition: selectedCell)
     }
 }
 

@@ -10,6 +10,10 @@ import WaterfallLayout
 
 private let reuseIdentifier = "ArtworkCell"
 
+protocol UserArtworkViewDelegate: class {
+    func handlePushToDetailPage(artwork: ArtworkDetail)
+}
+
 class UserArtworkView: UIView {
     
     //MARK: - Properties
@@ -20,7 +24,7 @@ class UserArtworkView: UIView {
     }
     
     private var artworks = [ArtworkDetail]()
-    
+    weak var delegate: UserArtworkViewDelegate?
     
     private lazy var collectionView: UICollectionView = {
         let layout = WaterfallLayout()
@@ -89,7 +93,8 @@ extension UserArtworkView: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension UserArtworkView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG: Exhibition cell did selected..")
+        let selectedCell = artworks[indexPath.row]
+        delegate?.handlePushToDetailPage(artwork: selectedCell)
     }
 }
 

@@ -292,6 +292,23 @@ extension UserProfileController: UserContentViewDelegate {
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
     }
+    
+    func moveToExhibitionDetail(exhibition: ExhibitionDetail) {
+        guard let user = user else { return }
+        let controller = ExhibitionDetailController(user: user)
+        controller.exhibition = exhibition
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func moveToArtworkDetail(artwork: ArtworkDetail) {
+        let controller = ArtworkDetailController()
+        controller.artwork = artwork
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
 }
 
 //MARK: - EditToolBarViewDelegate

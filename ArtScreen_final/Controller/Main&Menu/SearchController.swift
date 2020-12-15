@@ -9,9 +9,11 @@ import UIKit
 
 private let reuseIdentifier = "SearchCell"
 
-class SearchController: UITableViewController {
-    
+class SearchController: UITableViewController, UISearchDisplayDelegate {
+
     //MARK: - Properties
+    var users = [User]()
+    
     private let searchBar: UISearchBar = {
         let sb = UISearchBar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 60))
         sb.backgroundColor = .mainBackground
@@ -20,12 +22,33 @@ class SearchController: UITableViewController {
         
         return sb
     }()
-    
+
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchAllUser()
         configureUI()
+    }
+    
+    //MARK: - API
+    func fetchAllUser() {
+        UserService.shared.fetchAllUser(completion: { (users) in
+            self.users = users
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        })
+    }
+    
+    func fetchSearch(keywords: String) {
+        UserService.shared.fetchSearch(keyword: keywords) { (users) in
+            self.users = users
+            print("DEBUG: -Keywork count users = \(users.count)")
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -36,9 +59,9 @@ class SearchController: UITableViewController {
     //MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .mainBackground
-        
         configureTableView()
         configureNavigationBar()
+        tableView.reloadData()
     }
     
     func configureNavigationBar() {
@@ -51,7 +74,7 @@ class SearchController: UITableViewController {
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 60
         tableView.separatorStyle = .none
         tableView.backgroundColor = .mainBackground
@@ -65,37 +88,39 @@ class SearchController: UITableViewController {
 //MARK: - UITableViewDataSource
 extension SearchController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = .mainBackground
-        cell.textLabel?.text = "Search Results.."
-        cell.selectionStyle = .none
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! NotificationCell
+
+        cell.descriptionLabel.text = users[indexPath.row].username
+        cell.profileImageView.sd_setImage(with: users[indexPath.row].ava)
+        cell.timeLabel.text = ""
+
         return cell
+    }
+}
+
+//MARK: - UITableViewDelegate
+extension SearchController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedUser = users[indexPath.row]
+        let controller = UserProfileController(user: selectedUser)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }
 
 //MARK: - SearchBarDelegate
 extension SearchController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
-//            searchResults = searchAllResults
+        if searchText.count == 0 {
+            fetchAllUser()
         } else {
-//            var temp = [MKMapItem]()
-//            for result in searchResults {
-//                if (result.name?.lowercased().hasPrefix(searchText.lowercased()))! {
-//                    temp.append(result)
-//                }
-//            }
-//
-//            self.searchResults = []
-//            self.searchResults = temp
+            fetchSearch(keywords: searchText)
         }
-        
-        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

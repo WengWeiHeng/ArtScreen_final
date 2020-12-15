@@ -10,7 +10,7 @@ import UIKit
 class NotificationCell: UITableViewCell {
     
     //MARK: - Properties
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
@@ -21,7 +21,7 @@ class NotificationCell: UITableViewCell {
         return iv
     }()
     
-    private let descriptionLabel: UILabel = {
+    let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
         label.textColor = .mainPurple
@@ -30,7 +30,7 @@ class NotificationCell: UITableViewCell {
         return label
     }()
     
-    private let timeLabel: UILabel = {
+    let timeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .mainAlphaGray

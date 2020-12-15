@@ -117,7 +117,7 @@ struct ArtworkItemService {
 //                let artworkItemDetail = artworkItem.artworkItemDetail
                 completion(artworkItem)
             } catch {
-                print("DEBUG: \(error.localizedDescription)")
+                print("DEBUG: \(error.localizedDescription) in fetchArtwork Item")
             }
         }
         task.resume()

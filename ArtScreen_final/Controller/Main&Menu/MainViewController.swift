@@ -172,10 +172,20 @@ class MainViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.exhibitionTitleLabel.text = exhibitions[0].exhibitionName
+            }
+            
+            let exhibition = exhibitions[0]
+            UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
+                DispatchQueue.main.async {
+                    self.usernameLabel.text = user.username
+                    self.userImageView.sd_setImage(with: user.ava)
+                }
+                
             }
         }
     }
-    
+
     //MARK: - Selectors
     @objc func handleUploadAction() {
         if buttonIsActive == false {
@@ -287,6 +297,36 @@ class MainViewController: UIViewController {
         addArtworkButton.alpha = alpha
         addExhibitionButton.alpha = alpha
     }
+    
+    private func animateChangingTitle(for indexPath: IndexPath) {
+        UIView.transition(with: exhibitionTitleLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            DispatchQueue.main.async {
+                self.exhibitionTitleLabel.text = self.exhibitions[indexPath.row % self.exhibitions.count].exhibitionName
+            }
+            
+        }, completion: nil)
+        
+        UIView.transition(with: usernameLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            let exhibition = self.exhibitions[indexPath.row % self.exhibitions.count]
+            
+            UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
+                DispatchQueue.main.async {
+                    self.usernameLabel.text = user.username
+                }
+            }
+            
+        }, completion: nil)
+        
+        UIView.transition(with: userImageView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            let exhibition = self.exhibitions[indexPath.row % self.exhibitions.count]
+            
+            UserService.shared.fetchUserOfExhibition(withExhibition: exhibition) { user in
+                DispatchQueue.main.async {
+                    self.userImageView.sd_setImage(with: user.ava)
+                }
+            }
+        }, completion: nil)
+    }
 }
 
 
@@ -306,9 +346,7 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("DEBUG: Selected Cell item..")
         let selectedCell = collectionView.cellForItem(at: indexPath) as! MainCollectionViewCell
-        print("DEBUG: \(selectedCell)")
         selectedCell.toggle()
     }
     
@@ -316,8 +354,7 @@ extension MainViewController: UICollectionViewDelegate {
         let locationFirst = CGPoint(x: collectionView.center.x + scrollView.contentOffset.x, y: collectionView.center.y + scrollView.contentOffset.y)
         
         if let indexPathFirst = collectionView.indexPathForItem(at: locationFirst), indexPathFirst.row == indexPathFirst.row {
-            print("DEBUG: indexPathFirst..")
-//            self.animateChangingTitle(for: indexPathFirst)
+            self.animateChangingTitle(for: indexPathFirst)
         }
     }
 }

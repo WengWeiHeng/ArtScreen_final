@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct Users: Decodable {
+    var users: [User]
+}
+
 struct User: Decodable {
     let id: Int
     let username: String
@@ -16,12 +20,12 @@ struct User: Decodable {
     
 //    var user: NSDictionary?
     
-    init(id: String, dictionary: NSDictionary) {
-        self.id = dictionary["id"] as? Int ?? 0
+    init(id: Int, dictionary: NSDictionary) {
+        self.id = id
         self.username = dictionary["username"] as? String ?? ""
         self.fullname = dictionary["fullname"] as? String ?? ""
         self.email = dictionary["email"] as? String ?? ""
-        
+
         if let profileImageUrlString = dictionary["ava"] as? String{
             guard let url = URL(string: profileImageUrlString) else { return }
             self.ava = url

@@ -9,7 +9,7 @@ import Foundation
 
 struct ArtworkItem: Decodable {
     var artworkID: String
-    var userID: String
+    var userID: Int
     var path: URL
     var width: Float
     var height: Float

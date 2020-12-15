@@ -47,6 +47,7 @@ struct ArtworkService {
         ] as [String: Any]
         
         print("DEBUG: Postartwork uuid = \(uuid)")
+        print("DEBUG: data is \(param)")
         //body
         let boundary = "Boundary-\(NSUUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")

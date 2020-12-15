@@ -90,18 +90,21 @@ extension MenuController: UITableViewDelegate {
         
         switch option {
         case .notification:
+            delegate?.handleMenuDismissal()
             let controller = NotificationController()
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil)
         case .placeMap:
+            delegate?.handleMenuDismissal()
             let controller = ArtMapController()
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil)
         case .arCamere:
-            print("DEBUG: ARCamera")
-            let controller = ARWorldController()
+            delegate?.handleMenuDismissal()
+//            let controller = ARWorldController()
+            let controller = ARCameraController()
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil)
@@ -110,9 +113,9 @@ extension MenuController: UITableViewDelegate {
         case .instructions:
             print("DEBUG: Show Instructions page..")
         case .logOut:
-            print("DEBUG: Logout")
             UserDefaults.standard.removeObject(forKey: "parseJSON")
             UserDefaults.standard.synchronize()
+            delegate?.handleMenuDismissal()
             
             let controller = LoginController()
             let nav = UINavigationController(rootViewController: controller)

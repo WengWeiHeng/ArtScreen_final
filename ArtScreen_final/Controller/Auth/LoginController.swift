@@ -84,6 +84,7 @@ class LoginController: UIViewController {
         guard let password = passwordTextField.text else { return }
         let credentials = LoginCredentials(username: email, password: password)
         AuthService.shared.login(credentials: credentials)
+        
         dismiss(animated: true, completion: nil)
     }
     

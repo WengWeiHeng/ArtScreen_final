@@ -191,7 +191,7 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         alert.addAction(UIAlertAction(title: "Do it", style: .default, handler: { _ in
             guard let user = self.user else { return }
             let controller = AnimateController(user: user)
-            let resize:CGSize = CGSize.init(width: screenWidth, height:screenHeight-240)
+            let resize:CGSize = CGSize.init(width: screenWidth, height:screenHeight - 240)
             let originalImage = image.resize(size: resize)
             controller.originalImageView.image = originalImage
             controller.heightoriginalImageView = originalImage!.size.height

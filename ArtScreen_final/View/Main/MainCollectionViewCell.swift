@@ -29,7 +29,9 @@ class MainCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties
     var user: User?
     
+    private var exhibitionDetail: ExhibitionDetailController?
     private var artworkInputView = ArtworkInputView()
+    
     private var rightConstraint = NSLayoutConstraint()
     private let artworkInputViewWidth: CGFloat = screenWidth
     

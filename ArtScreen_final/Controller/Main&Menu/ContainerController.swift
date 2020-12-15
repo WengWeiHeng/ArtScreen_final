@@ -44,10 +44,11 @@ class ContainerController: UIViewController {
     //MARK: - API
     func authenticateUser() {
         fetchUser()
-        if user == nil {
+        if userDefault == nil {
             presentLoginScreen()
         } else {
             configureUI()
+            
         }
     }
     

@@ -19,6 +19,8 @@ private enum ActionOption{
 protocol UserContentViewDelegate: class {
     func moveToAddExhibition()
     func moveToAddArtwork()
+    func moveToExhibitionDetail(exhibition: ExhibitionDetail)
+    func moveToArtworkDetail(artwork: ArtworkDetail)
 }
 
 class UserContentView: UIView {
@@ -195,6 +197,7 @@ class UserContentView: UIView {
         
         addSubview(userExhibitionView)
         userExhibitionView.anchor(top: stack.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingTop: 20, width: screenOffset)
+        userExhibitionView.delegate = self
         
         addSubview(userArtworkView)
         userArtworkView.translatesAutoresizingMaskIntoConstraints = false
@@ -203,6 +206,7 @@ class UserContentView: UIView {
         rightConstraint = userArtworkView.rightAnchor.constraint(equalTo: rightAnchor, constant: screenOffset)
         rightConstraint.isActive = true
         userArtworkView.widthAnchor.constraint(equalToConstant: screenOffset).isActive = true
+        userArtworkView.delegate = self
 
         addSubview(filterBar)
         filterBar.centerX(inView: self)
@@ -235,4 +239,15 @@ extension UserContentView: FilterViewDelegate {
     }
 }
 
+//MARK: - UserExhibitionViewDelegate
+extension UserContentView: UserExhibitionViewDelegate {
+    func handlePushToDetailPage(exhibition: ExhibitionDetail) {
+        delegate?.moveToExhibitionDetail(exhibition: exhibition)
+    }
+}
 
+extension UserContentView: UserArtworkViewDelegate {
+    func handlePushToDetailPage(artwork: ArtworkDetail) {
+        delegate?.moveToArtworkDetail(artwork: artwork)
+    }
+}

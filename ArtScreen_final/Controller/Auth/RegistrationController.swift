@@ -139,7 +139,8 @@ class RegistrationController: UIViewController {
         
         let credentials = RegistrationCredentials(email: email, password: password, username: username, firstname: firstneme, lastname: lastname, profileImage: userImage)
         AuthService.shared.uploadUser(credentials: credentials)
-        dismiss(animated: true, completion: nil)
+        
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

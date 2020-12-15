@@ -114,11 +114,32 @@ class ExhibitionUploadController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchExhibitionArtwork()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    //MARK: - API
+    func fetchExhibitionArtwork() {
+        guard let exhibitionID = exhibitionID else { return }
+        ArtworkService.shared.fetchExhibitionArtwork(forExhibitionID: exhibitionID) { artworks in
+            self.artworks = artworks
+            
+            DispatchQueue.main.async {
+                
+                if !self.artworks.isEmpty {
+                    self.announceView.isHidden = true
+                } else {
+                    self.announceView.isHidden = false
+                }
+                
+                
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -174,14 +195,17 @@ class ExhibitionUploadController: UIViewController {
         view.addSubview(collectionView)
         collectionView.anchor(top: exhibitionTitleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20)
         
-        view.addSubview(announceView)
-        announceView.centerX(inView: view)
-        announceView.centerY(inView: view)
-        
         view.addSubview(blackViewButton)
         blackViewButton.addConstraintsToFillView(view)
         
         configureInputView()
+        configureAnnounceView()
+    }
+    
+    func configureAnnounceView() {
+        view.addSubview(announceView)
+        announceView.centerX(inView: view)
+        announceView.centerY(inView: view)
     }
     
     func configureInputView() {
@@ -265,12 +289,12 @@ extension ExhibitionUploadController: WaterfallLayoutDelegate {
 extension ExhibitionUploadController: AddArtworkInputViewDelegate {
     func AddInArtwork(artwork: ArtworkDetail) {
         print("DEBUG: Artwork is remove successfully and add in this exhibition..")
-        
+//
         UIView.animate(withDuration: 0.3) {
             self.announceView.alpha = 0
             self.view.layoutIfNeeded()
         }
-        
+//
         self.selectedArtwork.append(artwork)
         self.artworks.append(artwork)
         self.collectionView.reloadData()

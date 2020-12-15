@@ -110,6 +110,7 @@
 		B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */; };
 		B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7929C25540C8500702881 /* ProfileViewModel.swift */; };
 		B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D792A12554191600702881 /* TemplateSettingView.swift */; };
+		B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D854572582026900EF720F /* ExhibitionDetailController.swift */; };
 		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
 		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
 		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
@@ -224,6 +225,7 @@
 		B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationCell.swift; sourceTree = "<group>"; };
 		B0D7929C25540C8500702881 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B0D792A12554191600702881 /* TemplateSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSettingView.swift; sourceTree = "<group>"; };
+		B0D854572582026900EF720F /* ExhibitionDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailController.swift; sourceTree = "<group>"; };
 		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 				B047BD85255E29C50059B342 /* Notification */,
 				B0712F942545446700438FE3 /* ArtMap */,
 				B0662FF625788552008171D0 /* AR */,
+				B0D854562582024E00EF720F /* UserProfile */,
 				B0D1410F25418E0400D9A677 /* UserProfileController.swift */,
 			);
 			path = Controller;
@@ -547,6 +550,14 @@
 				B0D792A12554191600702881 /* TemplateSettingView.swift */,
 			);
 			path = "Setting function";
+			sourceTree = "<group>";
+		};
+		B0D854562582024E00EF720F /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				B0D854572582026900EF720F /* ExhibitionDetailController.swift */,
+			);
+			path = UserProfile;
 			sourceTree = "<group>";
 		};
 		B0E58D0E2541642B00E5A203 /* Main */ = {
@@ -793,6 +804,7 @@
 				B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */,
 				B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */,
 				B0A685E3255D325C0012D391 /* ArtworkDetailController.swift in Sources */,
+				B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */,
 				B01107622542626600041A01 /* ArtworkCell.swift in Sources */,
 				B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */,
 				B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */,

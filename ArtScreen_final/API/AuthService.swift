@@ -65,6 +65,8 @@ struct AuthService {
                             //save user infomation we received from our host
                             UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
                             userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+                            print("DEBUG: userDefault: \(userDefault)")
+                            
                         }
                     } catch {
                         print("Caught an error Register:\(error)")
@@ -82,7 +84,7 @@ struct AuthService {
     func uploadAva(profileImage: UIImage, uid: String) {
         //shorcut id
         let id = uid
-        print("DEBUG id : \(id)")
+        print("DEBUG: id is \(id)")
         //url path to php file
         let url = URL(string: "http://artscreen.sakura.ne.jp/uploadAva.php")!
         //declare request to this file
@@ -193,7 +195,7 @@ struct AuthService {
                         //get json result
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                         //assign json to new var parseJSON in guard/secured way
-                        
+
                         guard let parseJSON = json else {
                             print("Error while parsing")
                             return
@@ -208,7 +210,7 @@ struct AuthService {
                             userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
                             //successfully logged in
                             print("DEBUG - successfully Login")
-            
+
                         } else {
                             print("error")
                         }

@@ -175,6 +175,12 @@ extension UIViewController {
             NSLog("One or more of the map styles failed to load. \(error)")
         }
     }
+    
+    func hideNavigationBar(selector: Selector) {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: selector)
+    }
 }
 
 extension UIImage {

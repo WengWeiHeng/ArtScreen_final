@@ -139,6 +139,8 @@ class ArtworkInfoSettingController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         configure()
+        
+        print("DEBUG: user is \(user?.username) in information setting")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -156,6 +158,8 @@ class ArtworkInfoSettingController: UIViewController {
     }
     
     @objc func tapbuttonSendImage() {
+        print("DEBUG: tap send button..")
+        
         guard let artworkname = titleTextField.text else { return }
         guard let information = introductionTextField.text else { return }
         guard let artworkImage = artworkImage else { return }
@@ -163,16 +167,20 @@ class ArtworkInfoSettingController: UIViewController {
         guard let height = artworkImageHeight else { return }
         
         guard let user = user else { return }
+        print("DEBUG: user is \(user.id) in artwork upload page")
 
         let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(width), height: Float(height), lat: locationLat, lng: locationLng)
         
         showLoader(true, withText: "Loading..")
         
         if itemCredentials == nil {
+            print("DEBUG: send no item artwork..")
             ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
         } else {
+            print("DEBUG: send animation artwork..")
             ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user, artworkItemCredentials: itemCredentials)
         }
+        
         dismiss(animated: true) {
             self.showLoader(false)
         }

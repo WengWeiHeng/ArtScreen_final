@@ -57,7 +57,7 @@ class ArtworkInputView: UIView {
         backgroundColor = .mainDarkGray
         
         addSubview(exhibitionTitleLabel)
-        exhibitionTitleLabel.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 48)
+        exhibitionTitleLabel.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 58, paddingLeft: 16, paddingRight: 48)
 
         collectionView.register(ArtworkInputViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false

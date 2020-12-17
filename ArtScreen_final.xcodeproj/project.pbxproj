@@ -85,6 +85,9 @@
 		B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B071E071254FE266007FBB89 /* ARCameraController.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
+		B07FB4922589B0340067F399 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4912589B0340067F399 /* Comments.swift */; };
+		B07FB4952589B03E0067F399 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4942589B03E0067F399 /* CommentService.swift */; };
+		B07FB4992589BBA60067F399 /* Contents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4982589BBA60067F399 /* Contents.swift */; };
 		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
 		B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */; };
 		B0A685DC255D29480012D391 /* GravitySliderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */; };
@@ -200,6 +203,9 @@
 		B071E071254FE266007FBB89 /* ARCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraController.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B07FB4912589B0340067F399 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
+		B07FB4942589B03E0067F399 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
+		B07FB4982589BBA60067F399 /* Contents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contents.swift; sourceTree = "<group>"; };
 		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoInputView.swift; sourceTree = "<group>"; };
 		B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitySliderFlowLayout.swift; sourceTree = "<group>"; };
@@ -492,6 +498,8 @@
 				B06A038C2565F8C3004BB0BE /* ArtworkService.swift */,
 				B0662FF325787BD1008171D0 /* ArtworkItemService.swift */,
 				B050EEB72578C74100D26268 /* ExhibitionService.swift */,
+				B07FB4942589B03E0067F399 /* CommentService.swift */,
+				B07FB4982589BBA60067F399 /* Contents.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -504,6 +512,7 @@
 				B0D39B4525709774001E3ABA /* Artwork.swift */,
 				B0662FFB257886B6008171D0 /* ArtworkItem.swift */,
 				B050EEBA2578C8E000D26268 /* Exhibition.swift */,
+				B07FB4912589B0340067F399 /* Comments.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -744,6 +753,7 @@
 				B01107A32542712900041A01 /* FeatureToolBarCell.swift in Sources */,
 				B056F41F25613AB000DF186E /* NotificationHeaderView.swift in Sources */,
 				B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */,
+				B07FB4952589B03E0067F399 /* CommentService.swift in Sources */,
 				B011074F25425FCE00041A01 /* ArtworkInputCell.swift in Sources */,
 				B0110777254263FA00041A01 /* ToolBarViewModel.swift in Sources */,
 				B011074C25425E0800041A01 /* ExhibitionSendViewCell.swift in Sources */,
@@ -779,6 +789,7 @@
 				B01107CD2542726F00041A01 /* OpacitySettingView.swift in Sources */,
 				B01107952542703C00041A01 /* ConfirmImageController.swift in Sources */,
 				B01107CA2542725A00041A01 /* ScaleSettingView.swift in Sources */,
+				B07FB4992589BBA60067F399 /* Contents.swift in Sources */,
 				B01107C62542724600041A01 /* RotateSettingView.swift in Sources */,
 				B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */,
 				B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */,
@@ -830,6 +841,7 @@
 				B047BD87255E29D40059B342 /* NotificationController.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B01107922542702D00041A01 /* AnimateController.swift in Sources */,
+				B07FB4922589B0340067F399 /* Comments.swift in Sources */,
 				B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */,
 				B0111445253FD9FC009D55FA /* Extensions.swift in Sources */,
 				B0A6860E255D519B0012D391 /* CommentCell.swift in Sources */,

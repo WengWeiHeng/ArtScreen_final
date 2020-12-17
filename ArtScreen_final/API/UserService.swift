@@ -20,6 +20,32 @@ struct UserService {
         }
     }
     
+    func fetchUser(withUserID userID: Int, completion: @escaping(User) -> Void) {
+        let url = URL(string: "http://artscreen.sakura.ne.jp/selectUser.php")!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(userID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            
+            print("DEBUG: Comment user data: \(String(describing: String(data: data!, encoding: .utf8)))")
+
+            do {
+                let decoder = JSONDecoder()
+                let user = try decoder.decode(User.self, from: jsonData)
+                completion(user)
+            } catch {
+                print("DEBUG: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
+    
     func fetchUserOfExhibition(withExhibition exhibition: ExhibitionDetail, completion: @escaping(User) -> Void) {
         let url = URL(string: "http://artscreen.sakura.ne.jp/getUserOfExhibition.php")!
         let request = NSMutableURLRequest(url: url)
@@ -78,18 +104,6 @@ struct UserService {
         uploadFollowData(request: request)
     }
     
-    func followedUser(user: User) {
-        guard let id = Int(userDefault["id"] as! String) else { return }
-        let uuid = NSUUID().uuidString
-        let url = URL(string: "http://artscreen.sakura.ne.jp/follow/followed.php")!
-        let request = NSMutableURLRequest(url: url)
-        request.httpMethod = "POST"
-        let body = "followedID=\(uuid)&userID=\(user.id))&followedUserID=\(id)"
-        request.httpBody = body.data(using: .utf8)
-        
-        uploadFollowData(request: request)
-    }
-    
     func unfollowUser(user: User) {
         guard let id = Int(userDefault["id"] as! String) else { return }
         
@@ -117,14 +131,9 @@ struct UserService {
             }
             
             let checkData = String(data: data, encoding: .utf8)
-            var isFollowed = false
-            
-            if checkData == " 0" {
-                isFollowed = false
-            } else {
-                isFollowed = true
-            }
-            completion(isFollowed)
+            print("DEBUG: checkData: \(checkData)")
+            let isFollowed = checkData?.toBool()
+            completion(isFollowed!)
         }
         task.resume()
     }

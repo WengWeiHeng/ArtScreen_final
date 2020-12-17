@@ -220,3 +220,17 @@ extension NSMutableData {
         append(data!)
     }
 }
+
+//MARK: String->Bool
+extension String {
+    func toBool() -> Bool? {
+        switch self {
+        case "TRUE", "True", "true", "YES", "Yes", "yes", "1", " TRUE", " true", " True":
+            return true
+        case "FALSE", "False", "false", "NO", "No", "no", "0", " FALSE", " false", " False":
+            return false
+        default:
+            return nil
+        }
+    }
+}

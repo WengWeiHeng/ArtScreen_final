@@ -13,12 +13,13 @@ private let commentIdentifier = "ArtworkCommentCell"
 class ArtworkDetailController: UITableViewController {
     
     //MARK: - Properties
+    var user: User?
     var artwork: ArtworkDetail?
+    var comments = [CommentDetail]()
     
     private lazy var headerView: ArtworkDetailHeaderView = {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 500)
         let view = ArtworkDetailHeaderView(frame: frame)
-//        view.artworkImageView.sd_setImage(with: artwork?.artworkImageUrl)
         
         return view
     }()
@@ -41,12 +42,34 @@ class ArtworkDetailController: UITableViewController {
     }()
     
     //MARK: - Init
+    init(user: User, artwork: ArtworkDetail) {
+        self.user = user
+        self.artwork = artwork
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureTableView()
         configureNavigationBar()
         configureArtworkData()
+        fetchComment()
+    }
+    
+    //MARK: - API
+    func fetchComment() {
+        guard let artwork = artwork else { return }
+        CommentService.shared.fetchComment(artwork: artwork) { comments in
+            self.comments = comments
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 
     //MARK: - Selectors
@@ -56,7 +79,10 @@ class ArtworkDetailController: UITableViewController {
     }
     
     @objc func handleShowAllComment() {
-        let controller = CommentController()
+        guard let user = user else { return }
+        guard let artwork = artwork else { return }
+        let controller = CommentController(user: user, artwork: artwork)
+//        controller.comments = comments
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -106,6 +132,7 @@ extension ArtworkDetailController {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: commentIdentifier, for: indexPath) as! ArtworkCommentCell
+            cell.artwork = artwork
             return cell
         default:
             fatalError("Failed to instantiate the table view cell for artwork detail controller")

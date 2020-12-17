@@ -7,10 +7,14 @@
 
 import UIKit
 
+protocol CustomInputAccessoryViewDelegate: class {
+    func inputView(_ inputView: CustomInputAccessoryView, eantsToSend message: String)
+}
+
 class CustomInputAccessoryView: UIView {
     
     //MARK: - Properties
-//    weak var delegate: CustomInputAccessoryViewDelegate?
+    weak var delegate: CustomInputAccessoryViewDelegate?
     
     private lazy var messageInputTextView: UITextView = {
         let tv = UITextView()
@@ -80,10 +84,9 @@ class CustomInputAccessoryView: UIView {
         if self.messageInputTextView.text.isEmpty {
             print("DEBUG: The text is empty..")
         } else {
-//            guard let message = messageInputTextView.text else { return }
-//            delegate?.inputView(self, eantsToSend: message)
+            guard let message = messageInputTextView.text else { return }
+            delegate?.inputView(self, eantsToSend: message)
         }
-        
     }
     
     @objc func handleTextChange() {
@@ -96,5 +99,3 @@ class CustomInputAccessoryView: UIView {
         placeholderLabel.isHidden = false
     }
 }
-
-

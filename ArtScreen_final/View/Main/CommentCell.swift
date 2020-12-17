@@ -10,13 +10,21 @@ import UIKit
 class CommentCell: UITableViewCell {
     
     //MARK: - Properties
+    var comment: CommentDetail? {
+        didSet {
+            configureData()
+        }
+    }
+    
     private let userImageView: UIImageView = {
         let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         iv.backgroundColor = .mainPurple
         iv.layer.borderWidth = 1.2
         iv.layer.borderColor = UIColor.white.cgColor
-        iv.setDimensions(width: 32, height: 32)
-        iv.layer.cornerRadius = 32 / 2
+        iv.setDimensions(width: 36, height: 36)
+        iv.layer.cornerRadius = 36 / 2
         
         return iv
     }()
@@ -26,7 +34,7 @@ class CommentCell: UITableViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.text = "@heng_8130"
         label.textColor = .mainBackground
-        
+        label.numberOfLines = 0
         return label
     }()
     
@@ -41,9 +49,10 @@ class CommentCell: UITableViewCell {
     
     private let timestampLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 11)
         label.text = ".16m"
-        label.textColor = .mainAlphaGray
+        label.textColor = .white
+        label.alpha = 0.6
         
         return label
     }()
@@ -51,7 +60,6 @@ class CommentCell: UITableViewCell {
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         backgroundColor = .mainDarkGray
         selectionStyle = .none
         
@@ -63,10 +71,28 @@ class CommentCell: UITableViewCell {
         
         addSubview(messageLabel)
         messageLabel.anchor(top: usernameLabel.bottomAnchor, left: usernameLabel.leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 6, paddingBottom: 8, paddingRight: 12)
+        
+        addSubview(timestampLabel)
+        timestampLabel.centerY(inView: usernameLabel)
+        timestampLabel.anchor(right: rightAnchor, paddingRight: 12)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helper
+    func configureData() {
+        guard let comment = comment else { return }
+        messageLabel.text = comment.message
+        timestampLabel.text = comment.time
+        
+        UserService.shared.fetchUser(withUserID: comment.userID) { user in
+            DispatchQueue.main.async {
+                self.usernameLabel.text = user.username
+                self.userImageView.sd_setImage(with: user.ava)
+            }
+        }
     }
 }
 

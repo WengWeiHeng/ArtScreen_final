@@ -396,10 +396,10 @@ extension MainViewController: MainCollectionViewCellDelegate {
     
     func handleShowDetail(artwork: ArtworkDetail) {
         print("DEBUG: show Detail in main controller")
-        let controller = ArtworkDetailController()
+        guard let user = user else { return }
+        let controller = ArtworkDetailController(user: user, artwork: artwork)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        controller.artwork = artwork
         present(nav, animated: true, completion: nil)
     }
 }

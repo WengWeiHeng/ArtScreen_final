@@ -319,8 +319,8 @@ class ExhibitionDetailController: UIViewController {
 //MARK: - ArtworkInputViewDelegate
 extension ExhibitionDetailController: ArtworkInputViewDelegate {
     func showArtworkDetail(artwork: ArtworkDetail) {
-        let controller = ArtworkDetailController()
-        controller.artwork = artwork
+        guard let user = user else { return }
+        let controller = ArtworkDetailController(user: user, artwork: artwork)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)

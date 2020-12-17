@@ -130,12 +130,11 @@ class ArtMapController: UIViewController {
 extension ArtMapController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         handleShowInputView()
-        
         return false
     }
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        print("DEBUG: Marker title tapped..")
+
     }
 }
 

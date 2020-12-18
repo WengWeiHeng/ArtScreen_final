@@ -94,6 +94,8 @@ extension MenuController: UITableViewDelegate {
             let controller = NotificationController()
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
+            controller.user = user
+            print("DEBUG: UserID in MenuController is \(user?.id)")
             present(nav, animated: true, completion: nil)
         case .placeMap:
             delegate?.handleMenuDismissal()

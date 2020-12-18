@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F10FDF5258B5AB100B81C17 /* Contents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F10FDF4258B5AB100B81C17 /* Contents.swift */; };
+		7F10FDF8258B5B2500B81C17 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F10FDF7258B5B2500B81C17 /* NotificationService.swift */; };
+		7F10FDFC258B5C6200B81C17 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F10FDFB258B5C6100B81C17 /* Notification.swift */; };
 		9152F195997FE18A5D95AC7A /* Pods_ArtScreen_final.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9CE8F39F6D50C6154BA906 /* Pods_ArtScreen_final.framework */; };
 		B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073725425C0E00041A01 /* ExhibitionUploadController.swift */; };
 		B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073B25425D5F00041A01 /* AddArtworkInputView.swift */; };
@@ -121,6 +124,9 @@
 /* Begin PBXFileReference section */
 		336C3B8C321C6F640BC0297F /* Pods-ArtScreen_final.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArtScreen_final.debug.xcconfig"; path = "Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final.debug.xcconfig"; sourceTree = "<group>"; };
 		613882EDE2F8FC380934E05B /* Pods-ArtScreen_final.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArtScreen_final.release.xcconfig"; path = "Target Support Files/Pods-ArtScreen_final/Pods-ArtScreen_final.release.xcconfig"; sourceTree = "<group>"; };
+		7F10FDF4258B5AB100B81C17 /* Contents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Contents.swift; path = ../../../../../Downloads/Contents.swift; sourceTree = "<group>"; };
+		7F10FDF7258B5B2500B81C17 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		7F10FDFB258B5C6100B81C17 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		B011073725425C0E00041A01 /* ExhibitionUploadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionUploadController.swift; sourceTree = "<group>"; };
 		B011073B25425D5F00041A01 /* AddArtworkInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputView.swift; sourceTree = "<group>"; };
 		B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputViewCell.swift; sourceTree = "<group>"; };
@@ -492,6 +498,8 @@
 				B06A038C2565F8C3004BB0BE /* ArtworkService.swift */,
 				B0662FF325787BD1008171D0 /* ArtworkItemService.swift */,
 				B050EEB72578C74100D26268 /* ExhibitionService.swift */,
+				7F10FDF7258B5B2500B81C17 /* NotificationService.swift */,
+				7F10FDF4258B5AB100B81C17 /* Contents.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -504,6 +512,7 @@
 				B0D39B4525709774001E3ABA /* Artwork.swift */,
 				B0662FFB257886B6008171D0 /* ArtworkItem.swift */,
 				B050EEBA2578C8E000D26268 /* Exhibition.swift */,
+				7F10FDFB258B5C6100B81C17 /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -741,6 +750,7 @@
 				B0A685DC255D29480012D391 /* GravitySliderFlowLayout.swift in Sources */,
 				B01107B4254271B400041A01 /* PenToolBarCell.swift in Sources */,
 				B01107E02542736600041A01 /* AnimateUtilities.swift in Sources */,
+				7F10FDFC258B5C6200B81C17 /* Notification.swift in Sources */,
 				B01107A32542712900041A01 /* FeatureToolBarCell.swift in Sources */,
 				B056F41F25613AB000DF186E /* NotificationHeaderView.swift in Sources */,
 				B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */,
@@ -789,11 +799,13 @@
 				B01107532542613600041A01 /* UserCoverView.swift in Sources */,
 				B01107C22542721700041A01 /* DrawView.swift in Sources */,
 				B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */,
+				7F10FDF8258B5B2500B81C17 /* NotificationService.swift in Sources */,
 				B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */,
 				B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */,
 				B011078925426D4E00041A01 /* CameraView.swift in Sources */,
 				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
+				7F10FDF5258B5AB100B81C17 /* Contents.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,
 				B01107DA254272E800041A01 /* Line.swift in Sources */,
 				B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */,
@@ -910,7 +922,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -965,7 +977,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -982,13 +994,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AAS7AUXM3X;
+				DEVELOPMENT_TEAM = 4T84KD24NG;
 				INFOPLIST_FILE = ArtScreen_final/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-final";
+				PRODUCT_BUNDLE_IDENTIFIER = "vuhaiArtScreen-final";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

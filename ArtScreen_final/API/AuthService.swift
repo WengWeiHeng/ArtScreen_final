@@ -26,7 +26,7 @@ struct AuthService {
     static let shared = AuthService()
     
     func uploadUser(credentials: RegistrationCredentials) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/secure/register.php")!
+        let url = URL(string: REGISTER_URL)!
         let uid: String = ""
         
         //request to this file
@@ -65,16 +65,14 @@ struct AuthService {
                             //save user infomation we received from our host
                             UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
                             userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
-                            print("DEBUG: userDefault: \(userDefault)")
-                            
                         }
                     } catch {
-                        print("Caught an error Register:\(error)")
+                        fatalError("Caught an error Register:\(error)")
                     }
                 }
                 // if unalble to proceed request
             }else {
-                print("DEBUG Register: error is \(String(describing: error?.localizedDescription))")
+                fatalError("DEBUG Register: error is \(String(describing: error?.localizedDescription))")
             }
             //launch prepared session
         }.resume()
@@ -86,7 +84,7 @@ struct AuthService {
         let id = uid
         print("DEBUG: id is \(id)")
         //url path to php file
-        let url = URL(string: "http://artscreen.sakura.ne.jp/uploadAva.php")!
+        let url = URL(string: UPLOAD_AVATAR_URL)!
         //declare request to this file
         let request = NSMutableURLRequest(url: url)
         //declare method of passign inf to this file
@@ -111,8 +109,8 @@ struct AuthService {
                     do {
                         //json containes $retrunArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                        //declare new parseJSON to store json]
-                        print("Upload Avata")
+                        
+                        //declare new parseJSON to store json
                         guard let parseJSON =  json else {
                             print("Error while parsing")
                             return
@@ -140,12 +138,12 @@ struct AuthService {
                             print(message)
                         }
                     }
-                //error while jsoning
+                
                 } else {
                     DispatchQueue.main.async {
-                        print("DEBUG UploadAva: Error is \(error?.localizedDescription ?? "")")
+                        fatalError("DEBUG UploadAva: Error is \(error?.localizedDescription ?? "")")
                     }
-                }
+                } //error while jsoning
             }
         }.resume()
     }
@@ -178,7 +176,7 @@ struct AuthService {
         let password = credentials.password
         //send request to mysql db
         //url to access our php file
-        let url = URL(string: "http://artscreen.sakura.ne.jp/login.php")!
+        let url = URL(string: LOGIN_URL)!
         //request url
         let request = NSMutableURLRequest(url: url)
         //request to pass data POST - cause it is secured

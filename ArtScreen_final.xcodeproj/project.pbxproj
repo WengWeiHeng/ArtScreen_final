@@ -88,6 +88,9 @@
 		B07FB4922589B0340067F399 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4912589B0340067F399 /* Comments.swift */; };
 		B07FB4952589B03E0067F399 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4942589B03E0067F399 /* CommentService.swift */; };
 		B07FB4992589BBA60067F399 /* Contents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4982589BBA60067F399 /* Contents.swift */; };
+		B091B4E9258F296F004C6CD2 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B091B4E8258F296F004C6CD2 /* NotificationService.swift */; };
+		B091B4EC258F29D1004C6CD2 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B091B4EB258F29D1004C6CD2 /* Notification.swift */; };
+		B091B4F0258F3224004C6CD2 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B091B4EF258F3224004C6CD2 /* NotificationViewModel.swift */; };
 		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
 		B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */; };
 		B0A685DC255D29480012D391 /* GravitySliderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */; };
@@ -206,6 +209,9 @@
 		B07FB4912589B0340067F399 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		B07FB4942589B03E0067F399 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		B07FB4982589BBA60067F399 /* Contents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contents.swift; sourceTree = "<group>"; };
+		B091B4E8258F296F004C6CD2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		B091B4EB258F29D1004C6CD2 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B091B4EF258F3224004C6CD2 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoInputView.swift; sourceTree = "<group>"; };
 		B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitySliderFlowLayout.swift; sourceTree = "<group>"; };
@@ -493,13 +499,14 @@
 		B07C74BA25411CD100920F59 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				B07FB4982589BBA60067F399 /* Contents.swift */,
 				B07C74C02541206400920F59 /* AuthService.swift */,
 				B069BE6A2564A7A400CFE7F0 /* UserService.swift */,
 				B06A038C2565F8C3004BB0BE /* ArtworkService.swift */,
 				B0662FF325787BD1008171D0 /* ArtworkItemService.swift */,
 				B050EEB72578C74100D26268 /* ExhibitionService.swift */,
 				B07FB4942589B03E0067F399 /* CommentService.swift */,
-				B07FB4982589BBA60067F399 /* Contents.swift */,
+				B091B4E8258F296F004C6CD2 /* NotificationService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -513,6 +520,7 @@
 				B0662FFB257886B6008171D0 /* ArtworkItem.swift */,
 				B050EEBA2578C8E000D26268 /* Exhibition.swift */,
 				B07FB4912589B0340067F399 /* Comments.swift */,
+				B091B4EB258F29D1004C6CD2 /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -593,6 +601,7 @@
 				B0110776254263FA00041A01 /* ToolBarViewModel.swift */,
 				B011079F2542710E00041A01 /* FeatureToolBarViewModel.swift */,
 				B0D7929C25540C8500702881 /* ProfileViewModel.swift */,
+				B091B4EF258F3224004C6CD2 /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -760,6 +769,7 @@
 				B01107A62542714100041A01 /* AnimateToolBarView.swift in Sources */,
 				B0662FFC257886B6008171D0 /* ArtworkItem.swift in Sources */,
 				B01107B8254271DD00041A01 /* LassoToolBarView.swift in Sources */,
+				B091B4EC258F29D1004C6CD2 /* Notification.swift in Sources */,
 				B01107AC2542716600041A01 /* LayoutCell.swift in Sources */,
 				B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */,
 				B0BB94572563683900FAD25B /* MessageView.swift in Sources */,
@@ -813,6 +823,7 @@
 				B0D39B4625709774001E3ABA /* Artwork.swift in Sources */,
 				B011142E253FD777009D55FA /* SceneDelegate.swift in Sources */,
 				B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */,
+				B091B4F0258F3224004C6CD2 /* NotificationViewModel.swift in Sources */,
 				B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */,
 				B0A685E3255D325C0012D391 /* ArtworkDetailController.swift in Sources */,
 				B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */,
@@ -827,6 +838,7 @@
 				B01107562542618800041A01 /* UserContentView.swift in Sources */,
 				B0662FF92578858D008171D0 /* ARResultController.swift in Sources */,
 				B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */,
+				B091B4E9258F296F004C6CD2 /* NotificationService.swift in Sources */,
 				B0110759254261E100041A01 /* UserInfoView.swift in Sources */,
 				B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */,
 				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,

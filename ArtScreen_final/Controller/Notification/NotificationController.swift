@@ -10,7 +10,9 @@ import UIKit
 class NotificationController: UIViewController {
     
     //MARK: - Properties
-    private var notificationView = NotificationView()
+    var user : User?
+    var notificationView : NotificationView!
+
     private var messageView = MessageView()
     
     private let sendView = ExhibitionSendView()
@@ -20,7 +22,6 @@ class NotificationController: UIViewController {
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
     }
     
@@ -32,9 +33,11 @@ class NotificationController: UIViewController {
     //MARK: - Helpers
     func configureUI() {
         configureNavigationBar()
+        notificationView = NotificationView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), user: user!)
         
         view.addSubview(notificationView)
         notificationView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 400)
+        notificationView.user = user
         
         view.addSubview(messageView)
         messageView.anchor(top: notificationView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, height: 300)

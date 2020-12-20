@@ -31,7 +31,7 @@ struct ArtworkService {
         //short to data to be passed to php file
         let uuid = NSUUID().uuidString
         //url path to php file
-        let url = URL(string: "http://artscreen.sakura.ne.jp/postArtwork.php")!
+        let url = URL(string: POST_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -46,8 +46,6 @@ struct ArtworkService {
             "locationLng": artworkCredentials.lng
         ] as [String: Any]
         
-        print("DEBUG: Postartwork uuid = \(uuid)")
-        print("DEBUG: data is \(param)")
         //body
         let boundary = "Boundary-\(NSUUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -78,11 +76,9 @@ struct ArtworkService {
                         }
                     }catch {
                         print("Error:\(error)")
-                    
                     }
                 } else {
                     print("Error:\(error?.localizedDescription ?? "")")
-                    
                 }
             }
         }.resume()
@@ -93,26 +89,24 @@ struct ArtworkService {
 
     //MARK: - Fetch Artwork
     func fetchArtwork(completion: @escaping([ArtworkDetail]) -> Void) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/getAllArtwork.php")!
+        let url = URL(string: GET_ALL_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
         
         readArtworkData(request: request, completion: completion)
     }
     
     func fetchUserArtwork(forUser user: User, completion: @escaping([ArtworkDetail]) -> Void) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/getUserArtwork.php")!
+        let url = URL(string: GET_USER_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "userID=\(user.id)"
         request.httpBody = body.data(using: .utf8)
         
-        print("DEBUG: user is \(user.fullname), id: \(user.id)")
-        
         readArtworkData(request: request, completion: completion)
     }
     
     func fetchExhibitionArtwork(forExhibitionID exhibitionID: String, completion: @escaping([ArtworkDetail]) -> Void) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/getExhibitionArtwork.php")!
+        let url = URL(string: GET_EXHIBITION_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "exhibitionID=\(exhibitionID)"

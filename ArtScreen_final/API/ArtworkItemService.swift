@@ -34,7 +34,7 @@ struct ArtworkItemService {
     static let shared = ArtworkItemService()
     
     func uploadArtworkItem(artworkID: String, user: User, artworkItem : ArtworkItemCredentials) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/postItemArtwork.php")!
+        let url = URL(string: POST_ITEM_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
 
@@ -81,7 +81,7 @@ struct ArtworkItemService {
                     do {
                         //json containers $returnArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-//                        print("DEBUG: Post artWorkItem \(json?.description)")
+
                         //declare new var to store json inf
                         guard json != nil else {
                             print("Error while parsing")
@@ -98,7 +98,7 @@ struct ArtworkItemService {
     }
     
     func fetchArtworkItem(artwork: ArtworkDetail, completion: @escaping(ArtworkItem) -> Void) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/getArtworkItem.php")!
+        let url = URL(string: GET_ARTWORKITEM_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "artworkID=\(artwork.artworkID)"

@@ -10,6 +10,14 @@ import UIKit
 class NotificationCell: UITableViewCell {
     
     //MARK: - Properties
+    var notification: NotificationDetail? {
+        didSet {
+            configureData()
+        }
+    }
+    
+    var notificationType: Int?
+    
     let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -61,5 +69,20 @@ class NotificationCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Helper
+    func configureData() {
+        guard let notification = notification else { return }
+        
+        UserService.shared.fetchUser(withUserID: notification.fromUserID) { (user) in
+            let viewModel = NotificationViewModel(user: user, notification: notification)
+            
+            DispatchQueue.main.async {
+                self.profileImageView.sd_setImage(with: viewModel.fromUserImage)
+                self.descriptionLabel.text = viewModel.message
+            }
+        }
+        
     }
 }

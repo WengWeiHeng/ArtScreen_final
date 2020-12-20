@@ -25,7 +25,7 @@ class ArtworkCommentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = .mainPurple
+        backgroundColor = .mainDarkGray
         selectionStyle = .none
         
         addSubview(tableView)
@@ -69,7 +69,7 @@ extension ArtworkCommentCell: UITableViewDataSource {
         if comments.isEmpty {
             return 0
         } else {
-            return 3
+            return comments.count
         }
     }
     

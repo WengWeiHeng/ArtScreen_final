@@ -8,7 +8,7 @@
 import Foundation
 
 //MARK: - FeatureToolBarOption
-enum FeatureToolBarOption : Int,CaseIterable {
+enum FeatureToolBarOption: Int,CaseIterable {
     case pen
     case lasso
     case delete

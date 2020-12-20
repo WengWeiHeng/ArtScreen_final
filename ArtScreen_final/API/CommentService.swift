@@ -13,7 +13,7 @@ struct CommentService {
     func uploadComment(artwork: ArtworkDetail, user: User, message: String, completion: ((Error?) -> Void)?) {
         let uuid = NSUUID().uuidString
         
-        let url = URL(string: "http://artscreen.sakura.ne.jp/comment/postComment.php")!
+        let url = URL(string: POST_COMMENT_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "commentID=\(uuid)&artworkID=\(artwork.artworkID)&userID=\(user.id)&message=\(message)"
@@ -30,7 +30,7 @@ struct CommentService {
     }
     
     func fetchComment(artwork: ArtworkDetail, completion: @escaping([CommentDetail]) -> Void) {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/comment/getCommentFromArtworkID.php")!
+        let url = URL(string: GET_COMMENT_FROM_ARTWORKID_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
         let body = "artworkID=\(artwork.artworkID)"

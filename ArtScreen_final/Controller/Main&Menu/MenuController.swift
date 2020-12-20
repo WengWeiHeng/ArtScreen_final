@@ -45,8 +45,6 @@ class MenuController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
-        print("DEBUG: Menu Controller user \(user?.fullname)")
     }
     
     //MARK: - Helpers
@@ -92,6 +90,7 @@ extension MenuController: UITableViewDelegate {
         case .notification:
             delegate?.handleMenuDismissal()
             let controller = NotificationController()
+            controller.user = user
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil)

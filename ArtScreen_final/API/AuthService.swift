@@ -173,7 +173,7 @@ struct AuthService {
         return body as Data
     }
     
-    func login(credentials: LoginCredentials) {
+    func login(credentials: LoginCredentials, completion: ((Error?) -> Void)?) {
         let username = credentials.username.lowercased()
         let password = credentials.password
         //send request to mysql db
@@ -200,27 +200,22 @@ struct AuthService {
                             print("Error while parsing")
                             return
                         }
-                        print(parseJSON)
-                        //get id from parseJSON dictionary
-                        let id = parseJSON["id"]
-                        //if there is some id value
-                        if id != nil {
-                            //save user information we received from host
-                            UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
-                            userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
-                            //successfully logged in
-                            print("DEBUG - successfully Login")
-
-                        } else {
-                            print("error")
-                        }
+ 
+                        //save user information we received from host
+                        UserDefaults.standard.setValue(parseJSON, forKey: "parseJSON")
+//                        userDefault = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+                        //successfully logged in
+                        print("DEBUG - successfully Login")
+                        completion!(error)
                     } catch {
                         print("Caught an error:\(error)")
+                        completion!(error)
                     }
                 }
                 // if unalble to proceed request
             }else {
                 print("DEBUG: error is \(String(describing: error?.localizedDescription))")
+                completion!(error)
             }
             //launch prepared session
         }.resume()

@@ -10,6 +10,8 @@ import UIKit
 class LoginController: UIViewController {
     
     //MARK: - Properties
+    var user: User?
+    
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -83,14 +85,34 @@ class LoginController: UIViewController {
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         let credentials = LoginCredentials(username: email, password: password)
-        AuthService.shared.login(credentials: credentials)
         
-        dismiss(animated: true, completion: nil)
+        showLoader(true, withText: "Please wait to loading your data")
+        
+        
+        AuthService.shared.login(credentials: credentials) { error in
+            if let error = error {
+                self.showLoader(false)
+                self.showError(error.localizedDescription)
+            }
+
+            self.showLoader(false)
+            self.fetchUser()
+            guard let user = self.user else { return }
+            let controller = ContainerController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
     
     @objc func handleShowSignUp() {
         let controller = RegistrationController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    //MARK: - API
+    func fetchUser() {
+        UserService.shared.fetchUser { user in
+            self.user =  user
+        }
     }
     
     //MARK: - Helper

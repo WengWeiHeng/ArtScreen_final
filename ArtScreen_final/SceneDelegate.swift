@@ -12,14 +12,23 @@ var userDefault: NSDictionary!
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var user: User?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow.init(windowScene: scene)
-        window?.rootViewController = UINavigationController(rootViewController: ContainerController())
-//        window?.rootViewController = UserProfileController()
+        
+        UserService.shared.fetchUser { user in
+            self.user = user
+        }
+        
+        if let user = user {
+            window?.rootViewController = UINavigationController(rootViewController: ContainerController(user: user))
+        } else {
+            window?.rootViewController = UINavigationController(rootViewController: LoginController())
+        }
+        
         window?.makeKeyAndVisible()
     }
 

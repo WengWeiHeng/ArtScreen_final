@@ -23,10 +23,20 @@ class ContainerController: UIViewController {
     private lazy var yOrigin = self.view.frame.height * 0.15
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .mainBackground
-        authenticateUser()
+//        authenticateUser()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,23 +50,6 @@ class ContainerController: UIViewController {
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation{
         return .slide
     }
-    
-    //MARK: - API
-    func authenticateUser() {
-        fetchUser()
-        if userDefault == nil {
-            presentLoginScreen()
-        } else {
-            configureUI()
-            
-        }
-    }
-    
-    func fetchUser() {
-        UserService.shared.fetchUser { user in
-            self.user = user
-        }
-    }
 
     //MARK: - Selectors
     @objc func dismissMenu(){
@@ -65,16 +58,6 @@ class ContainerController: UIViewController {
     }
     
     //MARK: - Helpers
-    func presentLoginScreen() {
-        DispatchQueue.main.async {
-            let controller = LoginController()
-//            controller.delegate = self
-            let nav = UINavigationController(rootViewController: controller)
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true, completion: nil)
-        }
-    }
-    
     func configureUI() {
         configureMainController()
         configureMenuController()

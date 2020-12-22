@@ -73,13 +73,15 @@ class ConfirmImageController: UIViewController, CustomProtocol {
     @objc func HandleTappedNextPageButton() {
         let alert = UIAlertController(title: "Do you want add AR Animation on your ArtWork",message:"If you don't want to add it now, you can click Edit in your profile page", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Not now", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: "Not now", style: .default, handler: { [self] _ in
             guard let user = self.user else { return }
-            let viewController =  ArtworkInfoSettingController(user: user)
-            viewController.artworkImage = self.image.image
-            viewController.heightoriginalImageView = screenWidth
-            viewController.widthoriginalImageView = screenWidth
-            self.navigationController?.pushViewController(viewController, animated: true)
+            let controller =  ArtworkInfoSettingController(user: user)
+            controller.artworkImage = self.image.image
+            controller.heightoriginalImageView = screenWidth
+            controller.widthoriginalImageView = screenWidth
+            controller.artworkImageWidth = self.image.frame.size.width
+            controller.artworkImageHeight = self.image.frame.size.height
+            self.navigationController?.pushViewController(controller, animated: true)
         }))
         
         alert.addAction(UIAlertAction(title: "Do it", style: .default, handler: { _ in

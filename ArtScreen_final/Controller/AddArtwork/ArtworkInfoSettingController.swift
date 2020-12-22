@@ -16,10 +16,10 @@ class ArtworkInfoSettingController: UIViewController {
     var itemCredentials : ArtworkItemCredentials?
     var artworkImage: UIImage?
     var itemImage: UIImage?
-    var heightoriginalImageView: CGFloat!
-    var widthoriginalImageView: CGFloat!
-    var artworkImageWidth: CGFloat!
-    var artworkImageHeight: CGFloat!
+    var heightoriginalImageView: CGFloat?
+    var widthoriginalImageView: CGFloat?
+    var artworkImageWidth: CGFloat = 0
+    var artworkImageHeight: CGFloat = 0
     
     let navigationBarView : UIView = {
         let view = UIView()
@@ -158,33 +158,28 @@ class ArtworkInfoSettingController: UIViewController {
     }
     
     @objc func tapbuttonSendImage() {
-        print("DEBUG: tap send button..")
-        
         guard let artworkname = titleTextField.text else { return }
         guard let information = introductionTextField.text else { return }
         guard let artworkImage = artworkImage else { return }
-        guard let width = artworkImageWidth else { return }
-        guard let height = artworkImageHeight else { return }
+//        guard let width = artworkImageWidth else { return }
+//        guard let height = artworkImageHeight else { return }
         
         guard let user = user else { return }
         print("DEBUG: user is \(user.id) in artwork upload page")
 
-        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(width), height: Float(height), lat: locationLat, lng: locationLng)
+        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(artworkImageWidth), height: Float(artworkImageHeight), lat: locationLat, lng: locationLng)
         
-        showLoader(true, withText: "Loading..")
+//        showLoader(true, withText: "Loading..")
         
         if itemCredentials == nil {
             print("DEBUG: send no item artwork..")
             ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user)
+            dismiss(animated: true, completion: nil)
         } else {
             print("DEBUG: send animation artwork..")
             ArtworkService.shared.uploadArtwork(artworkCredentials: credentials, user: user, artworkItemCredentials: itemCredentials)
+            dismiss(animated: true, completion: nil)
         }
-        
-        dismiss(animated: true) {
-            self.showLoader(false)
-        }
-        
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -222,7 +217,7 @@ class ArtworkInfoSettingController: UIViewController {
         view.addSubview(imageView)
         imageView.anchor(top: centerView.topAnchor)
         imageView.centerX(inView: centerView)
-        imageView.setDimensions(width: widthoriginalImageView, height: heightoriginalImageView)
+        imageView.setDimensions(width: widthoriginalImageView!, height: heightoriginalImageView!)
         imageView.image = artworkImage
         
         let titleStack = UIStackView(arrangedSubviews: [titleLabel, titleTextField])

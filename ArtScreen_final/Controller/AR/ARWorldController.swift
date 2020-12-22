@@ -13,6 +13,8 @@ class ARWorldController: UIViewController {
     
     //MARK: - Properties
     private var sceneView = ARSCNView()
+    var artworks = [ArtworkDetail]()
+    var artworkDistance: Float = -0.138
     
     //MARK: - Init
     override func viewDidLoad() {
@@ -46,6 +48,17 @@ class ARWorldController: UIViewController {
 
                     sceneView.scene.rootNode.addChildNode(boxNode)
                     
+                    for distance in 0..<artworks.count {
+                        artworkDistance -= Float(distance)
+                        
+                        let box = SCNBox(width: 0.675, height: 0.675, length: 0.012, chamferRadius: 0)
+                        let artworkNode = SCNNode(geometry: box)
+                        artworkNode.position = SCNVector3Make(1.492, 1.2, artworkDistance)
+                        artworkNode.eulerAngles.y = -90
+                        
+                        boxNode.addChildNode(artworkNode)
+                        
+                    }
                 }
             }
         }

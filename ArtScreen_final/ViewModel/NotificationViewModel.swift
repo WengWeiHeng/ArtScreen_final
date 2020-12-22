@@ -30,15 +30,6 @@ struct NotificationViewModel {
         }
     }
     
-    
-    var followMessage: String {
-        return fromUser.username + "was Followed you"
-    }
-    
-    var commentMessage: String {
-        return fromUser.username + "was commeitted in your artwork"
-    }
-    
     init(user: User, notification: NotificationDetail) {
         self.fromUser = user
         self.notification = notification

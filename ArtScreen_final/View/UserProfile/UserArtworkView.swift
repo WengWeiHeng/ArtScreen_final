@@ -63,7 +63,7 @@ class UserArtworkView: UIView {
         guard let user = user else { return }
         ArtworkService.shared.fetchUserArtwork(forUser: user) { (artworks) in
             self.artworks = artworks
-//            print("DEBUG: artwork count: \(self.artworks.count)")
+            
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }

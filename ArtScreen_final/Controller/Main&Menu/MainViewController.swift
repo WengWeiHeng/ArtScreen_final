@@ -114,20 +114,6 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    private let followButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Follow", for: .normal)
-        button.setTitleColor(.mainPurple, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.mainPurple.cgColor
-        button.setDimensions(width: 80, height: 28)
-        button.layer.cornerRadius = 28 / 2
-        button.addTarget(self, action: #selector(handleFollow), for: .touchUpInside)
-        
-        return button
-    }()
-    
     private let exhibitionTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 22)
@@ -190,22 +176,7 @@ class MainViewController: UIViewController {
 
     //MARK: - Selectors
     @objc func handleUploadAction() {
-        if buttonIsActive == false {
-            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut) {
-                self.uploadButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 4))
-                self.buttonAlpha(alpha: 1)
-            } completion: { _ in
-                self.buttonIsActive = true
-            }
-        } else {
-            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut) {
-                self.uploadButton.transform = CGAffineTransform.identity
-                self.buttonAlpha(alpha: 0)
-            } completion: { _ in
-                self.buttonIsActive = false
-            }
-        }
-        print("DEBUG: buttonIsActive is \(buttonIsActive)")
+        uploadButtonAnimate()
     }
     
     @objc func handleMenuAction() {
@@ -224,7 +195,9 @@ class MainViewController: UIViewController {
         let controller = AddArtworkController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true, completion: nil)
+        present(nav, animated: true) {
+            self.uploadButtonAnimate()
+        }
     }
     
     @objc func handleAddExhibition() {
@@ -232,7 +205,9 @@ class MainViewController: UIViewController {
         let controller = AddExhibitionController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true, completion: nil)
+        present(nav, animated: true) {
+            self.uploadButtonAnimate()
+        }
     }
     
     @objc func handleExhibitionMore() {
@@ -244,10 +219,6 @@ class MainViewController: UIViewController {
         let controller = UserProfileController(user: costUser)
         controller.modalPresentationStyle = .fullScreen
         present(controller, animated: true, completion: nil)
-    }
-    
-    @objc func handleFollow() {
-        print("DEBUG: handle follow..")
     }
     
     //MARK: - Helper
@@ -273,10 +244,6 @@ class MainViewController: UIViewController {
         view.addSubview(usernameLabel)
         usernameLabel.anchor(left: userImageView.rightAnchor, paddingLeft: 8)
         usernameLabel.centerY(inView: userImageView)
-        
-        view.addSubview(followButton)
-        followButton.anchor(right: view.rightAnchor, paddingRight: 16)
-        followButton.centerY(inView: userImageView)
 
         view.addSubview(moreButton)
         moreButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 40)
@@ -298,6 +265,24 @@ class MainViewController: UIViewController {
     func buttonAlpha(alpha: CGFloat) {
         addArtworkButton.alpha = alpha
         addExhibitionButton.alpha = alpha
+    }
+    
+    func uploadButtonAnimate() {
+        if buttonIsActive == false {
+            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut) {
+                self.uploadButton.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi / 4))
+                self.buttonAlpha(alpha: 1)
+            } completion: { _ in
+                self.buttonIsActive = true
+            }
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut) {
+                self.uploadButton.transform = CGAffineTransform.identity
+                self.buttonAlpha(alpha: 0)
+            } completion: { _ in
+                self.buttonIsActive = false
+            }
+        }
     }
     
     private func animateChangingTitle(for indexPath: IndexPath) {
@@ -379,7 +364,6 @@ extension MainViewController: MainCollectionViewCellDelegate {
             self.uploadButton.isHidden = true
             self.userImageView.alpha = 0
             self.usernameLabel.alpha = 0
-            self.followButton.alpha = 0
             self.exhibitionTitleLabel.alpha = 0
             self.moreButton.alpha = 0
         } else {
@@ -388,7 +372,6 @@ extension MainViewController: MainCollectionViewCellDelegate {
             self.uploadButton.isHidden = false
             self.userImageView.alpha = 1
             self.usernameLabel.alpha = 1
-            self.followButton.alpha = 1
             self.exhibitionTitleLabel.alpha = 1
             self.moreButton.alpha = 1
         }

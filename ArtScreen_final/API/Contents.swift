@@ -27,6 +27,7 @@ let POST_ARTWORK_URL = "http://artscreen.sakura.ne.jp/postArtwork.php";
 let GET_ALL_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getAllArtwork.php"
 let GET_USER_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getUserArtwork.php"
 let GET_EXHIBITION_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getExhibitionArtwork.php"
+let GET_ARTWORK_WITH_POSITION_URL = "http://artscreen.sakura.ne.jp/getArtworkWithPosition.php"
 
 
 //MARK: ARTWORK ITEM

@@ -7,10 +7,21 @@
 
 import UIKit
 
+protocol MapInfoInputViewDelegate: class {
+    func handleReadMore(user: User, artwork: ArtworkDetail)
+}
+
 class MapInfoInputView: UIView {
     
     //MARK: - Properties
-    var artwork: ArtworkDetail?
+    weak var delegate: MapInfoInputViewDelegate?
+    var user: User?
+    
+    var artwork: ArtworkDetail? {
+        didSet {
+            configureData()
+        }
+    }
     
     private let userImageView: UIImageView = {
         let image = UIImageView()
@@ -82,6 +93,7 @@ class MapInfoInputView: UIView {
         button.setTitleColor(.white, for: .normal)
         button.setDimensions(width: 120, height: 36)
         button.layer.cornerRadius = 36 / 2
+        button.addTarget(self, action: #selector(handleReadMore), for: .touchUpInside)
         
         return button
     }()
@@ -103,6 +115,13 @@ class MapInfoInputView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Selectors
+    @objc func handleReadMore() {
+        guard let user = user else { return }
+        guard let artwork = artwork else { return }
+        delegate?.handleReadMore(user: user, artwork: artwork)
     }
     
     //MARK: - Helpers
@@ -135,5 +154,22 @@ class MapInfoInputView: UIView {
         
         addSubview(readMoreButton)
         readMoreButton.anchor(left: userStack.leftAnchor, bottom: artworkImageVew.bottomAnchor)
+    }
+    
+    func configureData() {
+        guard let artwork = artwork else { return }
+        DispatchQueue.main.async {
+            self.artworkImageVew.sd_setImage(with: artwork.path)
+            self.artworkTitleLabel.text = artwork.artworkName
+        }
+
+        UserService.shared.fetchUser(withUserID: artwork.userID) { user in
+            self.user = user
+            DispatchQueue.main.async {
+                self.userImageView.sd_setImage(with: user.ava)
+                self.fullnameLabel.text = user.fullname
+                self.usernameLabel.text = "@" + user.username
+            }
+        }
     }
 }

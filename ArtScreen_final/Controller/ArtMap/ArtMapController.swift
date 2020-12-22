@@ -66,6 +66,16 @@ class ArtMapController: UIViewController {
         }
     }
     
+    func fetchArtwork(withPosition position: CLLocationCoordinate2D) {
+        ArtworkService.shared.fetchArtworkWithPosition(withPosition: position) { artwork in
+            self.mapInfoView.artwork = artwork
+            
+            DispatchQueue.main.async {
+                self.handleShowInputView()
+            }
+        }
+    }
+    
     //MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .mainBackground
@@ -92,7 +102,7 @@ class ArtMapController: UIViewController {
         mapInfoViewBottom.isActive = true
         mapInfoView.heightAnchor.constraint(equalToConstant: mapInfoViewHeight).isActive = true
         mapInfoView.layer.cornerRadius = 24
-//        mapInfoView.delegate = self
+        mapInfoView.delegate = self
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleDismissal))
         swipeDown.direction = .down
@@ -121,7 +131,9 @@ class ArtMapController: UIViewController {
     func setupMarker(lat: Double, lng: Double, title: String) {
         let position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         let marker = GMSMarker(position: position)
-        marker.title = title
+        let markerImage = UIImage(imageLiteralResourceName: "marker").withRenderingMode(.alwaysOriginal)
+        let markerView = UIImageView(image: markerImage)
+        marker.iconView = markerView
         marker.map = mapView
     }
 }
@@ -129,7 +141,9 @@ class ArtMapController: UIViewController {
 //MARK: - GMSMapViewDelegate
 extension ArtMapController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        handleShowInputView()
+        let position = marker.position
+        fetchArtwork(withPosition: position)
+        
         return false
     }
     
@@ -149,5 +163,15 @@ extension ArtMapController: CLLocationManagerDelegate {
         let camera = GMSCameraPosition.camera(withLatitude: locationValue.latitude, longitude: locationValue.longitude, zoom: 15.0)
         self.mapView.animate(to: camera)
         locationManager.stopUpdatingLocation()
+    }
+}
+
+//MARK: - MapInfoInputViewDelegate
+extension ArtMapController: MapInfoInputViewDelegate {
+    func handleReadMore(user: User, artwork: ArtworkDetail) {
+        let controller = ArtworkDetailController(user: user, artwork: artwork)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }

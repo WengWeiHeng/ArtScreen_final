@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 struct ArtworkCredentials {
     let artworkName: String
@@ -115,6 +116,30 @@ struct ArtworkService {
         readArtworkData(request: request, completion: completion)
     }
     
+    func fetchArtworkWithPosition(withPosition position: CLLocationCoordinate2D, completion: @escaping(ArtworkDetail) -> Void) {
+        let url = URL(string: GET_ARTWORK_WITH_POSITION_URL)!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "lat=\(position.latitude)&lng=\(position.longitude)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let artwork = try decoder.decode(ArtworkDetail.self, from: jsonData)
+                completion(artwork)
+            } catch {
+                print("DEBUG: \(error.localizedDescription) when read artwork Data with position")
+            }
+        }
+        task.resume()
+    }
+    
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {
@@ -122,7 +147,7 @@ struct ArtworkService {
                 return
             }
             
-            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
+//            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()

@@ -61,12 +61,17 @@ class ARCameraController: UIViewController {
     func loadingStorageUrl() {
         ArtworkService.shared.fetchArtwork { artworks in
             self.artworks = artworks
-            let url = try? URL(resolvingAliasFileAt: artworks[artworks.count - 1].path)
-            let data = try? Data(contentsOf: url!)
-//            print("url = \(url)")
-//            print("data = \(data)")
+        
             DispatchQueue.main.async {
-                self.artworkImages.append(UIImage(data: data!)!)
+                for i in 0..<artworks.count {
+                    let url = try? URL(resolvingAliasFileAt: self.artworks[i].path)
+                    let data = try? Data(contentsOf: url!)
+                    print("url = \(url)")
+                    print("data = \(data)")
+                    self.artworkImages.append(UIImage(data: data!)!)
+                }
+                
+                print("DEBUG: artwork Image array is \(self.artworkImages.count)")
                 self.configuration.trackingImages = self.loadedImagesFromDirectoryContents(self.artworkImages)
                 print("DEBUG: artworksImages.count \(self.artworkImages.count)")
                 self.sceneView.session.run(self.configuration)
@@ -77,7 +82,6 @@ class ARCameraController: UIViewController {
     func configureSceneView() {
         view.addSubview(sceneView)
         sceneView.addConstraintsToFillView(view)
-//        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         sceneView.delegate = self
         let scene = SCNScene()
         sceneView.scene = scene
@@ -176,10 +180,13 @@ extension ARCameraController: ARSCNViewDelegate {
                         break;
                     }
                 }
-                let controller = ARResultController()
-                controller.artwork = self.artworks[index]
-                animatePlane.firstMaterial?.diffuse.contents = controller.view
-    
+                
+                DispatchQueue.main.async {
+                    let controller = ARResultController()
+                    controller.artwork = self.artworks[index]
+                    animatePlane.firstMaterial?.diffuse.contents = controller.view
+                }
+                
                 let animateNode = SCNNode(geometry: animatePlane)
                 animateNode.eulerAngles.x = -.pi / 2
                 node.addChildNode(animateNode)

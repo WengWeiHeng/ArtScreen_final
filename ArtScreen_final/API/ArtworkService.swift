@@ -122,7 +122,7 @@ struct ArtworkService {
                 return
             }
             
-//            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
+            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()
@@ -130,7 +130,7 @@ struct ArtworkService {
                 let artworkDetail = artworks.artworks
                 completion(artworkDetail)
             } catch {
-                print("DEBUG: \(error.localizedDescription)")
+                print("DEBUG: \(error.localizedDescription) in Artwork Service")
             }
         }
         task.resume()

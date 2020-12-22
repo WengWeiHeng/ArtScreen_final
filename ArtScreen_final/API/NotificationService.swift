@@ -21,8 +21,8 @@ struct NotificationService {
         request.httpBody = body.data(using: .utf8)
         
         readNotification(request: request, completion: completion)
-  
     }
+    
     func readNotification(request: NSMutableURLRequest, completion: @escaping([NotificationDetail]) -> Void ){
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let data = data else {

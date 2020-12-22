@@ -72,7 +72,7 @@ struct ArtworkItemService {
         //... body
         print(param)
 
-        request.httpBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artworkItem-\(artworkID).jpg")
+        request.httpBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artworkItem-\(artworkID).png")
         print("DEBUG: -Update ArtworkItem")
         //launch session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in

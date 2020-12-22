@@ -25,10 +25,7 @@ class ARResultController: UIViewController {
     var circleWidth: CGFloat!
     var circleHeight: CGFloat!
     
-    var trimImageView: UIImageView = {
-        let iv = UIImageView()
-        return iv
-    }()
+    var trimImageView = UIImageView()
     
     var originImageView: UIImageView = {
         let iv = UIImageView()
@@ -68,6 +65,7 @@ class ARResultController: UIViewController {
         view.addSubview(trimImageView)
         
         print("DEBUG: trimImageView size in ARResult \(originImageView.frame.size)")
+        print("DEBUG: artwork ID is \(artwork?.artworkID)")
         
 //        AnimateUtilities().rotateAction(view: trimImageView, fromValue: 2, toValue: 1, duration: 6)
     }
@@ -91,41 +89,47 @@ class ARResultController: UIViewController {
     func configureArtworkItemData() {
         guard let artworkItem = artworkItem else { return }
         guard let artwork = artwork else { return }
-        let widthOriginal = CGFloat(artwork.width)
-        let heightOriginal = CGFloat(artwork.height)
-        let scaleX = view.frame.size.width / widthOriginal
-        let scaleY = view.frame.size.height / heightOriginal
-        let minX = CGFloat(artworkItem.x) * scaleX
-        let minY = CGFloat(artworkItem.y) * scaleY
-        let widthtrimImageView = CGFloat(artworkItem.width) * scaleX
-        let heighttrimImageView = CGFloat(artworkItem.height) * scaleY
-        trimImageView.frame = CGRect(x: minX, y: minY, width: widthtrimImageView, height: heighttrimImageView)
-//        particleImage.size = CGSize(width: 10, height: 10)
         
-        trimImageView.sd_setImage(with: artworkItem.path)
-        let rotateFrom = CGFloat(artworkItem.rotateFrom)
-        let rotateTo = CGFloat(artworkItem.rotateTo)
-        let rotateSpeed = CFTimeInterval(CGFloat(artworkItem.rotateSpeed))
+        DispatchQueue.main.async {
+            let widthOriginal = CGFloat(artwork.width)
+            let heightOriginal = CGFloat(artwork.height)
+            let scaleX = self.view.frame.size.width / widthOriginal
+            let scaleY = self.view.frame.size.height / heightOriginal
+            let minX = CGFloat(artworkItem.x) * scaleX
+            let minY = CGFloat(artworkItem.y) * scaleY
+            let widthtrimImageView = CGFloat(artworkItem.width) * scaleX
+            let heighttrimImageView = CGFloat(artworkItem.height) * scaleY
+            self.trimImageView.frame = CGRect(x: minX, y: minY, width: widthtrimImageView, height: heighttrimImageView)
+    //        particleImage.size = CGSize(width: 10, height: 10)
+            
+            self.trimImageView.sd_setImage(with: artworkItem.path)
+            let rotateFrom = CGFloat(artworkItem.rotateFrom)
+            let rotateTo = CGFloat(artworkItem.rotateTo)
+            let rotateSpeed = CFTimeInterval(CGFloat(artworkItem.rotateSpeed))
 
-        let scaleFrom = CGFloat(artworkItem.scaleFrom)
-        let scaleTo = CGFloat(artworkItem.scaleTo)
-        let scaleSpeed = CFTimeInterval(CGFloat(artworkItem.scaleSpeed))
+            let scaleFrom = CGFloat(artworkItem.scaleFrom)
+            let scaleTo = CGFloat(artworkItem.scaleTo)
+            let scaleSpeed = CFTimeInterval(CGFloat(artworkItem.scaleSpeed))
 
-        let opacityFrom = CGFloat(artworkItem.opacityFrom)
-        let opacityto = CGFloat(artworkItem.opacityTo)
-        let opacitySpeed = CFTimeInterval(CGFloat(artworkItem.opacitySpeed))
+            let opacityFrom = CGFloat(artworkItem.opacityFrom)
+            let opacityto = CGFloat(artworkItem.opacityTo)
+            let opacitySpeed = CFTimeInterval(CGFloat(artworkItem.opacitySpeed))
+            
+            AnimateUtilities().allAction(view: self.trimImageView, rotateFrom: rotateFrom, rotateTo: rotateTo, rotateDuration: rotateSpeed, scaleFrom: scaleFrom, scaleTo: scaleTo, scaleDuration: scaleSpeed, autoreverses: true, opacityFrom: opacityFrom, opacityto: opacityto, opacityDuration: opacitySpeed)
+            
+            let size = CGFloat(artworkItem.emitterSize) * scaleY
+            let speed = CGFloat(artworkItem.emitterSpeed)
+            let red = CGFloat(artworkItem.emitterRed)
+            let green = CGFloat(artworkItem.emitterGreen)
+            let blue = CGFloat(artworkItem.emitterBlue)
+            self.circleWidth = 5 * scaleX
+            self.circleHeight = 5 * scaleY
+            
+            self.setEmitter(size: size, speed: speed, red: red, green: green, blue: blue)
+        }
         
-        AnimateUtilities().allAction(view: trimImageView, rotateFrom: rotateFrom, rotateTo: rotateTo, rotateDuration: rotateSpeed, scaleFrom: scaleFrom, scaleTo: scaleTo, scaleDuration: scaleSpeed, autoreverses: true, opacityFrom: opacityFrom, opacityto: opacityto, opacityDuration: opacitySpeed)
         
-        let size = CGFloat(artworkItem.emitterSize) * scaleY
-        let speed = CGFloat(artworkItem.emitterSpeed)
-        let red = CGFloat(artworkItem.emitterRed)
-        let green = CGFloat(artworkItem.emitterGreen)
-        let blue = CGFloat(artworkItem.emitterBlue)
-        circleWidth = 5 * scaleX
-        circleHeight = 5 * scaleY
         
-        setEmitter(size: size, speed: speed, red: red, green: green, blue: blue)
     }
     
     func setEmitter(size: CGFloat, speed: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat) {

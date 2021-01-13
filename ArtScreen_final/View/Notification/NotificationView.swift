@@ -43,10 +43,10 @@ class NotificationView: UIView {
     //MARK: - API
     func fetchUserNoftification() {
         guard let user = user else { return }
-        NotificationService.share.getNotification(forUser: user) { [self] (notifications) in
+        NotificationService.share.getNotification(forUser: user) { notifications in
             self.notifications = notifications
             DispatchQueue.main.async {
-                tableView.reloadData()
+                self.tableView.reloadData()
             }
         }
     }

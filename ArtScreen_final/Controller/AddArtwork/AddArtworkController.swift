@@ -15,13 +15,23 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
     //MARK: - Properties
     var user: User?
     private var scrollView : UIScrollView!
-    var view1 = CameraView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-    var view2 = AlbumView(frame: CGRect(x: screenWidth, y: 0, width: screenWidth, height: screenHeight))
+    var cameraView = CameraView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
+    var albumView = AlbumView(frame: CGRect(x: screenWidth, y: 0, width: screenWidth, height: screenHeight))
     var captureSession: AVCaptureSession!
     var stillImageOutput: AVCapturePhotoOutput!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+    let captureImageView = UIImageView()
     
-    let buttonCamera : UIButton = {
+    private let closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "close"), for: .normal)
+        button.setDimensions(width: 30, height: 30)
+        button.addTarget(self, action: #selector(handleDismissal), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    let buttonCamera: UIButton = {
         let button = UIButton()
         button.backgroundColor = .mainPurple
         button.setTitleColor(.white, for: .normal)
@@ -36,7 +46,7 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         return button
     }()
     
-    let buttonAlbum : UIButton = {
+    let buttonAlbum: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
         button.setTitleColor(.black, for: .normal)
@@ -49,23 +59,6 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         button.addTarget(self, action: #selector(handleTapButtonAlbum), for: .touchUpInside)
         
         return button
-    }()
-    
-    let buttonCancel : UIButton = {
-        let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "close"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleTapButtonCancel), for: .touchUpInside)
-        button.setDimensions(width: 24, height: 24)
-        
-        return button
-
-    }()
-    
-    let captureImageView : UIImageView = {
-        let img = UIImageView()
-        
-        return img
     }()
     
     //MARK: - Init
@@ -81,8 +74,7 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .black
+        configureNavigationBar()
         configureScrollView()
         setupButton()
     }
@@ -114,15 +106,22 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    @objc func handleTapButtonCancel() {
+    @objc func handleDismissal() {
         dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Helpers
+    func configureNavigationBar() {
+        view.backgroundColor = .black
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     func setupButton() {
         view.addSubview(buttonCamera)
         view.addSubview(buttonAlbum)
-        view.addSubview(buttonCancel)
+        
+        view.addSubview(closeButton)
+        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 10, paddingLeft: 12)
         
         let stack = UIStackView(arrangedSubviews: [buttonCamera, buttonAlbum])
         stack.axis = .horizontal
@@ -131,8 +130,6 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         view.addSubview(stack)
         stack.centerX(inView: view)
         stack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 20)
-
-        buttonCancel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 10, paddingLeft: 15, width: 24, height: 24)
     }
     
     func configureScrollView() {
@@ -145,10 +142,10 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: CGFloat(pageSize) * screenWidth, height: screenHeight)
         view.addSubview(scrollView)
 
-        scrollView.addSubview(view1)
-        scrollView.addSubview(view2)
-        view1.delegate = self
-        view2.delegate = self
+        scrollView.addSubview(cameraView)
+        scrollView.addSubview(albumView)
+        cameraView.delegate = self
+        albumView.delegate = self
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -170,17 +167,13 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.contentOffset.y = 0.0
-    }
-    
     func configureAlert(_ image: UIImage) {
         let alert = UIAlertController(title: "Do you want add AR Animation on your ArtWork",message:"If you don't want to add it now, you can click Edit in your profile page", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Not now", style: .default, handler: { _ in
             guard let user = self.user else { return }
             let viewController =  ArtworkInfoSettingController(user: user)
-            let resize: CGSize = CGSize.init(width: screenWidth, height:screenWidth)
+            let resize: CGSize = CGSize.init(width: screenWidth, height: screenWidth)
             let originalImage = image.resize(size: resize)
             viewController.artworkImage = originalImage
             viewController.heightoriginalImageView = originalImage!.size.height
@@ -202,22 +195,27 @@ class AddArtworkController: UIViewController, UIScrollViewDelegate {
 
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.contentOffset.y = 0.0
+    }
 }
 
-//MARK: - CamereViewDelegate
+//MARK: - CameraViewDelegate
 extension AddArtworkController: CameraViewDelegate {
     func presentPhotoCheck(_ image: UIImage) {
         guard let user = user else { return }
         let controller = ConfirmImageController(user: user)
         controller.image.image = image
-        self.navigationController?.pushViewController(controller, animated: true)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
 
     }
 }
 
 //MARK: - AlbumViewDelegate
 extension AddArtworkController: AlbumViewDelegate {
-    
     func uploadArtwork(_ image: UIImage) {
         self.configureAlert(image)
     }

@@ -31,7 +31,7 @@ class AlbumView: UIView {
         return iv
     }()
     
-    let buttonNext : UIButton = {
+    let buttonNext: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "Next"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +39,7 @@ class AlbumView: UIView {
         return button
     }()
     
-    let collectionView : UICollectionView = {
+    let collectionView: UICollectionView = {
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 0
@@ -64,7 +64,7 @@ class AlbumView: UIView {
         backgroundColor = .black
         
         addSubview(buttonNext)
-        buttonNext.anchor(top: topAnchor, right: rightAnchor, paddingTop: 50, paddingRight: 15, width: 12, height: 24)
+        buttonNext.anchor(top: topAnchor, right: rightAnchor, paddingTop: 60, paddingRight: 12, width: 12, height: 24)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -159,7 +159,6 @@ extension AlbumView: UICollectionViewDataSource, MyHeaderFooterCollectionViewDel
             headerImageView.image = convertImageFromAsset(asset: photoAssets[indexPath.row])
         }
     }
-    
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout / UICollectionViewDelegate

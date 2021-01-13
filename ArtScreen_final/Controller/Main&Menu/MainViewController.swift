@@ -326,6 +326,7 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MainCollectionViewCell
         cell.configureData(with: exhibitions[indexPath.row], collectionView: collectionView, index: indexPath.row)
+        cell.exhibition = exhibitions[indexPath.row]
         cell.delegate = self
         
         return cell
@@ -381,6 +382,13 @@ extension MainViewController: MainCollectionViewCellDelegate {
         print("DEBUG: show Detail in main controller")
         guard let user = user else { return }
         let controller = ArtworkDetailController(user: user, artwork: artwork)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func openARWorld(exhibition: ExhibitionDetail) {
+        let controller = ARWorldController(exhibition: exhibition)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)

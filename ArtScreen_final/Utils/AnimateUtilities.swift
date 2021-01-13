@@ -75,6 +75,17 @@ class AnimateUtilities {
         view.layer.add(animation, forKey: nil)
     }
     
+    func blurEffect(view: UIView, duration: TimeInterval) {
+        let effect = UIBlurEffect(style: .dark)
+        let effectView = UIVisualEffectView(effect: effect)
+        effectView.frame = view.frame
+        view.addSubview(effectView)
+        
+        UIView.animate(withDuration: duration, delay: 0, options: [.repeat, .autoreverse, .curveLinear]) {
+            effectView.effect = nil
+        }
+    }
+    
     func allAction(view: UIView,
                    path: UIBezierPath = UIBezierPath(),
                    moveDuration: CFTimeInterval = 0,
@@ -126,9 +137,8 @@ class AnimateUtilities {
         opacityAnimate.autoreverses = true
         opacityAnimate.repeatCount = .infinity
         
-//        if rotateFrom != 0 && rotateTo != 0 && rotateDuration != 0 {
-//            view.layer.add(rotateAnimate, forKey: nil)
-//        }
+        
+        
         if path.isEmpty == false && moveDuration != 0 {
             view.layer.add(moveAnimation, forKey: nil)
         }
@@ -140,11 +150,8 @@ class AnimateUtilities {
         if opacityFrom != 0 && opacityto != 0 && opacityDuration != 0 {
             view.layer.add(opacityAnimate, forKey: nil)
         }
-//
-        view.layer.add(rotateAnimate, forKey: nil)
-//        view.layer.add(scaleAnimate, forKey: nil)
-//        view.layer.add(opacityAnimate, forKey: nil)
         
+        view.layer.add(rotateAnimate, forKey: nil)
     }
     
     func removeAnimate(view: UIView) {

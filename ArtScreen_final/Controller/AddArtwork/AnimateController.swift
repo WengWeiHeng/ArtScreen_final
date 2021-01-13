@@ -16,7 +16,6 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     
     var checkSelectImageIndex: Int = 0
     var checkViewDrawLasso: Bool = false
-    var customProtocol: CustomProtocol?
     let featureToolBarView = FeatureToolBarView()
     let penToolBarView = PenToolBarView()
     let animateToolBarView = AnimateToolBarView()
@@ -32,7 +31,6 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         cv.backgroundColor = .init(white: 1, alpha: 0.5)
         cv.delegate = self
         cv.dataSource = self
-//        cv.showsHorizontalScrollIndicator = false
         cv.layer.cornerRadius = 56 / 2
         cv.register(LayerCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
@@ -63,7 +61,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     }()
     
     let settingView : UIView = {
-       let view = UIView()
+        let view = UIView()
         let buttonPhotoLibrary : UIButton = {
             let button = UIButton()
             button.setImage(#imageLiteral(resourceName: "Library"), for: .normal)
@@ -180,7 +178,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-
+        
         return iv
     }()
     
@@ -210,16 +208,21 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     private var opacityToValue: CGFloat!
     private var opacityAnimateSpeed: CFTimeInterval!
     
+    private var blurEffectView = UIVisualEffectView()
+    private var blurSpeed: CFTimeInterval!
+    
     private var moveBottom = NSLayoutConstraint()
     private var rotateBottom = NSLayoutConstraint()
     private var scaleBottom = NSLayoutConstraint()
     private var opacityBottom = NSLayoutConstraint()
     private var emitterBottom = NSLayoutConstraint()
+    private var blurBottom = NSLayoutConstraint()
     
     private let moveSettingHeight: CGFloat = 180
     private let rotateSettingHeight: CGFloat = 226
     private let settingViewHeight: CGFloat = 272
     private let emitterViewHeight: CGFloat = 378
+    private let blurViewHeight: CGFloat = 180
 
     private var moveDrawView: MoveDrawView!
     private var moveSettingView = MoveSettingView()
@@ -227,6 +230,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     private var scaleSettingView = ScaleSettingView()
     private var opacitySettingView = OpacitySettingView()
     private var emitterSettingView = EmitterSettingView()
+    private var blurSettingView = BlurSettingView()
     
     lazy var centerPoint: UIView = {
         let view = UIView()
@@ -285,12 +289,13 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
     
     //MARK: - Selecotrs
     @objc func tapbuttonPhotoLibrary() {
-        for controller in self.navigationController!.viewControllers as Array {
-            if controller.isKind(of: AddArtworkController.self) {
-                self.navigationController!.popToViewController(controller, animated: true)
-                break
-            }
-        }
+        navigationController?.popViewController(animated: true)
+//        for controller in self.navigationController!.viewControllers as Array {
+//            if controller.isKind(of: AddArtworkController.self) {
+//                self.navigationController!.popToViewController(controller, animated: true)
+//                break
+//            }
+//        }
     }
     
     @objc func tapbuttonFeature() {
@@ -345,8 +350,6 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
                 isRunning = false
                 showError("Create your animation objects.")
             } else {
-                print("rotateToValue = \(rotateToValue)")
-                print("rotateFromValue = \(rotateFromValue)")
                 buttonPlay.setImage(#imageLiteral(resourceName: "pause").withRenderingMode(.alwaysOriginal), for: .normal)
                 if (checkViewDrawLasso == true) {
                     view.addSubview(trimImageView)
@@ -357,6 +360,17 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
                 
                 AnimateUtilities().allAction(view: trimImageView, path: movePath, moveDuration: moveSpeed, rotateFrom: rotateFromValue, rotateTo: rotateToValue, rotateDuration: rotateAnimateSpeed, scaleFrom: scaleFromValue, scaleTo: scaleToValue, scaleDuration: scaleAnimateSpeed, autoreverses: true, opacityFrom: opacityFromValue, opacityto: opacityToValue, opacityDuration: opacityAnimateSpeed)
                 
+                // blurEffect
+                if blurSpeed != 0 {
+                    let effect = UIBlurEffect(style: .dark)
+                    blurEffectView = UIVisualEffectView(effect: effect)
+                    blurEffectView.frame = trimImageView.frame
+                    view.addSubview(blurEffectView)
+                    
+                    UIView.animate(withDuration: blurSpeed, delay: 0, options: [.repeat, .autoreverse, .curveLinear]) {
+                        self.blurEffectView.effect = nil
+                    }
+                }
 //                setEmitter()
             }
         } else {
@@ -365,6 +379,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
             cells.removeAll()
             emitter.removeFromSuperlayer()
             emitter.removeAllAnimations()
+            blurEffectView.removeFromSuperview()
         }
     }
     
@@ -443,6 +458,8 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         opacityFromValue = CGFloat(opacitySettingView.maxSizeSlider.value)
         opacityToValue = CGFloat(opacitySettingView.minSizeSlider.value)
         opacityAnimateSpeed = CFTimeInterval(opacitySettingView.speedSlider.value)
+        
+        blurSpeed = CFTimeInterval(blurSettingView.speedSlider.value)
     }
     
     func SolveWidthStackView(_ number : Int) -> CGFloat {
@@ -488,7 +505,6 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         view.addSubview(layerStackView)
         layerStackView.anchor(top: undoRedoPlayView.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 12, paddingRight: 12, height: 56)
     }
-    
     
     func configureAnimateSettingView() {
         view.addSubview(moveSettingView)
@@ -546,8 +562,19 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         emitterSettingView.delegate = self
         emitterSettingView.selfDelegate = self
         emitterSettingView.layer.zPosition = 10000
+        
+        view.addSubview(blurSettingView)
+        blurSettingView.translatesAutoresizingMaskIntoConstraints = false
+        blurSettingView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        blurSettingView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        blurBottom = blurSettingView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: blurViewHeight)
+        blurBottom.isActive = true
+        blurSettingView.heightAnchor.constraint(equalToConstant: blurViewHeight).isActive = true
+        blurSettingView.layer.cornerRadius = 24
+        blurSettingView.delegate = self
+        blurSettingView.layer.zPosition = 10000
     }
-    
+
     func handleDismissal() {
         animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
             self.moveBottom.constant = self.moveSettingHeight
@@ -555,6 +582,7 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
             self.opacityBottom.constant = self.settingViewHeight
             self.rotateBottom.constant = self.rotateSettingHeight
             self.emitterBottom.constant = self.emitterViewHeight
+            self.blurBottom.constant = self.blurViewHeight
             self.view.layoutIfNeeded()
         }
         animator.startAnimation()
@@ -641,11 +669,13 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         let trimImage = UIImage(cgImage: imageCropping, scale: image.scale, orientation: image.imageOrientation)
         return trimImage
     }
+    
     func resetAnimate() {
-
         cells.removeAll()
         emitter.removeFromSuperlayer()
         emitter.removeAllAnimations()
+        blurEffectView.removeFromSuperview()
+        
         rotateSettingView.resetButton()
         rotateSettingView.fromeValue = 0
         rotateSettingView.toValue = 0
@@ -658,9 +688,11 @@ class AnimateController: UIViewController, UIScrollViewDelegate {
         opacitySettingView.maxSizeSlider.value = 0
         opacitySettingView.minSizeSlider.value = 0
         opacitySettingView.speedSlider.value = 0
+        
+        blurSettingView.speedSlider.value = 0
     }
     
-    //MARK: - EmitterHelperS
+    //MARK: - EmitterHelpers
     func setEmitter() {
         emitterSize = CGFloat(emitterSettingView.sizeSlider.value)
         emitterSpeed = CGFloat(emitterSettingView.speedSlider.value)
@@ -742,21 +774,32 @@ extension AnimateController: UICollectionViewDelegateFlowLayout {
 extension AnimateController: FeatureToolBarViewDelegate {
     func deletePenAndLasso() {
         ////fixed start
-        do {
-            let count = try arrtrimImageView.count
-            for i in 0..<count {
-                arrtrimImageView[i].removeFromSuperview()
-            }
-            arrtrimImageView.removeAll()
-            trimImageView.image = UIImage()
-            trimImageView.removeFromSuperview()
-            layers.removeAll()
-            collectionView.reloadData()
-            originalImageView.alpha = 1.0
-            resetAnimate()
-        } catch {
-            print("Crash with deletePenAndLasso")
+//        do {
+//            let count = try arrtrimImageView.count
+//            for i in 0..<count {
+//                arrtrimImageView[i].removeFromSuperview()
+//            }
+//            arrtrimImageView.removeAll()
+//            trimImageView.image = UIImage()
+//            trimImageView.removeFromSuperview()
+//            layers.removeAll()
+//            collectionView.reloadData()
+//            originalImageView.alpha = 1.0
+//            resetAnimate()
+//        } catch {
+//            print("Crash with deletePenAndLasso")
+//        }
+        let count = arrtrimImageView.count
+        for i in 0..<count {
+            arrtrimImageView[i].removeFromSuperview()
         }
+        arrtrimImageView.removeAll()
+        trimImageView.image = UIImage()
+        trimImageView.removeFromSuperview()
+        layers.removeAll()
+        collectionView.reloadData()
+        originalImageView.alpha = 1.0
+        resetAnimate()
 
         ////fixed end
     }
@@ -770,6 +813,7 @@ extension AnimateController: FeatureToolBarViewDelegate {
         configureLassoCroppedImageView()
         self.configureCanvasView(withDoing: true)
     }
+    
     func showLassoToolBarAndDraw() {
         self.checkViewDrawLasso = true
         UIView.animate(withDuration: 0.4) {
@@ -799,7 +843,7 @@ extension AnimateController: PenToolBarDelegate {
     func penCropAction() {
         let beCropped = penCropImage()
         let finalPath = canvas.getPath()
-        print("\(beCropped) , \(finalPath)")
+
         if (finalPath != UIBezierPath()) {
             penCroppedImage = UIImage(cgImage: (beCropped?.cgImage?.cropping(to: finalPath.bounds))!)
             sampleImageView.removeFromSuperview()
@@ -840,43 +884,45 @@ extension AnimateController: LassoToolBarDelegate {
     func jointAction() {
         let lasspoint: [CGPoint] = lineView.getPoints()
         if lasspoint.count > 1 {
-        lassoLayerImage = ZImageCropper.cropImage(ofImageView: sampleImageView, withinPoints: lasspoint)!
-//        self.lassoLayerImage = lassoLayerImage
+            lassoLayerImage = ZImageCropper.cropImage(ofImageView: sampleImageView, withinPoints: lasspoint)!
+//          self.lassoLayerImage = lassoLayerImage
         
-        let line: [Line] = lineView.getLines()
+            let line: [Line] = lineView.getLines()
         
-        //cut ImageView with point
-        view.addSubview(trimImageView)
-        let points =  lineView.getPoints()
-        for i in 0..<points.count {
-            solve(points[i])
-        }
-        let height: CGFloat = maxY - minY
-        let width: CGFloat = maxX - minX
-        let minXImageView = originalImageView.frame.minX
-        let minYImageView = originalImageView.frame.minY
-        trimImageView.frame = CGRect(x: minX + minXImageView , y: minY + minYImageView, width: width , height: height)
-        let uiImage: UIImage = lassoLayerImage
-        let origin = CGPoint(x: minX, y: minY)
-        let size = CGSize(width: width, height: height)
-        let rect = CGRect(origin: origin, size: size)
-        trimImageView.image = trimImage(image: uiImage, area: rect)
-        trimImageView.image = drawLineOnImage(trimImageView.frame.size, trimImageView.image!, line[line.count-1].points)
-        sampleImageView.removeFromSuperview()
+            //cut ImageView with point
+            view.addSubview(trimImageView)
+            let points =  lineView.getPoints()
+            
+            for i in 0..<points.count {
+                solve(points[i])
+            }
+            
+            let height: CGFloat = maxY - minY
+            let width: CGFloat = maxX - minX
+            let minXImageView = originalImageView.frame.minX
+            let minYImageView = originalImageView.frame.minY
+            trimImageView.frame = CGRect(x: minX + minXImageView , y: minY + minYImageView, width: width , height: height)
+            let uiImage: UIImage = lassoLayerImage
+            let origin = CGPoint(x: minX, y: minY)
+            let size = CGSize(width: width, height: height)
+            let rect = CGRect(origin: origin, size: size)
+            trimImageView.image = trimImage(image: uiImage, area: rect)
+            trimImageView.image = drawLineOnImage(trimImageView.frame.size, trimImageView.image!, line[line.count-1].points)
+            sampleImageView.removeFromSuperview()
         
-        view.addSubview(centerPoint)
-        centerPoint.centerX(inView: trimImageView)
-        centerPoint.centerY(inView: trimImageView)
+            view.addSubview(centerPoint)
+            centerPoint.centerX(inView: trimImageView)
+            centerPoint.centerY(inView: trimImageView)
         
-        lineView.removeFromSuperview()
-        layers.append(lassoLayerImage)
-        arrtrimImageView.append(UIImageView())
-        let lastIndex = arrtrimImageView.count-1
-        view.addSubview(arrtrimImageView[lastIndex])
-        arrtrimImageView[lastIndex].frame = trimImageView.frame
-        arrtrimImageView[lastIndex].image = trimImageView.image
-        arrtrimImageView[lastIndex].tag = lastIndex
-        trimImageView.removeFromSuperview()
+            lineView.removeFromSuperview()
+            layers.append(lassoLayerImage)
+            arrtrimImageView.append(UIImageView())
+            let lastIndex = arrtrimImageView.count-1
+            view.addSubview(arrtrimImageView[lastIndex])
+            arrtrimImageView[lastIndex].frame = trimImageView.frame
+            arrtrimImageView[lastIndex].image = trimImageView.image
+            arrtrimImageView[lastIndex].tag = lastIndex
+            trimImageView.removeFromSuperview()
         }
     }
     
@@ -959,12 +1005,18 @@ extension AnimateController: AnimateToolBarViewDelegate {
         }
         animator.startAnimation()
     }
+    
+    func blurSetting() {
+        animator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
+            self.blurBottom.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
+    }
 }
 
 //MARK: - SettingViewDelegate
 extension AnimateController: SettingViewDelegate {
-
-    
     func dismissSettingView() {
         handleDismissal()
         guard let moveDrawView = moveDrawView else { return }

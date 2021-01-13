@@ -13,10 +13,24 @@ class ARWorldController: UIViewController {
     
     //MARK: - Properties
     private var sceneView = ARSCNView()
+    var exhibition: ExhibitionDetail {
+        didSet {
+            fetchArtwork()
+        }
+    }
     var artworks = [ArtworkDetail]()
     var artworkDistance: Float = -0.138
     
     //MARK: - Init
+    init(exhibition: ExhibitionDetail) {
+        self.exhibition = exhibition
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,27 +53,25 @@ class ARWorldController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let touchLocation = touch.location(in: sceneView)
-            let results = sceneView.hitTest(touchLocation, options: [SCNHitTestOption.searchMode: 1])
+            let raycast = sceneView.raycastQuery(from: touchLocation, allowing: .estimatedPlane, alignment: .any)
             
-            if let hitResult = results.first {
+            if let hitResult = sceneView.session.raycast(raycast!).first {
                 let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
                 if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
-                    boxNode.position = SCNVector3(hitResult.simdModelTransform.columns.3.x, hitResult.simdModelTransform.columns.3.y + 0.05, hitResult.simdModelTransform.columns.3.z)
-
-                    sceneView.scene.rootNode.addChildNode(boxNode)
                     
-                    for distance in 0..<artworks.count {
-                        artworkDistance -= Float(distance)
-                        
-                        let box = SCNBox(width: 0.675, height: 0.675, length: 0.012, chamferRadius: 0)
-                        let artworkNode = SCNNode(geometry: box)
-                        artworkNode.position = SCNVector3Make(1.492, 1.2, artworkDistance)
-                        artworkNode.eulerAngles.y = -90
-                        
-                        boxNode.addChildNode(artworkNode)
-                        
-                    }
+                    
+                    boxNode.position = SCNVector3(hitResult.worldTransform.columns.3.x, hitResult.worldTransform.columns.3.y + 0.15, hitResult.worldTransform.columns.3.z)
+                    sceneView.scene.rootNode.addChildNode(boxNode)
                 }
+            }
+        }
+    }
+    
+    //MARK: - API
+    func fetchArtwork() {
+        ArtworkService.shared.fetchExhibitionArtwork(forExhibitionID: exhibition.exhibitionID) { (artworks) in
+            DispatchQueue.main.async {
+                self.artworks = artworks
             }
         }
     }
@@ -79,6 +91,19 @@ class ARWorldController: UIViewController {
         view.addSubview(sceneView)
         sceneView.addConstraintsToFillView(view)
         sceneView.delegate = self
+    }
+    
+    func configureArtworkNode(withNode node: SCNNode) {
+        let artworkPlane = SCNPlane(width: 0.25, height: 0.25)
+        let artworkNode = SCNNode()
+        artworkNode.position = SCNVector3(0, 0, 0)
+        artworkNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+        
+        let artworkMaterial = SCNMaterial()
+        artworkMaterial.diffuse.contents = UIImage()
+        artworkPlane.materials = [artworkMaterial]
+        artworkNode.geometry = artworkPlane
+        node.addChildNode(artworkNode)
     }
 }
 

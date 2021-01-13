@@ -102,7 +102,6 @@ extension MenuController: UITableViewDelegate {
             present(nav, animated: true, completion: nil)
         case .arCamere:
             delegate?.handleMenuDismissal()
-//            let controller = ARWorldController()
             let controller = ARCameraController()
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen

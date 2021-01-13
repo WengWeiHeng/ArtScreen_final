@@ -66,14 +66,10 @@ class ARCameraController: UIViewController {
                 for i in 0..<artworks.count {
                     let url = try? URL(resolvingAliasFileAt: self.artworks[i].path)
                     let data = try? Data(contentsOf: url!)
-                    print("url = \(url)")
-                    print("data = \(data)")
                     self.artworkImages.append(UIImage(data: data!)!)
                 }
-                
-                print("DEBUG: artwork Image array is \(self.artworkImages.count)")
+
                 self.configuration.trackingImages = self.loadedImagesFromDirectoryContents(self.artworkImages)
-                print("DEBUG: artworksImages.count \(self.artworkImages.count)")
                 self.sceneView.session.run(self.configuration)
             }
         }

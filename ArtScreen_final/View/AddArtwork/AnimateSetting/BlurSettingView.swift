@@ -1,13 +1,13 @@
 //
-//  OpacitySettingView.swift
+//  BlurSettingView.swift
 //  ArtScreen_final
 //
-//  Created by Heng on 2020/10/23.
+//  Created by Heng on 2021/1/7.
 //
 
 import UIKit
 
-class OpacitySettingView: UIView {
+class BlurSettingView: UIView {
     
     //MARK: - Properties
     weak var delegate: SettingViewDelegate?
@@ -16,7 +16,7 @@ class OpacitySettingView: UIView {
          let label = UILabel()
          label.font = .boldSystemFont(ofSize: 26)
          label.textColor = .white
-         label.text = "Opacity setting"
+         label.text = "Blur setting"
          
          return label
      }()
@@ -30,35 +30,11 @@ class OpacitySettingView: UIView {
          
          return button
      }()
-     
-     private let maxLabel: UILabel = {
-         let label = Utilities().sliderTitleLabel(withText: "Max size")
-         
-         return label
-     }()
-     
-     private let minLabel: UILabel = {
-         let label = Utilities().sliderTitleLabel(withText: "Min size")
-         
-         return label
-     }()
-     
-     private let speedLabel: UILabel = {
-         let label = Utilities().sliderTitleLabel(withText: "Speed")
-         
-         return label
-     }()
-     
-     let maxSizeSlider: UISlider = {
-         let slider = Utilities().customSlider(withMaxValue: 3, minValue: 0, value: 0)
-        
-         return slider
-    }()
     
-    let minSizeSlider: UISlider = {
-         let slider = Utilities().customSlider(withMaxValue: 1, minValue: 0, value: 0)
+    private let speedLabel: UILabel = {
+        let label = Utilities().sliderTitleLabel(withText: "Speed")
         
-         return slider
+        return label
     }()
     
     let speedSlider: UISlider = {
@@ -68,26 +44,12 @@ class OpacitySettingView: UIView {
     }()
     
     private lazy var sizeChangeBarStack: UIStackView = {
-        let maxStack = UIStackView(arrangedSubviews: [maxLabel, maxSizeSlider])
-        maxStack.axis = .horizontal
-        maxStack.alignment = .center
-        maxStack.spacing = 8
-        
-        let minStack = UIStackView(arrangedSubviews: [minLabel, minSizeSlider])
-        minStack.axis = .horizontal
-        minStack.alignment = .center
-        minStack.spacing = 8
-        
         let speedStack = UIStackView(arrangedSubviews: [speedLabel, speedSlider])
         speedStack.axis = .horizontal
         speedStack.alignment = .center
         speedStack.spacing = 8
         
-        let stack = UIStackView(arrangedSubviews: [maxStack, minStack, speedStack])
-        stack.axis = .vertical
-        stack.spacing = 4
-        
-        return stack
+        return speedStack
     }()
     
     //MARK: - Init
@@ -116,4 +78,3 @@ class OpacitySettingView: UIView {
         delegate?.dismissSettingView()
     }
 }
-

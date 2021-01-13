@@ -29,7 +29,7 @@
 		B0110771254263B300041A01 /* EditToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110770254263B300041A01 /* EditToolBarView.swift */; };
 		B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110773254263DB00041A01 /* EditToolBarCell.swift */; };
 		B0110777254263FA00041A01 /* ToolBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110776254263FA00041A01 /* ToolBarViewModel.swift */; };
-		B011078925426D4E00041A01 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078825426D4E00041A01 /* CameraView.swift */; };
+		B011078925426D4E00041A01 /* CameraViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078825426D4E00041A01 /* CameraViewX.swift */; };
 		B011078C25426E2200041A01 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078B25426E2200041A01 /* AlbumView.swift */; };
 		B011078F25426E4F00041A01 /* MyHeaderFooterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */; };
 		B01107922542702D00041A01 /* AnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107912542702D00041A01 /* AnimateController.swift */; };
@@ -106,6 +106,7 @@
 		B0BB94542563682C00FAD25B /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB94532563682C00FAD25B /* NotificationView.swift */; };
 		B0BB94572563683900FAD25B /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB94562563683900FAD25B /* MessageView.swift */; };
 		B0BB945B25636DDB00FAD25B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB945A25636DDB00FAD25B /* MessageCell.swift */; };
+		B0CF8343259740EB00264126 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CF8342259740EB00264126 /* CameraView.swift */; };
 		B0D138EA25637931001884A7 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D138E925637931001884A7 /* ChatController.swift */; };
 		B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D1410F25418E0400D9A677 /* UserProfileController.swift */; };
 		B0D14113254190C300D9A677 /* AddArtworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D14112254190C300D9A677 /* AddArtworkController.swift */; };
@@ -117,6 +118,7 @@
 		B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7929C25540C8500702881 /* ProfileViewModel.swift */; };
 		B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D792A12554191600702881 /* TemplateSettingView.swift */; };
 		B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D854572582026900EF720F /* ExhibitionDetailController.swift */; };
+		B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */; };
 		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
 		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
 		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
@@ -148,7 +150,7 @@
 		B0110770254263B300041A01 /* EditToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolBarView.swift; sourceTree = "<group>"; };
 		B0110773254263DB00041A01 /* EditToolBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolBarCell.swift; sourceTree = "<group>"; };
 		B0110776254263FA00041A01 /* ToolBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewModel.swift; sourceTree = "<group>"; };
-		B011078825426D4E00041A01 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		B011078825426D4E00041A01 /* CameraViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewX.swift; sourceTree = "<group>"; };
 		B011078B25426E2200041A01 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHeaderFooterCollectionView.swift; sourceTree = "<group>"; };
 		B01107912542702D00041A01 /* AnimateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateController.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		B0BB94532563682C00FAD25B /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B0BB94562563683900FAD25B /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B0BB945A25636DDB00FAD25B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		B0CF8342259740EB00264126 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		B0D138E925637931001884A7 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		B0D1410F25418E0400D9A677 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		B0D14112254190C300D9A677 /* AddArtworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkController.swift; sourceTree = "<group>"; };
@@ -238,6 +241,7 @@
 		B0D7929C25540C8500702881 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B0D792A12554191600702881 /* TemplateSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSettingView.swift; sourceTree = "<group>"; };
 		B0D854572582026900EF720F /* ExhibitionDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailController.swift; sourceTree = "<group>"; };
+		B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurSettingView.swift; sourceTree = "<group>"; };
 		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -300,7 +304,8 @@
 				B01107C42542723900041A01 /* AnimateSetting */,
 				B01107B6254271CD00041A01 /* LassoTool */,
 				B01107AE2542718B00041A01 /* PenTool */,
-				B011078825426D4E00041A01 /* CameraView.swift */,
+				B011078825426D4E00041A01 /* CameraViewX.swift */,
+				B0CF8342259740EB00264126 /* CameraView.swift */,
 				B011078B25426E2200041A01 /* AlbumView.swift */,
 				B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */,
 				B011079C254270EC00041A01 /* FeatureToolBarView.swift */,
@@ -342,6 +347,7 @@
 				B01107CF2542728800041A01 /* MoveSettingView.swift */,
 				B01107D22542729C00041A01 /* MoveDrawView.swift */,
 				B01107D5254272B000041A01 /* EmitterSettingView.swift */,
+				B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */,
 			);
 			path = AnimateSetting;
 			sourceTree = "<group>";
@@ -551,12 +557,12 @@
 			isa = PBXGroup;
 			children = (
 				B0E58D08254163BD00E5A203 /* ContainerController.swift */,
+				B024BB112562A3F400FAA319 /* SearchController.swift */,
 				B0111441253FD7DB009D55FA /* MainViewController.swift */,
 				B0E58D0B2541640000E5A203 /* MenuController.swift */,
 				B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */,
 				B0A685E2255D325C0012D391 /* ArtworkDetailController.swift */,
 				B047BD8F255E32B20059B342 /* CommentController.swift */,
-				B024BB112562A3F400FAA319 /* SearchController.swift */,
 			);
 			path = "Main&Menu";
 			sourceTree = "<group>";
@@ -789,6 +795,7 @@
 				B011078F25426E4F00041A01 /* MyHeaderFooterCollectionView.swift in Sources */,
 				B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */,
 				B0662FF425787BD1008171D0 /* ArtworkItemService.swift in Sources */,
+				B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */,
 				B0A68608255D517C0012D391 /* ArtworkDetailCell.swift in Sources */,
 				B0A6860B255D518B0012D391 /* ArtworkCommentCell.swift in Sources */,
 				B07C74C12541206400920F59 /* AuthService.swift in Sources */,
@@ -812,7 +819,7 @@
 				B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */,
 				B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */,
 				B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */,
-				B011078925426D4E00041A01 /* CameraView.swift in Sources */,
+				B011078925426D4E00041A01 /* CameraViewX.swift in Sources */,
 				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,
@@ -840,6 +847,7 @@
 				B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */,
 				B091B4E9258F296F004C6CD2 /* NotificationService.swift in Sources */,
 				B0110759254261E100041A01 /* UserInfoView.swift in Sources */,
+				B0CF8343259740EB00264126 /* CameraView.swift in Sources */,
 				B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */,
 				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,
 				B01107A02542710E00041A01 /* FeatureToolBarViewModel.swift in Sources */,
@@ -1012,7 +1020,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-final-2021";
+				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1032,7 +1040,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-final-2021";
+				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

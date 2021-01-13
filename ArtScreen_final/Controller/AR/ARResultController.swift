@@ -63,11 +63,6 @@ class ARResultController: UIViewController {
         originImageView.alpha = 0.75
         
         view.addSubview(trimImageView)
-        
-        print("DEBUG: trimImageView size in ARResult \(originImageView.frame.size)")
-        print("DEBUG: artwork ID is \(artwork?.artworkID)")
-        
-//        AnimateUtilities().rotateAction(view: trimImageView, fromValue: 2, toValue: 1, duration: 6)
     }
     
     //MARK: - API

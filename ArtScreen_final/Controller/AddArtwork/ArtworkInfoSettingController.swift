@@ -11,8 +11,7 @@ class ArtworkInfoSettingController: UIViewController {
     
     //MARK: - Properties
     var user: User?
-    
-    var customProtocol: CustomProtocol?
+
     var itemCredentials : ArtworkItemCredentials?
     var artworkImage: UIImage?
     var itemImage: UIImage?
@@ -139,8 +138,6 @@ class ArtworkInfoSettingController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         configure()
-        
-        print("DEBUG: user is \(user?.username) in information setting")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -149,12 +146,13 @@ class ArtworkInfoSettingController: UIViewController {
     
     //MARK: - Selectors
     @objc func tapbuttonPhotoLibrary() {
-        for controller in self.navigationController!.viewControllers as Array {
-            if controller.isKind(of: AddArtworkController.self) {
-                self.navigationController!.popToViewController(controller, animated: true)
-                break
-            }
-        }
+        navigationController?.popViewController(animated: true)
+//        for controller in self.navigationController!.viewControllers as Array {
+//            if controller.isKind(of: AddArtworkController.self) {
+//                self.navigationController!.popToViewController(controller, animated: true)
+//                break
+//            }
+//        }
     }
     
     @objc func tapbuttonSendImage() {

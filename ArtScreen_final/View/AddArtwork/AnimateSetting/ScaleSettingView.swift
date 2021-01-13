@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ScaleSettingViewDelegate: class {
-    func dismissScaleView()
-}
-
 class ScaleSettingView: UIView {
     
     //MARK: - Properties

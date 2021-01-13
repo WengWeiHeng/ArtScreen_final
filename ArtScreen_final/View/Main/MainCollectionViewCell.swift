@@ -23,12 +23,14 @@ protocol MainCollectionViewCellDelegate: class {
     func itemDismissal(isDismissal: Bool)
     func handleShowDetail(artwork: ArtworkDetail)
     func handleMoveUserProfile(user: User)
+    func openARWorld(exhibition: ExhibitionDetail)
 }
 
 class MainCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
     var user: User?
+    var exhibition: ExhibitionDetail?
     
     private var exhibitionDetail: ExhibitionDetailController?
     private var artworkInputView = ArtworkInputView()
@@ -82,11 +84,11 @@ class MainCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    private let shareButton: UIButton = {
+    private let arWorldButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "share").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arCamera").withRenderingMode(.alwaysOriginal), for: .normal)
         button.setDimensions(width: 50, height: 50)
-        button.imageView?.setDimensions(width: 18, height: 18)
+        button.imageView?.setDimensions(width: 20, height: 20)
         button.backgroundColor = .mainDarkGray
         
         return button
@@ -206,7 +208,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 
     // StackView
     private lazy var actionButtonStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [shareButton, likeButton])
+        let stack = UIStackView(arrangedSubviews: [arWorldButton, likeButton])
         stack.axis = .horizontal
         stack.spacing = 0
         stack.alignment = .center
@@ -297,6 +299,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         closeButton.anchor(top: safeAreaLayoutGuide.topAnchor, right: rightAnchor, paddingTop: 16, paddingRight: 16)
         closeButton.addTarget(self, action: #selector(handleCloseCell), for: .touchUpInside)
         
+        arWorldButton.addTarget(self, action: #selector(openARWorld), for: .touchUpInside)
+        
         addGestureRecognizer(panRecognizer)
     }
     
@@ -383,6 +387,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     @objc func handleShowUserProfile() {
         guard let user = user else { return }
         delegate?.handleMoveUserProfile(user: user)
+    }
+    
+    @objc func openARWorld() {
+        guard let exhibition = exhibition else { return }
+        delegate?.openARWorld(exhibition: exhibition)
     }
     
     //MARK: - Helpers

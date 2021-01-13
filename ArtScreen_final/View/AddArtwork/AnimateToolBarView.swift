@@ -14,6 +14,7 @@ protocol AnimateToolBarViewDelegate: class {
     func rotateSetting()
     func scaleSetting()
     func opacitySetting()
+    func blurSetting()
     func emitterSetting()
 }
 
@@ -72,6 +73,8 @@ extension AnimateToolBarView : UICollectionViewDelegate {
             delegate?.scaleSetting()
         case .opacity:
             delegate?.opacitySetting()
+        case .blur:
+            delegate?.blurSetting()
         case .emitter:
             delegate?.emitterSetting()
         case .none:

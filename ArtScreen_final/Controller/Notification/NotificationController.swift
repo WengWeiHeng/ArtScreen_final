@@ -65,6 +65,7 @@ class NotificationController: UIViewController {
     }
 }
 
+//MARK: - MessageViewDelegate
 extension NotificationController: MessageViewDelegate {
     func handleShowSendView() {
         let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
@@ -75,6 +76,7 @@ extension NotificationController: MessageViewDelegate {
     }
 }
 
+//MARK: - ExhibitionSendViewDelegate
 extension NotificationController: ExhibitionSendViewDelegate {
     func didTappedExhibiSetting_Send_cancel() {
         let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {

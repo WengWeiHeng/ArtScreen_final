@@ -13,18 +13,28 @@ class ARWorldController: UIViewController {
     
     //MARK: - Properties
     private var sceneView = ARSCNView()
-    var exhibition: ExhibitionDetail {
-        didSet {
-            fetchArtwork()
-        }
-    }
+    var exhibition: ExhibitionDetail
     var artworks = [ArtworkDetail]()
-    var artworkDistance: Float = -0.138
+    var artworkDistance: Float = 0.375
+    var artworkImage = UIImage()
+    
+    var imageHighlightAction: SCNAction {
+        return .sequence([
+            .wait(duration: 0.25),
+            .fadeOpacity(to: 0.85, duration: 0.25),
+            .fadeOpacity(to: 0.15, duration: 0.25),
+            .fadeOpacity(to: 0.85, duration: 0.25),
+            .fadeOut(duration: 0.5),
+            .removeFromParentNode()
+            ])
+    }
     
     //MARK: - Init
     init(exhibition: ExhibitionDetail) {
         self.exhibition = exhibition
         super.init(nibName: nil, bundle: nil)
+        
+        fetchArtwork()
     }
     
     required init?(coder: NSCoder) {
@@ -47,22 +57,54 @@ class ARWorldController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         sceneView.session.pause()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchLocation = touch.location(in: sceneView)
-            let raycast = sceneView.raycastQuery(from: touchLocation, allowing: .estimatedPlane, alignment: .any)
-            
-            if let hitResult = sceneView.session.raycast(raycast!).first {
-                let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
-                if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
+//        if let touch = touches.first {
+//            let touchLocation = touch.location(in: sceneView)
+//            let raycast = sceneView.raycastQuery(from: touchLocation, allowing: .estimatedPlane, alignment: .any)
+//            print("DEBUG: touch location \(touchLocation)")
+//            if let hitResult = sceneView.session.raycast(raycast!).first {
+//                let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
+//                if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
+//                    let nodeX = hitResult.worldTransform.columns.3.x
+//                    let nodeY = hitResult.worldTransform.columns.3.y
+//                    let nodeZ = hitResult.worldTransform.columns.3.z
+//
+//                    boxNode.position = SCNVector3(nodeX, nodeY + 0.15, nodeZ)
+//                    sceneView.scene.rootNode.addChildNode(boxNode)
+//
+//                    configureArtworkNode(withNode: boxNode)
+//                }
+//            }
+//        }
+        
+        guard let location = touches.first?.location(in: sceneView) else { return }
+        
+        let raycast = sceneView.raycastQuery(from: location, allowing: .estimatedPlane, alignment: .any)
+        if let hitResult = sceneView.session.raycast(raycast!).first {
+            let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
+            if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
+                let nodeX = hitResult.worldTransform.columns.3.x
+                let nodeY = hitResult.worldTransform.columns.3.y
+                let nodeZ = hitResult.worldTransform.columns.3.z
+
+                boxNode.position = SCNVector3(nodeX, nodeY + 0.15, nodeZ)
+                sceneView.scene.rootNode.addChildNode(boxNode)
+
+                configureArtworkNode(withNode: boxNode)
+                
+                let nodes = boxNode.childNodes
+                for index in 0..<nodes.count {
+                    var nodeName = nodes[index].name
                     
-                    
-                    boxNode.position = SCNVector3(hitResult.worldTransform.columns.3.x, hitResult.worldTransform.columns.3.y + 0.15, hitResult.worldTransform.columns.3.z)
-                    sceneView.scene.rootNode.addChildNode(boxNode)
+                    if nodeName == "artworkNode0" {
+                        print("DEBUG: artworkNode0")
+                    }
                 }
+                
             }
         }
     }
@@ -94,16 +136,48 @@ class ARWorldController: UIViewController {
     }
     
     func configureArtworkNode(withNode node: SCNNode) {
-        let artworkPlane = SCNPlane(width: 0.25, height: 0.25)
-        let artworkNode = SCNNode()
-        artworkNode.position = SCNVector3(0, 0, 0)
-        artworkNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+        for index in 0..<artworks.count {
+            let artworkWidth = CGFloat(artworks[index].width)
+            let artworkHeight = CGFloat(artworks[index].height)
+            let artworkBox = SCNBox(width: artworkWidth * 0.0008, height: artworkHeight * 0.0008, length: 0.01, chamferRadius: 0)
+//            let artworkPlane = SCNPlane(width: 0.25, height: 0.25)
+            let artworkNode = SCNNode()
+            artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (artworkDistance * Float(index)))
+            artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
+            
+            let artworkMaterial = SCNMaterial()
+            artworkImage = getImageByUrl(url: artworks[index].path)
+            artworkMaterial.diffuse.contents = artworkImage
+//            artworkPlane.materials = [artworkMaterial]
+            
+            artworkBox.firstMaterial = artworkMaterial
+            
+            artworkNode.geometry = artworkBox
+            artworkNode.name = "artworkNode\(index)"
+            node.addChildNode(artworkNode)
+        }
+    }
+    
+    func getImageByUrl(url: URL) -> UIImage {
+        do {
+            let data = try Data(contentsOf: url)
+            return UIImage(data: data)!
+        } catch let err {
+            print("Error : \(err.localizedDescription)")
+        }
+        return UIImage()
+    }
+    
+    func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
+        let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height))
+        planeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+        planeNode.position.z += 0.1
+        planeNode.opacity = 0
         
-        let artworkMaterial = SCNMaterial()
-        artworkMaterial.diffuse.contents = UIImage()
-        artworkPlane.materials = [artworkMaterial]
-        artworkNode.geometry = artworkPlane
-        node.addChildNode(artworkNode)
+        rootNode.addChildNode(planeNode)
+        planeNode.runAction(self.imageHighlightAction) {
+            block()
+        }
     }
 }
 
@@ -112,10 +186,11 @@ extension ARWorldController: ARSCNViewDelegate {
         if anchor is ARPlaneAnchor {
             let planeAnchor = anchor as! ARPlaneAnchor
             let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
+        
             let planeNode = SCNNode()
             planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
             planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
-            
+
             let gridMeterial = SCNMaterial()
             gridMeterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
             plane.materials = [gridMeterial]

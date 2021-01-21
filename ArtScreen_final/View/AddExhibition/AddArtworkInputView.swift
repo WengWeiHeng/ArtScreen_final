@@ -87,7 +87,7 @@ class AddArtworkInputView: UIView {
     //MARK: - API
     func fetchUserArtwork() {
         guard let user = user else { return }
-        ArtworkService.shared.fetchUserArtwork(forUser: user) { artworks in
+        ArtworkService.shared.fetchNoExhibitionArtwork(forUser: user) { artworks in
             self.artworks = artworks
             
             DispatchQueue.main.async {

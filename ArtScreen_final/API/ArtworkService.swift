@@ -106,6 +106,16 @@ struct ArtworkService {
         readArtworkData(request: request, completion: completion)
     }
     
+    func fetchNoExhibitionArtwork(forUser user: User, completion: @escaping([ArtworkDetail]) -> Void) {
+        let url = URL(string: GET_NOEXHIBITION_ARTWORK_URL)!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(user.id)"
+        request.httpBody = body.data(using: .utf8)
+        
+        readArtworkData(request: request, completion: completion)
+    }
+    
     func fetchExhibitionArtwork(forExhibitionID exhibitionID: String, completion: @escaping([ArtworkDetail]) -> Void) {
         let url = URL(string: GET_EXHIBITION_ARTWORK_URL)!
         let request = NSMutableURLRequest(url: url)
@@ -146,8 +156,6 @@ struct ArtworkService {
                 print("DEBUG: data is nil..")
                 return
             }
-            
-//            print("DEBUG: user artwork data: \(String(data: data!, encoding: .utf8))")
 
             do {
                 let decoder = JSONDecoder()

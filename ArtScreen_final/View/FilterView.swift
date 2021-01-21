@@ -24,7 +24,7 @@ class FilterView: UIView {
     //MARK: - Properties
     weak var delegate: FilterViewDelegate?
     
-    let state: FilterViewState = .inUserView
+    var state: FilterViewState = .inUserView
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

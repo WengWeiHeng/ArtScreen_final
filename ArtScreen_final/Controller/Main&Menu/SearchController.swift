@@ -69,6 +69,7 @@ class SearchController: UITableViewController, UISearchDisplayDelegate {
         navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClosePage))
+//        navigationItem.searchController?.searchBar = searchBar
     }
     
     func configureTableView() {

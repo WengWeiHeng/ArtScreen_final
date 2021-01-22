@@ -62,25 +62,6 @@ class ARWorldController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let touchLocation = touch.location(in: sceneView)
-//            let raycast = sceneView.raycastQuery(from: touchLocation, allowing: .estimatedPlane, alignment: .any)
-//            print("DEBUG: touch location \(touchLocation)")
-//            if let hitResult = sceneView.session.raycast(raycast!).first {
-//                let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
-//                if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
-//                    let nodeX = hitResult.worldTransform.columns.3.x
-//                    let nodeY = hitResult.worldTransform.columns.3.y
-//                    let nodeZ = hitResult.worldTransform.columns.3.z
-//
-//                    boxNode.position = SCNVector3(nodeX, nodeY + 0.15, nodeZ)
-//                    sceneView.scene.rootNode.addChildNode(boxNode)
-//
-//                    configureArtworkNode(withNode: boxNode)
-//                }
-//            }
-//        }
-        
         guard let location = touches.first?.location(in: sceneView) else { return }
         
         let raycast = sceneView.raycastQuery(from: location, allowing: .estimatedPlane, alignment: .any)
@@ -98,7 +79,7 @@ class ARWorldController: UIViewController {
                 
                 let nodes = boxNode.childNodes
                 for index in 0..<nodes.count {
-                    var nodeName = nodes[index].name
+                    let nodeName = nodes[index].name
                     
                     if nodeName == "artworkNode0" {
                         print("DEBUG: artworkNode0")
@@ -140,7 +121,7 @@ class ARWorldController: UIViewController {
             let artworkWidth = CGFloat(artworks[index].width)
             let artworkHeight = CGFloat(artworks[index].height)
             let artworkBox = SCNBox(width: artworkWidth * 0.0008, height: artworkHeight * 0.0008, length: 0.01, chamferRadius: 0)
-//            let artworkPlane = SCNPlane(width: 0.25, height: 0.25)
+
             let artworkNode = SCNNode()
             artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (artworkDistance * Float(index)))
             artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
@@ -148,10 +129,8 @@ class ARWorldController: UIViewController {
             let artworkMaterial = SCNMaterial()
             artworkImage = getImageByUrl(url: artworks[index].path)
             artworkMaterial.diffuse.contents = artworkImage
-//            artworkPlane.materials = [artworkMaterial]
-            
+
             artworkBox.firstMaterial = artworkMaterial
-            
             artworkNode.geometry = artworkBox
             artworkNode.name = "artworkNode\(index)"
             node.addChildNode(artworkNode)

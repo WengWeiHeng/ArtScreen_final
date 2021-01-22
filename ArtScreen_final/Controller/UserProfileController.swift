@@ -48,6 +48,7 @@ class UserProfileController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setDimensions(width: 100, height: 36)
         button.layer.cornerRadius = 36 / 2
+        button.addTarget(self, action: #selector(handleFollowAction), for: .touchUpInside)
 
         return button
     }()
@@ -111,13 +112,13 @@ class UserProfileController: UIViewController {
     func userFollowing() {
         guard let user = user else { return }
         UserService.shared.followingUser(user: user)
-        actionButtonStyle(isFollowed: true)
+        actionButtonStyle(isFollowed: isFollowed)
     }
     
     func unfollowUser() {
         guard let user = user else { return }
         UserService.shared.unfollowUser(user: user)
-        actionButtonStyle(isFollowed: false)
+        actionButtonStyle(isFollowed: isFollowed)
     }
     
     //MARK: - Selectors
@@ -199,11 +200,15 @@ class UserProfileController: UIViewController {
     }
     
     @objc func handleFollowAction() {
-        userFollowing()
-    }
-    
-    @objc func handleUnfollowAction() {
-        unfollowUser()
+        isFollowed.toggle()
+        if isFollowed {
+            print("DEBUG: do following")
+            userFollowing()
+            
+        } else {
+            print("DEBUG: do unfollow")
+            unfollowUser()
+        }
     }
     
     //MARK: - Helpers
@@ -314,8 +319,6 @@ class UserProfileController: UIViewController {
                 self.actionButton.setTitle("Unfollow", for: .normal)
                 self.actionButton.backgroundColor = .mainPurple
                 self.actionButton.layer.borderWidth = 0
-                self.actionButton.addTarget(self, action: #selector(self.handleUnfollowAction), for: .touchUpInside)
-                self.isFollowed = false
             }
         } else {
             UIView.animate(withDuration: 0.4) {
@@ -323,8 +326,6 @@ class UserProfileController: UIViewController {
                 self.actionButton.layer.borderColor = UIColor.white.cgColor
                 self.actionButton.layer.borderWidth = 1.25
                 self.actionButton.backgroundColor = .none
-                self.actionButton.addTarget(self, action: #selector(self.handleFollowAction), for: .touchUpInside)
-                self.isFollowed = true
             }
         }
     }

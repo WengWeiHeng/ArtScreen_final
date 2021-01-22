@@ -38,7 +38,7 @@ struct AuthService {
         //body to be appended to url
         let body = "username=\(credentials.username.lowercased())&password=\(credentials.password)&email=\(credentials.email)&fullname=\(credentials.firstname)%20\(credentials.lastname)"
         request.httpBody = body.data(using: String.Encoding.utf8)
-        URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response:URLResponse?, error:Error?) in
+        URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response: URLResponse?, error: Error?) in
             if error == nil {
                 //get main queue in code process to communicate back to UI
                 DispatchQueue.main.async {
@@ -46,8 +46,9 @@ struct AuthService {
                         //get json result
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String:Any]
                         //assign json to new var parseJSON in guard/secured way
+                        print("DEBUG: json is successful..")
                         guard let parseJSON = json else {
-                            print("Error while parsing")
+                            print("DEBUG: Error while parsing in register")
                             return
                         }
                         //get id from parseJSON dictionary
@@ -174,17 +175,12 @@ struct AuthService {
     func login(credentials: LoginCredentials, completion: ((Error?) -> Void)?) {
         let username = credentials.username.lowercased()
         let password = credentials.password
-        //send request to mysql db
-        //url to access our php file
         let url = URL(string: LOGIN_URL)!
-        //request url
         let request = NSMutableURLRequest(url: url)
-        //request to pass data POST - cause it is secured
         request.httpMethod = "POST"
+        
         let body = "username=\(username)&password=\(password)"
-        //append body to our request that gonna be sent
         request.httpBody = body.data(using: .utf8)
-        //launch session
         URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response: URLResponse?, error: Error?) in
             if error == nil {
                 //get main queue in code process to communicate back to UI

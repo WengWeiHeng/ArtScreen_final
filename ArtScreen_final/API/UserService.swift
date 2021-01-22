@@ -132,6 +132,8 @@ struct UserService {
             
             let checkData = String(data: data, encoding: .utf8)
             let isFollowed = checkData?.toBool()
+            
+            print("DEBUG: isFollowed \(isFollowed) in user service")
             completion(isFollowed!)
         }
         task.resume()

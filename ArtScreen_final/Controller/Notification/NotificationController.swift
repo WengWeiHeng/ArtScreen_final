@@ -2,27 +2,49 @@
 //  NotificationController.swift
 //  ArtScreen_final
 //
-//  Created by Heng on 2020/11/13.
+//  Created by Heng on 2021/1/22.
 //
 
 import UIKit
 
-class NotificationController: UIViewController {
+private let reuseIdentifier = "NotificationCell"
+
+class NotificationController: UITableViewController {
     
     //MARK: - Properties
     var user : User?
-    var notificationView : NotificationView!
-
-    private var messageView = MessageView()
-    
-    private let sendView = ExhibitionSendView()
-    private var sendViewBottom = NSLayoutConstraint()
-    private let sendViewHeight: CGFloat = screenHeight * 0.5
+    var notifications = [NotificationDetail]()
+    private let headerView = NotificationHeaderView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 70))
     
     //MARK: - Init
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+        
+        fetchUserNotification()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureNavigationBar()
         configureUI()
+        configureTableView()
+    }
+    
+    //MARK: - API
+    func fetchUserNotification() {
+        guard let user = user else { return }
+        NotificationService.share.getNotification(forUser: user) { notifications in
+            self.notifications = notifications
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -32,27 +54,7 @@ class NotificationController: UIViewController {
     
     //MARK: - Helpers
     func configureUI() {
-        configureNavigationBar()
-        notificationView = NotificationView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight), user: user!)
-        
-        view.addSubview(notificationView)
-        notificationView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 400)
-        notificationView.user = user
-        
-        view.addSubview(messageView)
-        messageView.anchor(top: notificationView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, height: 300)
-        messageView.delegate = self
-        
-        view.addSubview(sendView)
-        sendView.translatesAutoresizingMaskIntoConstraints = false
-        sendView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        sendView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        sendViewBottom = sendView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: sendViewHeight)
-        sendViewBottom.isActive = true
-        sendView.heightAnchor.constraint(equalToConstant: sendViewHeight).isActive = true
-        sendView.layer.cornerRadius = 24
-        sendView.delegate = self
-        
+        view.backgroundColor = .mainBackground
     }
     
     func configureNavigationBar() {
@@ -63,26 +65,28 @@ class NotificationController: UIViewController {
         
         view.backgroundColor = .mainBackground
     }
-}
-
-//MARK: - MessageViewDelegate
-extension NotificationController: MessageViewDelegate {
-    func handleShowSendView() {
-        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            self.sendViewBottom.constant = 0
-            self.view.layoutIfNeeded()
-        }
-        transitionAnimator.startAnimation()
+    
+    func configureTableView() {
+        tableView.backgroundColor = .mainBackground
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.rowHeight = 60
+        tableView.tableHeaderView = headerView
+        tableView.isScrollEnabled = false
+        headerView.titleLabel.text = "Notification"
     }
 }
 
-//MARK: - ExhibitionSendViewDelegate
-extension NotificationController: ExhibitionSendViewDelegate {
-    func didTappedExhibiSetting_Send_cancel() {
-        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-            self.sendViewBottom.constant = self.sendViewHeight
-            self.view.layoutIfNeeded()
-        }
-        transitionAnimator.startAnimation()
+extension NotificationController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return notifications.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! NotificationCell
+        cell.notification = notifications[indexPath.row]
+
+        return cell
     }
 }

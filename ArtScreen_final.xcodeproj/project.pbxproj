@@ -66,7 +66,6 @@
 		B024BB122562A3F400FAA319 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B024BB112562A3F400FAA319 /* SearchController.swift */; };
 		B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */; };
 		B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */; };
-		B047BD87255E29D40059B342 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B047BD86255E29D40059B342 /* NotificationController.swift */; };
 		B047BD8C255E29FB0059B342 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B047BD8B255E29FB0059B342 /* NotificationCell.swift */; };
 		B047BD90255E32B20059B342 /* CommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B047BD8F255E32B20059B342 /* CommentController.swift */; };
 		B04CCA06254004AC00199443 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCA05254004AC00199443 /* Utilities.swift */; };
@@ -103,7 +102,6 @@
 		B0A68611255D51B10012D391 /* CustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A68610255D51B10012D391 /* CustomInputAccessoryView.swift */; };
 		B0B8B48C25554D8B003A1EAD /* ARWorldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8B48B25554D8B003A1EAD /* ARWorldController.swift */; };
 		B0B8B4902555520D003A1EAD /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B8B48F2555520D003A1EAD /* art.scnassets */; };
-		B0BB94542563682C00FAD25B /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB94532563682C00FAD25B /* NotificationView.swift */; };
 		B0BB94572563683900FAD25B /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB94562563683900FAD25B /* MessageView.swift */; };
 		B0BB945B25636DDB00FAD25B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB945A25636DDB00FAD25B /* MessageCell.swift */; };
 		B0CF8343259740EB00264126 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CF8342259740EB00264126 /* CameraView.swift */; };
@@ -119,6 +117,7 @@
 		B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D792A12554191600702881 /* TemplateSettingView.swift */; };
 		B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D854572582026900EF720F /* ExhibitionDetailController.swift */; };
 		B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */; };
+		B0E16F1225BA65D800CB716D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E16F1125BA65D800CB716D /* NotificationController.swift */; };
 		B0E58D09254163BD00E5A203 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D08254163BD00E5A203 /* ContainerController.swift */; };
 		B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0B2541640000E5A203 /* MenuController.swift */; };
 		B0E58D102541644100E5A203 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */; };
@@ -189,7 +188,6 @@
 		B024BB112562A3F400FAA319 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditController.swift; sourceTree = "<group>"; };
 		B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
-		B047BD86255E29D40059B342 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		B047BD8B255E29FB0059B342 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		B047BD8F255E32B20059B342 /* CommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentController.swift; sourceTree = "<group>"; };
 		B04CCA05254004AC00199443 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 		B0A68610255D51B10012D391 /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		B0B8B48B25554D8B003A1EAD /* ARWorldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARWorldController.swift; sourceTree = "<group>"; };
 		B0B8B48F2555520D003A1EAD /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		B0BB94532563682C00FAD25B /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B0BB94562563683900FAD25B /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B0BB945A25636DDB00FAD25B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		B0CF8342259740EB00264126 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -242,6 +239,7 @@
 		B0D792A12554191600702881 /* TemplateSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSettingView.swift; sourceTree = "<group>"; };
 		B0D854572582026900EF720F /* ExhibitionDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailController.swift; sourceTree = "<group>"; };
 		B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurSettingView.swift; sourceTree = "<group>"; };
+		B0E16F1125BA65D800CB716D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		B0E58D08254163BD00E5A203 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		B0E58D0B2541640000E5A203 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
@@ -449,8 +447,8 @@
 		B047BD85255E29C50059B342 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				B047BD86255E29D40059B342 /* NotificationController.swift */,
 				B0D138E925637931001884A7 /* ChatController.swift */,
+				B0E16F1125BA65D800CB716D /* NotificationController.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -459,7 +457,6 @@
 			isa = PBXGroup;
 			children = (
 				B056F41E25613AB000DF186E /* NotificationHeaderView.swift */,
-				B0BB94532563682C00FAD25B /* NotificationView.swift */,
 				B047BD8B255E29FB0059B342 /* NotificationCell.swift */,
 				B0BB94562563683900FAD25B /* MessageView.swift */,
 				B0BB945A25636DDB00FAD25B /* MessageCell.swift */,
@@ -821,6 +818,7 @@
 				B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */,
 				B011078925426D4E00041A01 /* CameraViewX.swift in Sources */,
 				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
+				B0E16F1225BA65D800CB716D /* NotificationController.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,
 				B01107DA254272E800041A01 /* Line.swift in Sources */,
@@ -840,7 +838,6 @@
 				B01107992542706400041A01 /* ArtworkInfoSettingController.swift in Sources */,
 				B01107E32542743700041A01 /* AlertUtilities.swift in Sources */,
 				B06A038D2565F8C3004BB0BE /* ArtworkService.swift in Sources */,
-				B0BB94542563682C00FAD25B /* NotificationView.swift in Sources */,
 				B01107DD2542732E00041A01 /* Canvas.swift in Sources */,
 				B01107562542618800041A01 /* UserContentView.swift in Sources */,
 				B0662FF92578858D008171D0 /* ARResultController.swift in Sources */,
@@ -858,7 +855,6 @@
 				B050EEBB2578C8E000D26268 /* Exhibition.swift in Sources */,
 				B047BD8C255E29FB0059B342 /* NotificationCell.swift in Sources */,
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
-				B047BD87255E29D40059B342 /* NotificationController.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B01107922542702D00041A01 /* AnimateController.swift in Sources */,
 				B07FB4922589B0340067F399 /* Comments.swift in Sources */,

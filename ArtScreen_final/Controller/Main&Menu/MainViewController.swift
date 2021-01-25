@@ -184,7 +184,8 @@ class MainViewController: UIViewController {
     }
     
     @objc func handleSearchAction() {
-        let controller = SearchController()
+        guard let user = user else { return }
+        let controller = SearchController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)

@@ -115,6 +115,8 @@
 		B0D3BBF72547C45200A5E8F8 /* AddLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */; };
 		B0D7929D25540C8500702881 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D7929C25540C8500702881 /* ProfileViewModel.swift */; };
 		B0D792A22554191600702881 /* TemplateSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D792A12554191600702881 /* TemplateSettingView.swift */; };
+		B0D812CA25BEF7B6005FE183 /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D812C925BEF7B6005FE183 /* SearchViewCell.swift */; };
+		B0D812CE25BEF939005FE183 /* ArtworkSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D812CD25BEF939005FE183 /* ArtworkSearchCell.swift */; };
 		B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D854572582026900EF720F /* ExhibitionDetailController.swift */; };
 		B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */; };
 		B0E16F1225BA65D800CB716D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E16F1125BA65D800CB716D /* NotificationController.swift */; };
@@ -237,6 +239,8 @@
 		B0D3BBF62547C45200A5E8F8 /* AddLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationCell.swift; sourceTree = "<group>"; };
 		B0D7929C25540C8500702881 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B0D792A12554191600702881 /* TemplateSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSettingView.swift; sourceTree = "<group>"; };
+		B0D812C925BEF7B6005FE183 /* SearchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
+		B0D812CD25BEF939005FE183 /* ArtworkSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkSearchCell.swift; sourceTree = "<group>"; };
 		B0D854572582026900EF720F /* ExhibitionDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionDetailController.swift; sourceTree = "<group>"; };
 		B0DECB5125A6A0E500F8CDD9 /* BlurSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurSettingView.swift; sourceTree = "<group>"; };
 		B0E16F1125BA65D800CB716D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
@@ -440,6 +444,7 @@
 				B0110764254262C100041A01 /* ExhibitionCell.swift */,
 				B01107672542630000041A01 /* FilterView.swift */,
 				B011076A2542630F00041A01 /* FilterViewCell.swift */,
+				B0D812C925BEF7B6005FE183 /* SearchViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -572,6 +577,14 @@
 			path = "Setting function";
 			sourceTree = "<group>";
 		};
+		B0D812CC25BEF92C005FE183 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				B0D812CD25BEF939005FE183 /* ArtworkSearchCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		B0D854562582024E00EF720F /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +596,7 @@
 		B0E58D0E2541642B00E5A203 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				B0D812CC25BEF92C005FE183 /* Search */,
 				B0E58D0F2541644100E5A203 /* MenuTableViewCell.swift */,
 				B0E58D182541655500E5A203 /* MenuHeader.swift */,
 				B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */,
@@ -802,6 +816,7 @@
 				B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */,
 				B01107CD2542726F00041A01 /* OpacitySettingView.swift in Sources */,
 				B01107952542703C00041A01 /* ConfirmImageController.swift in Sources */,
+				B0D812CE25BEF939005FE183 /* ArtworkSearchCell.swift in Sources */,
 				B01107CA2542725A00041A01 /* ScaleSettingView.swift in Sources */,
 				B07FB4992589BBA60067F399 /* Contents.swift in Sources */,
 				B01107C62542724600041A01 /* RotateSettingView.swift in Sources */,
@@ -857,6 +872,7 @@
 				B04CCA06254004AC00199443 /* Utilities.swift in Sources */,
 				B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */,
 				B01107922542702D00041A01 /* AnimateController.swift in Sources */,
+				B0D812CA25BEF7B6005FE183 /* SearchViewCell.swift in Sources */,
 				B07FB4922589B0340067F399 /* Comments.swift in Sources */,
 				B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */,
 				B0111445253FD9FC009D55FA /* Extensions.swift in Sources */,

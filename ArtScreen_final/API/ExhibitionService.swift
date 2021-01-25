@@ -130,6 +130,16 @@ class ExhibitionService {
         readExhibitionData(request: request, completion: completion)
     }
     
+    func fetchSearchExhibition(forKeywords keywords : String,completion: @escaping([ExhibitionDetail]) -> Void) {
+        let url = URL(string: SEARCH_EXHIBITION_URL)
+        let request = NSMutableURLRequest(url: url!)
+        request.httpMethod = "POST"
+        let body = "keywords=\(keywords)"
+        request.httpBody = body.data(using: .utf8)
+        
+        readExhibitionData(request: request, completion: completion)
+    }
+    
     func readExhibitionData(request: NSMutableURLRequest, completion: @escaping([ExhibitionDetail]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {

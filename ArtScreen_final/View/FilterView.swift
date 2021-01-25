@@ -13,23 +13,28 @@ enum FilterViewState {
 }
 
 private let reuseIdentifier = "FilterViewCell"
+private let searchIdentifier = "SearchViewCell"
 
 protocol FilterViewDelegate: class {
     func moveToArtwork()
     func moveToExhibition()
+}
+protocol SearchViewDelegate: class {
+    func changeStateSearch(state :SearchState)
 }
 
 class FilterView: UIView {
     
     //MARK: - Properties
     weak var delegate: FilterViewDelegate?
-    
-    var state: FilterViewState = .inUserView
+    weak var searchDelegate : SearchViewDelegate?
+    private var state: FilterViewState = .inUserView
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .none
+        cv.isScrollEnabled = true
         cv.delegate = self
         cv.dataSource = self
         
@@ -37,10 +42,16 @@ class FilterView: UIView {
     }()
     
     //MARK: - Init
-    override init(frame: CGRect) {
+    init(frame: CGRect,state: FilterViewState) {
+        self.state = state
         super.init(frame: frame)
-        
-        collectionView.register(FilterViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        switch state {
+        case .inUserView:
+            collectionView.register(FilterViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+            
+        case .inSearchView:
+            collectionView.register(SearchViewCell.self, forCellWithReuseIdentifier: searchIdentifier)
+        }
         
         let selectedIndexPath = IndexPath(row: 0, section: 0)
         collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
@@ -60,36 +71,68 @@ extension FilterView: UICollectionViewDataSource {
         case .inUserView:
             return FilterOptions.allCases.count
         case .inSearchView:
+            print("DEBUG - SearchCount = \(SearchOptions.allCases.count)")
             return SearchOptions.allCases.count
         }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FilterViewCell
-        
-        let option = FilterOptions(rawValue: indexPath.row)
-        cell.option = option
-        
-        return cell
+        switch state {
+        case .inUserView:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FilterViewCell
+            let option = FilterOptions(rawValue: indexPath.row)
+            cell.option = option
+            print("DEBUG - FilterCell : \(indexPath.row)")
+
+            return cell
+        case .inSearchView:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: searchIdentifier, for: indexPath) as! SearchViewCell
+            let option = SearchOptions(rawValue: indexPath.row)
+            cell.option = option
+            print("DEBUG - SearchCell : \(indexPath.row)")
+            return cell
+        }
     }
 }
 
 //MARK: - CollectionView Delegate
 extension FilterView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let option = FilterOptions(rawValue: indexPath.row)
-        
-        switch option {
-        case .exhibitions:
-            delegate?.moveToExhibition()
+        switch state {
+        case .inUserView:
+            let option = FilterOptions(rawValue: indexPath.row)
             
-        case .artworks:
-            delegate?.moveToArtwork()
+            switch option {
+            case .exhibitions:
+                delegate?.moveToExhibition()
+            case .artworks:
+                delegate?.moveToArtwork()
+            case .none:
+                print("DEBUG: Error..")
+            }
+        case .inSearchView:
+            let option = SearchOptions(rawValue: indexPath.row)
             
-        case .none:
-            print("DEBUG: Error..")
+            switch option {
+            case .accounts:
+                searchDelegate?.changeStateSearch(state: .searchUser)
+            print("Chose Account")
+                
+            case .artworks:
+                print("Chose Artwork")
+                searchDelegate?.changeStateSearch(state: .searchArtwork)
+
+            case .exhibitions:
+                print("Chose Exhibition")
+                searchDelegate?.changeStateSearch(state: .searchExhibition)
+                
+            case .none:
+                print("DEBUG: Error..")
+
+            }
         }
+        
     }
 }
 
@@ -100,16 +143,18 @@ extension FilterView: UICollectionViewDelegateFlowLayout {
         switch state {
         case .inUserView:
             let count = CGFloat(FilterOptions.allCases.count)
+//            print("DEBUG: - FrameHight = \(frame.height)")
             return CGSize(width: (frame.width - 16) / count, height: frame.height)
         case .inSearchView:
             let count = CGFloat(SearchOptions.allCases.count)
-            return CGSize(width: (frame.width - 16) / count, height: frame.height)
+//            print("DEBUG: - FrameHight = \(frame.height)")
+            return CGSize(width: (frame.width - 48) / (count), height: frame.height)
         }
         
         
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+
         return 16
     }
 }

@@ -20,19 +20,15 @@ enum FilterOptions: Int, CaseIterable {
 }
 
 enum SearchOptions: Int, CaseIterable {
-    case all
-    case artist
-    case artwork
-    case exhibition
-    case place
+    case accounts
+    case artworks
+    case exhibitions
     
     var description: String {
         switch self {
-        case .all: return "All"
-        case .artist: return "Artist"
-        case .artwork: return "Artwork"
-        case .exhibition: return "Exhibition"
-        case .place: return "Place"
+        case .accounts: return "Accounts"
+        case .artworks: return "Artworks"
+        case .exhibitions: return "Exhibitions"
         }
     }
 }
@@ -40,3 +36,4 @@ enum SearchOptions: Int, CaseIterable {
 struct FilterViewModel {
     
 }
+

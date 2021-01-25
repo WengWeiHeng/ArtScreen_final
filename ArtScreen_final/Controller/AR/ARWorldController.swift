@@ -18,17 +18,6 @@ class ARWorldController: UIViewController {
     var artworkDistance: Float = 0.375
     var artworkImage = UIImage()
     
-    var imageHighlightAction: SCNAction {
-        return .sequence([
-            .wait(duration: 0.25),
-            .fadeOpacity(to: 0.85, duration: 0.25),
-            .fadeOpacity(to: 0.15, duration: 0.25),
-            .fadeOpacity(to: 0.85, duration: 0.25),
-            .fadeOut(duration: 0.5),
-            .removeFromParentNode()
-            ])
-    }
-    
     //MARK: - Init
     init(exhibition: ExhibitionDetail) {
         self.exhibition = exhibition
@@ -68,15 +57,21 @@ class ARWorldController: UIViewController {
         if let hitResult = sceneView.session.raycast(raycast!).first {
             let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
             if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
-                let nodeX = hitResult.worldTransform.columns.3.x
-                let nodeY = hitResult.worldTransform.columns.3.y
-                let nodeZ = hitResult.worldTransform.columns.3.z
+                
+                let camera = boxNode.childNode(withName: "camera", recursively: true)
+//                print("DEBUG: camera position: \(camera?.position)")
+                
+                let nodeX = (camera?.position.x)! - hitResult.worldTransform.columns.3.x
+                let nodeY = (camera?.position.y)! - hitResult.worldTransform.columns.3.y
+                let nodeZ = -((camera?.position.z)! - hitResult.worldTransform.columns.3.z)
+                
+                print("DEBUG: x: \(nodeX), y: \(nodeY), z: \(nodeZ)")
 
-                boxNode.position = SCNVector3(nodeX, nodeY + 0.15, nodeZ)
+                boxNode.position = SCNVector3(nodeX, nodeY, nodeZ)
                 sceneView.scene.rootNode.addChildNode(boxNode)
 
                 configureArtworkNode(withNode: boxNode)
-                
+
                 let nodes = boxNode.childNodes
                 for index in 0..<nodes.count {
                     let nodeName = nodes[index].name
@@ -145,18 +140,6 @@ class ARWorldController: UIViewController {
             print("Error : \(err.localizedDescription)")
         }
         return UIImage()
-    }
-    
-    func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
-        let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height))
-        planeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-        planeNode.position.z += 0.1
-        planeNode.opacity = 0
-        
-        rootNode.addChildNode(planeNode)
-        planeNode.runAction(self.imageHighlightAction) {
-            block()
-        }
     }
 }
 

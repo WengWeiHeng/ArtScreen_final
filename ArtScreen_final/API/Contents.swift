@@ -29,6 +29,7 @@ let GET_USER_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getUserArtwork.php"
 let GET_EXHIBITION_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getExhibitionArtwork.php"
 let GET_ARTWORK_WITH_POSITION_URL = "http://artscreen.sakura.ne.jp/getArtworkWithPosition.php"
 let GET_NOEXHIBITION_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getNoExhibitionArtwork.php"
+let SEARCH_ARTWORK_URL = "http://artscreen.sakura.ne.jp/artwork/searchArtwork.php"
 
 
 //MARK: ARTWORK ITEM
@@ -41,6 +42,7 @@ let POST_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/postExhibition.php"
 let POST_EXHIBITION_UPDATE_ARTWORK_URL = "http://artscreen.sakura.ne.jp/postExhibition_updateArtworkID.php"
 let GET_ALL_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getAllExhibition.php"
 let GET_USER_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getUserExhibition.php"
+let SEARCH_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/exhibition/searchExhibition.php"
 
 //MARK: - COMMENT
 let POST_COMMENT_URL = "http://artscreen.sakura.ne.jp/comment/postComment.php"

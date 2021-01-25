@@ -81,7 +81,7 @@ struct UserService {
         readUserData(request: request, completion: completion)
     }
     
-    func fetchSearch(keyword: String, completion: @escaping([User]) -> Void) {
+    func fetchAccountSearch(keyword: String, completion: @escaping([User]) -> Void) {
         let url = URL(string: SEARCH_USER)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"

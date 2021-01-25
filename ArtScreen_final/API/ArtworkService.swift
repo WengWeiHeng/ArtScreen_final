@@ -150,6 +150,16 @@ struct ArtworkService {
         task.resume()
     }
     
+    func fetchSearchArtwork(forKeywords keywords : String, completion: @escaping([ArtworkDetail]) -> Void) {
+        let url = URL(string: SEARCH_ARTWORK_URL)
+        let request = NSMutableURLRequest(url: url!)
+        request.httpMethod = "POST"
+        let body = "keywords=\(keywords)"
+        request.httpBody = body.data(using: .utf8)
+        
+        readArtworkData(request: request, completion: completion)
+    }
+    
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {

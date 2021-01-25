@@ -40,7 +40,7 @@ class UserContentView: UIView {
     private var option: ActionOption = .addExhibition
     
     private let userInfoView = UserInfoView()
-    private let filterBar = FilterView()
+    private let filterBar = FilterView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), state: .inUserView)
     
     private let userExhibitionView = UserExhibitionView()
     private let userArtworkView = UserArtworkView()

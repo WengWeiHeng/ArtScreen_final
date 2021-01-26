@@ -57,29 +57,27 @@ class ARWorldController: UIViewController {
         if let hitResult = sceneView.session.raycast(raycast!).first {
             let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
             if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
+                let nodeX = hitResult.worldTransform.columns.3.x
+                let nodeY = hitResult.worldTransform.columns.3.y
+                let nodeZ = hitResult.worldTransform.columns.3.z
                 
-                let camera = boxNode.childNode(withName: "camera", recursively: true)
-//                print("DEBUG: camera position: \(camera?.position)")
-                
-                let nodeX = (camera?.position.x)! - hitResult.worldTransform.columns.3.x
-                let nodeY = (camera?.position.y)! - hitResult.worldTransform.columns.3.y
-                let nodeZ = -((camera?.position.z)! - hitResult.worldTransform.columns.3.z)
-                
-                print("DEBUG: x: \(nodeX), y: \(nodeY), z: \(nodeZ)")
-
-                boxNode.position = SCNVector3(nodeX, nodeY, nodeZ)
-                sceneView.scene.rootNode.addChildNode(boxNode)
+                if let camera = sceneView.pointOfView {
+                    let mat = camera.transform
+                    let dir = SCNVector3(nodeX * mat.m31, nodeY * mat.m32, nodeZ * mat.m33)
+                    boxNode.position = SCNVector3Make(camera.position.x, camera.position.y - 0.5, camera.position.z - 4)
+                    boxNode.physicsBody?.applyForce(dir, asImpulse: true)
+                    sceneView.scene.rootNode.addChildNode(boxNode)
+                }
 
                 configureArtworkNode(withNode: boxNode)
-
-                let nodes = boxNode.childNodes
-                for index in 0..<nodes.count {
-                    let nodeName = nodes[index].name
-                    
-                    if nodeName == "artworkNode0" {
-                        print("DEBUG: artworkNode0")
-                    }
-                }
+//                let nodes = boxNode.childNodes
+//                for index in 0..<nodes.count {
+//                    let nodeName = nodes[index].name
+//                    
+//                    if nodeName == "artworkNode0" {
+//                        print("DEBUG: artworkNode0")
+//                    }
+//                }
                 
             }
         }
@@ -128,6 +126,7 @@ class ARWorldController: UIViewController {
             artworkBox.firstMaterial = artworkMaterial
             artworkNode.geometry = artworkBox
             artworkNode.name = "artworkNode\(index)"
+            artworkNode.renderingOrder = 200
             node.addChildNode(artworkNode)
         }
     }

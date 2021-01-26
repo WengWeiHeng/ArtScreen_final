@@ -21,12 +21,23 @@ protocol UserContentViewDelegate: class {
     func moveToAddArtwork()
     func moveToExhibitionDetail(exhibition: ExhibitionDetail)
     func moveToArtworkDetail(artwork: ArtworkDetail)
+    func exhibitionCount(exhibitionCount: Int)
+    func artworkCount(artworkCount: Int)
 }
 
 class UserContentView: UIView {
     
     //MARK: - Properties
     weak var delegate: UserContentViewDelegate?
+    
+    var exhibitionCount: Int = 0
+    var artworkCount: Int = 0
+    var followerCount: Int = 0 {
+        didSet {
+            userInfoView.followerCount = followerCount
+        }
+    }
+    
     var user: User? {
         didSet {
             configureUserData()
@@ -244,10 +255,21 @@ extension UserContentView: UserExhibitionViewDelegate {
     func handlePushToDetailPage(exhibition: ExhibitionDetail) {
         delegate?.moveToExhibitionDetail(exhibition: exhibition)
     }
+    
+    func exhibitionCount(exhibitionCount: Int) {
+        delegate?.exhibitionCount(exhibitionCount: exhibitionCount)
+        self.userInfoView.exhibitionCount = exhibitionCount
+    }
 }
 
+//MARK: - UserArtworkViewDelegate
 extension UserContentView: UserArtworkViewDelegate {
     func handlePushToDetailPage(artwork: ArtworkDetail) {
         delegate?.moveToArtworkDetail(artwork: artwork)
+    }
+    
+    func artworkCount(artworkCount: Int) {
+        delegate?.artworkCount(artworkCount: artworkCount)
+        self.userInfoView.artworkCount = artworkCount
     }
 }

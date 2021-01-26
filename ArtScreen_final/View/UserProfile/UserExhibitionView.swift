@@ -10,6 +10,7 @@ import WaterfallLayout
 
 protocol UserExhibitionViewDelegate: class {
     func handlePushToDetailPage(exhibition: ExhibitionDetail)
+    func exhibitionCount(exhibitionCount: Int)
 }
 
 private let reuseIdentifier = "ExhibitionCell"
@@ -65,6 +66,7 @@ class UserExhibitionView: UIView {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.delegate?.exhibitionCount(exhibitionCount: exhibitions.count)
             }
         }
     }
@@ -74,13 +76,11 @@ class UserExhibitionView: UIView {
 extension UserExhibitionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return exhibitions.count
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExhibitionCell
         cell.exhibition = exhibitions[indexPath.row]
-        
         return cell
     }
 }
@@ -94,22 +94,9 @@ extension UserExhibitionView: UICollectionViewDelegate {
     }
 }
 
-//MARK: - UICollectionViewDelegateFlowLayout
-//extension UserExhibitionView: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        return CGSize(width: frame.width / 2, height: 0)
-//    }
-//}
-
 //MARK: - WaterfallLayoutDelegate
 extension UserExhibitionView: WaterfallLayoutDelegate {
     func collectionViewLayout(for section: Int) -> WaterfallLayout.Layout {
-//        switch section {
-//        case 0: return .waterfall(column: 2, distributionMethod: .balanced)
-//        case 1: return .waterfall(column: 2, distributionMethod: .balanced)
-//        default: return .waterfall(column: 2, distributionMethod: .balanced)
-//        }
         return .waterfall(column: 2, distributionMethod: .balanced)
     }
     

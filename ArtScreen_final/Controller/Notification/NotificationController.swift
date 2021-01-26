@@ -60,7 +60,7 @@ class NotificationController: UITableViewController {
     func configureNavigationBar() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClose))
         
         view.backgroundColor = .mainBackground
@@ -74,6 +74,7 @@ class NotificationController: UITableViewController {
         tableView.rowHeight = 60
         tableView.tableHeaderView = headerView
         tableView.isScrollEnabled = false
+        tableView.separatorStyle = .none
         headerView.titleLabel.text = "Notification"
     }
 }

@@ -131,10 +131,32 @@ struct UserService {
             }
             
             let checkData = String(data: data, encoding: .utf8)
-            let isFollowed = checkData?.toBool()
+            let trimData = checkData?.trimmingCharacters(in: CharacterSet.whitespaces)
+            let isFollowed = trimData?.toBool()
             
-            print("DEBUG: isFollowed \(isFollowed) in user service")
+//            print("DEBUG: isFollowed \(isFollowed) in user service")
             completion(isFollowed!)
+        }
+        task.resume()
+    }
+    
+    func followedCount(user: User, completion: @escaping(Int) -> Void) {
+        let url = URL(string: FOLLOWED_COUNT_URL)!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "userID=\(user.id)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let data = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            
+            let checkData = String(data: data, encoding: .utf8)
+            let count = checkData!.trimmingCharacters(in: CharacterSet.whitespaces)
+            
+            completion(Int(count)!)
         }
         task.resume()
     }

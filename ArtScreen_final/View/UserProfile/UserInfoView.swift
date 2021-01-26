@@ -10,7 +10,23 @@ import UIKit
 class UserInfoView: UICollectionReusableView {
     
     //MARK: - Properties
-
+    var exhibitionCount: Int = 0 {
+        didSet {
+            exhibitionCountLabel.text = String(exhibitionCount)
+        }
+    }
+    var artworkCount: Int = 0 {
+        didSet {
+            artworkCountLabel.text = String(artworkCount)
+        }
+    }
+    
+    var followerCount: Int = 0 {
+        didSet {
+            followCountLabel.text = String(followerCount)
+        }
+    }
+    
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "close").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -30,20 +46,20 @@ class UserInfoView: UICollectionReusableView {
         return label
     }()
     
-    private let artworkCountLabel: UILabel = {
+    let exhibitionCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-        label.text = "162"
+//        label.text = "162"
         
         return label
     }()
 
-    private let visitedCountLabel: UILabel = {
+    let artworkCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-        label.text = "203,301"
+//        label.text = "203,301"
         
         return label
     }()
@@ -57,20 +73,20 @@ class UserInfoView: UICollectionReusableView {
         return label
     }()
     
-    private let artworkLabel: UILabel = {
+    private let exhibitionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = .white
-        label.text = "Artwork"
+        label.text = "Exhibitions"
         
         return label
     }()
     
-    private let visitedLabel: UILabel = {
+    private let artworkLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = .white
-        label.text = "Visited"
+        label.text = "Artworks"
         
         return label
     }()
@@ -88,12 +104,12 @@ class UserInfoView: UICollectionReusableView {
         followerStack.spacing = 4
         followerStack.alignment = .center
         
-        let artworkStack = UIStackView(arrangedSubviews: [artworkCountLabel, artworkLabel])
+        let artworkStack = UIStackView(arrangedSubviews: [exhibitionCountLabel, exhibitionLabel])
         artworkStack.axis = .vertical
         artworkStack.spacing = 4
         artworkStack.alignment = .center
         
-        let visitedStack = UIStackView(arrangedSubviews: [visitedCountLabel, visitedLabel])
+        let visitedStack = UIStackView(arrangedSubviews: [artworkCountLabel, artworkLabel])
         visitedStack.axis = .vertical
         visitedStack.spacing = 4
         visitedStack.alignment = .center
@@ -118,8 +134,6 @@ class UserInfoView: UICollectionReusableView {
     @objc func handleEditAction() {
         print("DEBUG: Profile Cover is Editting..")
     }
-    
-    
 }
 
 

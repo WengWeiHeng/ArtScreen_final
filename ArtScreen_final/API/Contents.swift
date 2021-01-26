@@ -53,6 +53,7 @@ let GET_COMMENT_FROM_ARTWORKID_URL = "http://artscreen.sakura.ne.jp/comment/getC
 let GET_NOTIFICATION_URL = "http://artscreen.sakura.ne.jp/notification/getNotification.php"
 
 
-
+//MARK: - FOLLOW
+let FOLLOWED_COUNT_URL = "http://artscreen.sakura.ne.jp/follow/followed_count.php"
 
 

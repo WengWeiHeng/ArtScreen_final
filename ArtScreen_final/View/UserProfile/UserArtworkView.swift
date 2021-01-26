@@ -12,6 +12,7 @@ private let reuseIdentifier = "ArtworkCell"
 
 protocol UserArtworkViewDelegate: class {
     func handlePushToDetailPage(artwork: ArtworkDetail)
+    func artworkCount(artworkCount: Int)
 }
 
 class UserArtworkView: UIView {
@@ -66,6 +67,7 @@ class UserArtworkView: UIView {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.delegate?.artworkCount(artworkCount: artworks.count)
             }
         }
     }

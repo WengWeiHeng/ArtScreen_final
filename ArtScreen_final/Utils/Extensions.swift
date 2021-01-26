@@ -241,9 +241,9 @@ extension NSMutableData {
 extension String {
     func toBool() -> Bool? {
         switch self {
-        case "TRUE", "True", "true", "YES", "Yes", "yes", "1", " TRUE", " true", " True":
+        case "TRUE", "True", "true", "YES", "Yes", "yes", "1":
             return true
-        case "FALSE", "False", "false", "NO", "No", "no", "0", " FALSE", " false", " False":
+        case "FALSE", "False", "false", "NO", "No", "no", "0":
             return false
         default:
             return nil

@@ -17,6 +17,7 @@ class UserProfileController: UIViewController {
     //MARK: - Properties
     var user: User?
     var isFollowed = false
+    var followerCount: Int = 0
     
     let userCoverView = UserCoverView()
     let userContentView = UserContentView()
@@ -77,6 +78,7 @@ class UserProfileController: UIViewController {
         
         guard let user = user else { return }
         checkUserIs(user: user)
+        fetchFollowedCount()
         configureUI()
         
     }
@@ -119,6 +121,16 @@ class UserProfileController: UIViewController {
         guard let user = user else { return }
         UserService.shared.unfollowUser(user: user)
         actionButtonStyle(isFollowed: isFollowed)
+    }
+    
+    func fetchFollowedCount() {
+        guard let user = user else { return }
+        UserService.shared.followedCount(user: user) { (count) in
+            DispatchQueue.main.async {
+                self.userInfoView.followerCount = count
+                self.userContentView.followerCount = count
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -316,13 +328,13 @@ class UserProfileController: UIViewController {
     func actionButtonStyle(isFollowed: Bool) {
         if isFollowed {
             UIView.animate(withDuration: 0.4) {
-                self.actionButton.setTitle("Unfollow", for: .normal)
+                self.actionButton.setTitle("Following", for: .normal)
                 self.actionButton.backgroundColor = .mainPurple
                 self.actionButton.layer.borderWidth = 0
             }
         } else {
             UIView.animate(withDuration: 0.4) {
-                self.actionButton.setTitle("follow", for: .normal)
+                self.actionButton.setTitle("Follow", for: .normal)
                 self.actionButton.layer.borderColor = UIColor.white.cgColor
                 self.actionButton.layer.borderWidth = 1.25
                 self.actionButton.backgroundColor = .none
@@ -372,6 +384,14 @@ extension UserProfileController: UserContentViewDelegate {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    func exhibitionCount(exhibitionCount: Int) {
+        self.userInfoView.exhibitionCount = exhibitionCount
+    }
+    
+    func artworkCount(artworkCount: Int) {
+        self.userInfoView.artworkCount = artworkCount
     }
 }
 

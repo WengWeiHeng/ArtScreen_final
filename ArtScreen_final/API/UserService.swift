@@ -133,8 +133,7 @@ struct UserService {
             let checkData = String(data: data, encoding: .utf8)
             let trimData = checkData?.trimmingCharacters(in: CharacterSet.whitespaces)
             let isFollowed = trimData?.toBool()
-            
-//            print("DEBUG: isFollowed \(isFollowed) in user service")
+
             completion(isFollowed!)
         }
         task.resume()

@@ -18,6 +18,18 @@ class ARWorldController: UIViewController {
     var artworkDistance: Float = 0.375
     var artworkImage = UIImage()
     
+    //MARK: - Renderer Properties
+    var imageHighlightAction: SCNAction {
+        return .sequence([
+            .wait(duration: 0.25),
+            .fadeOpacity(to: 0.85, duration: 0.25),
+            .fadeOpacity(to: 0.15, duration: 0.25),
+            .fadeOpacity(to: 0.85, duration: 0.25),
+            .fadeOut(duration: 0.5),
+            .removeFromParentNode()
+            ])
+    }
+    
     //MARK: - Init
     init(exhibition: ExhibitionDetail) {
         self.exhibition = exhibition
@@ -51,36 +63,11 @@ class ARWorldController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let location = touches.first?.location(in: sceneView) else { return }
+        guard let touchLocation = touches.first?.location(in: sceneView) else { return }
+        guard let hitNode = sceneView.hitTest(touchLocation, options: nil).first?.node else { return }
+        guard let nodeName = hitNode.name else { return }
         
-        let raycast = sceneView.raycastQuery(from: location, allowing: .estimatedPlane, alignment: .any)
-        if let hitResult = sceneView.session.raycast(raycast!).first {
-            let boxScene = SCNScene(named: "art.scnassets/gallery.scn")!
-            if let boxNode = boxScene.rootNode.childNode(withName: "gallery", recursively: true) {
-                let nodeX = hitResult.worldTransform.columns.3.x
-                let nodeY = hitResult.worldTransform.columns.3.y
-                let nodeZ = hitResult.worldTransform.columns.3.z
-                
-                if let camera = sceneView.pointOfView {
-                    let mat = camera.transform
-                    let dir = SCNVector3(nodeX * mat.m31, nodeY * mat.m32, nodeZ * mat.m33)
-                    boxNode.position = SCNVector3Make(camera.position.x, camera.position.y - 0.5, camera.position.z - 4)
-                    boxNode.physicsBody?.applyForce(dir, asImpulse: true)
-                    sceneView.scene.rootNode.addChildNode(boxNode)
-                }
-
-                configureArtworkNode(withNode: boxNode)
-//                let nodes = boxNode.childNodes
-//                for index in 0..<nodes.count {
-//                    let nodeName = nodes[index].name
-//                    
-//                    if nodeName == "artworkNode0" {
-//                        print("DEBUG: artworkNode0")
-//                    }
-//                }
-                
-            }
-        }
+        print(nodeName)
     }
     
     //MARK: - API
@@ -140,25 +127,56 @@ class ARWorldController: UIViewController {
         }
         return UIImage()
     }
+    
+    //MARK: - Renderer Helper
+    func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
+        let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height))
+        planeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+        planeNode.position.z += 0.1
+        planeNode.opacity = 0
+        
+        rootNode.addChildNode(planeNode)
+        planeNode.runAction(self.imageHighlightAction) {
+            block()
+        }
+    }
+    
+    func configureGalleryNode(withNode node: SCNNode) {
+        let galleryScene = SCNScene(named: "art.scnassets/gallery.scn")!
+        if let galleryNode = galleryScene.rootNode.childNode(withName: "gallery", recursively: true) {
+            if let camera = self.sceneView.pointOfView {
+                let mat = camera.transform
+                let dir = SCNVector3(-1 * mat.m31, -1 * mat.m32, -1 * mat.m33)
+                galleryNode.position = SCNVector3Make(camera.position.x, camera.position.y - 0.4, camera.position.z - 3)
+                galleryNode.physicsBody?.applyForce(dir, asImpulse: true)
+                node.addChildNode(galleryNode)
+            }
+
+            self.configureArtworkNode(withNode: galleryNode)
+        }
+    }
 }
 
+//MARK: - ARSCNViewDelegate
 extension ARWorldController: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if anchor is ARPlaneAnchor {
-            let planeAnchor = anchor as! ARPlaneAnchor
-            let plane = SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z))
-        
-            let planeNode = SCNNode()
-            planeNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
-            planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
-
-            let gridMeterial = SCNMaterial()
-            gridMeterial.diffuse.contents = UIImage(named: "art.scnassets/grid.png")
-            plane.materials = [gridMeterial]
-            planeNode.geometry = plane
-            node.addChildNode(planeNode)
-        } else {
-            return
+        DispatchQueue.main.async {
+            if let planeAnchor = anchor as? ARPlaneAnchor {
+                let physicalWidth = planeAnchor.extent.x
+                let physicalHeight = planeAnchor.extent.z
+                
+                let mainPlane = SCNPlane(width: CGFloat(physicalWidth), height: CGFloat(physicalHeight))
+                mainPlane.firstMaterial?.colorBufferWriteMask = .alpha
+                
+                let mainNode = SCNNode()
+                mainNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+                mainNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+                node.addChildNode(mainNode)
+                
+                self.highlightDetection(on: mainNode, width: CGFloat(physicalWidth), height: CGFloat(physicalHeight)) {
+                    self.configureGalleryNode(withNode: node)
+                }
+            }
         }
     }
 }

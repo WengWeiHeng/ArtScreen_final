@@ -120,6 +120,31 @@ class ExhibitionService {
         readExhibitionData(request: request, completion: completion)
     }
     
+    func fetchExhibition(withExhibitionID exhibitionID: String, completion: @escaping(ExhibitionDetail) -> Void) {
+        let url = URL(string: GET_EXHIBITION_WITHID_URL)!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "exhibitionID=\(exhibitionID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+//            print("DEBUG: user exhibition data: \(String(data: data!, encoding: .utf8))")
+
+            do {
+                let decoder = JSONDecoder()
+                let exhibitionDetail = try decoder.decode(ExhibitionDetail.self, from: jsonData)
+                completion(exhibitionDetail)
+            } catch {
+                print("DEBUG: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
+    
     func fetchUserExhibition(forUser user: User, completion: @escaping([ExhibitionDetail]) -> Void) {
         let url = URL(string: GET_USER_EXHIBITION_URL)!
         let request = NSMutableURLRequest(url: url)

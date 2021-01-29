@@ -23,17 +23,14 @@ class ExhibitionUploadController: UIViewController {
     
     private let addArtworkInputView = AddArtworkInputView()
     private let exhibitionSettingView = ExhibitionSettingView()
-    private let exhibitionEditView = ExhibitionEditView()
     private let exhibitionSendView = ExhibitionSendView()
     
     private var inputViewBottom = NSLayoutConstraint()
     private var settingViewBottom = NSLayoutConstraint()
-    private var editViewBottom = NSLayoutConstraint()
     private var sendViewBottom = NSLayoutConstraint()
     
     private let inputViewHeight: CGFloat = 350
     private let settingViewHeight: CGFloat = 250
-    private let editViewHeight: CGFloat = screenHeight * 0.9
     private let sendViewHeight: CGFloat = screenHeight * 0.5
     
     private lazy var customNavigationBarView: UIView = {
@@ -127,16 +124,12 @@ class ExhibitionUploadController: UIViewController {
         guard let exhibitionID = exhibitionID else { return }
         ArtworkService.shared.fetchExhibitionArtwork(forExhibitionID: exhibitionID) { artworks in
             self.artworks = artworks
-            
             DispatchQueue.main.async {
-                
                 if !self.artworks.isEmpty {
                     self.announceView.isHidden = true
                 } else {
                     self.announceView.isHidden = false
                 }
-                
-                
                 self.collectionView.reloadData()
             }
         }
@@ -166,7 +159,6 @@ class ExhibitionUploadController: UIViewController {
             self.blackViewButton.alpha = 0
             self.inputViewBottom.constant = self.inputViewHeight
             self.settingViewBottom.constant = self.settingViewHeight
-            self.editViewBottom.constant = self.editViewHeight
             self.sendViewBottom.constant = self.sendViewHeight
             self.view.layoutIfNeeded()
         }
@@ -228,16 +220,6 @@ class ExhibitionUploadController: UIViewController {
         settingViewBottom.isActive = true
         exhibitionSettingView.heightAnchor.constraint(equalToConstant: settingViewHeight).isActive = true
         exhibitionSettingView.delegate = self
-        
-        view.addSubview(exhibitionEditView)
-        exhibitionEditView.translatesAutoresizingMaskIntoConstraints = false
-        exhibitionEditView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        exhibitionEditView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        editViewBottom = exhibitionEditView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: editViewHeight)
-        editViewBottom.isActive = true
-        exhibitionEditView.heightAnchor.constraint(equalToConstant: editViewHeight).isActive = true
-        exhibitionEditView.layer.cornerRadius = 24
-        exhibitionEditView.delegate = self
         
         view.addSubview(exhibitionSendView)
         exhibitionSendView.translatesAutoresizingMaskIntoConstraints = false
@@ -323,14 +305,8 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     }
     
     func didTappedEditInfo() {
-//        print("didTappedEditInfo")
-//        let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
-//            self.blackViewButton.alpha = 0.75
-//            self.editViewBottom.constant = 0
-//            self.view.layoutIfNeeded()
-//        }
-//        transitionAnimator.startAnimation()
-        let controller = ExhibitionEditController()
+        guard let exhibitionID = exhibitionID else { return }
+        let controller = ExhibitionEditController(exhibitionID: exhibitionID)
         let nav = UINavigationController(rootViewController: controller)
         present(nav, animated: true, completion: nil)
     }
@@ -347,13 +323,6 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     
     func didTappedCancel() {
         print("didTappedCancel")
-        handleDismissal()
-    }
-}
-
-//MARK: - ExhibitionEditViewDelegate
-extension ExhibitionUploadController: ExhibitionEditViewDelegate {
-    func didTappedEditInfo_cancel() {
         handleDismissal()
     }
 }

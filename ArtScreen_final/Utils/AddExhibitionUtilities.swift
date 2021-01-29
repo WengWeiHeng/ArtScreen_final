@@ -11,7 +11,7 @@ class AddExhibitionUtilities {
     
     func customTitleLebael(titleText: String, textColor: UIColor) -> UILabel {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .boldSystemFont(ofSize: 20)
         label.textColor = textColor
         label.text = titleText
         

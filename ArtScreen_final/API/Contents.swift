@@ -43,6 +43,7 @@ let POST_EXHIBITION_UPDATE_ARTWORK_URL = "http://artscreen.sakura.ne.jp/postExhi
 let GET_ALL_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getAllExhibition.php"
 let GET_USER_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getUserExhibition.php"
 let SEARCH_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/exhibition/searchExhibition.php"
+let GET_EXHIBITION_WITHID_URL = "http://artscreen.sakura.ne.jp/getExhibitionWithID.php"
 
 //MARK: - COMMENT
 let POST_COMMENT_URL = "http://artscreen.sakura.ne.jp/comment/postComment.php"

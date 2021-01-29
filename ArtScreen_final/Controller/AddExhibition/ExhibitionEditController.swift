@@ -9,6 +9,9 @@ import UIKit
 
 class ExhibitionEditController: UIViewController {
     
+    var exhibitionID: String?
+    var exhibition: ExhibitionDetail?
+    
     //MARK: - Properties
     private let basicLabel: UILabel = {
         let label = AddExhibitionUtilities().customTitleLebael(titleText: "Basic", textColor: .mainPurple)
@@ -22,7 +25,7 @@ class ExhibitionEditController: UIViewController {
         return label
     }()
     
-    private let coverInageView: UIImageView = {
+    private let coverImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -61,18 +64,48 @@ class ExhibitionEditController: UIViewController {
     }()
     
     //MARK: - Init
+    init(exhibitionID: String) {
+        self.exhibitionID = exhibitionID
+        super.init(nibName: nil, bundle: nil)
+        fetchExhibition()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
-    //MARK: - Selectors
-    @objc func handleDismissal() {
-        dismiss(animated: true, completion: nil)
+    //MARK: - API
+    func fetchExhibition() {
+        guard let exhibitionID = exhibitionID else { return }
+        ExhibitionService.shared.fetchExhibition(withExhibitionID: exhibitionID) { (exhibition) in
+            self.exhibition = exhibition
+            DispatchQueue.main.async {
+                self.coverImageView.sd_setImage(with: exhibition.path)
+                self.exhibitionTitleTextView.text = exhibition.exhibitionName
+                self.introduceTextView.text = exhibition.information
+            }
+        }
     }
     
-    @objc func handleSave() {
-        dismiss(animated: true, completion: nil)
+    //MARK: - Selectors
+    @objc func handleDone() {
+        let alert = UIAlertController(title: "Upload new information", message:"Are you sure to change your exhibition information?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "No", style: .default, handler: { _ in
+            print("DEBUG: 編集続ける")
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            // exhibition update function
+            self.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
@@ -84,7 +117,7 @@ class ExhibitionEditController: UIViewController {
         titleStack.axis = .vertical
         titleStack.spacing = 4
         
-        let imageStack = UIStackView(arrangedSubviews: [coverInageView, titleStack])
+        let imageStack = UIStackView(arrangedSubviews: [coverImageView, titleStack])
         imageStack.axis = .horizontal
         imageStack.spacing = 12
         imageStack.alignment = .top
@@ -112,9 +145,9 @@ class ExhibitionEditController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.mainPurple]
         navigationItem.title = "Edit"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "close").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleDismissal))
-        navigationItem.leftBarButtonItem?.tintColor = .mainPurple
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "Send").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleSave))
+        
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
         navigationItem.rightBarButtonItem?.tintColor = .mainPurple
     }
 }

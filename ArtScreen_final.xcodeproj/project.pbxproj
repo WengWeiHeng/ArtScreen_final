@@ -12,7 +12,6 @@
 		B011073C25425D5F00041A01 /* AddArtworkInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073B25425D5F00041A01 /* AddArtworkInputView.swift */; };
 		B011074025425D8F00041A01 /* AddArtworkInputViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */; };
 		B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074225425DBE00041A01 /* ExhibitionSettingView.swift */; };
-		B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074525425DD400041A01 /* ExhibitionEditView.swift */; };
 		B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074825425DF000041A01 /* ExhibitionSendView.swift */; };
 		B011074C25425E0800041A01 /* ExhibitionSendViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */; };
 		B011074F25425FCE00041A01 /* ArtworkInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011074E25425FCE00041A01 /* ArtworkInputCell.swift */; };
@@ -134,7 +133,6 @@
 		B011073B25425D5F00041A01 /* AddArtworkInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputView.swift; sourceTree = "<group>"; };
 		B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArtworkInputViewCell.swift; sourceTree = "<group>"; };
 		B011074225425DBE00041A01 /* ExhibitionSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSettingView.swift; sourceTree = "<group>"; };
-		B011074525425DD400041A01 /* ExhibitionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditView.swift; sourceTree = "<group>"; };
 		B011074825425DF000041A01 /* ExhibitionSendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSendView.swift; sourceTree = "<group>"; };
 		B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionSendViewCell.swift; sourceTree = "<group>"; };
 		B011074E25425FCE00041A01 /* ArtworkInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkInputCell.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 				B011073B25425D5F00041A01 /* AddArtworkInputView.swift */,
 				B011073F25425D8F00041A01 /* AddArtworkInputViewCell.swift */,
 				B011074225425DBE00041A01 /* ExhibitionSettingView.swift */,
-				B011074525425DD400041A01 /* ExhibitionEditView.swift */,
 				B011074825425DF000041A01 /* ExhibitionSendView.swift */,
 				B011074B25425E0800041A01 /* ExhibitionSendViewCell.swift */,
 			);
@@ -849,7 +846,6 @@
 				B0D854582582026900EF720F /* ExhibitionDetailController.swift in Sources */,
 				B01107622542626600041A01 /* ArtworkCell.swift in Sources */,
 				B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */,
-				B011074625425DD400041A01 /* ExhibitionEditView.swift in Sources */,
 				B01107992542706400041A01 /* ArtworkInfoSettingController.swift in Sources */,
 				B01107E32542743700041A01 /* AlertUtilities.swift in Sources */,
 				B06A038D2565F8C3004BB0BE /* ArtworkService.swift in Sources */,

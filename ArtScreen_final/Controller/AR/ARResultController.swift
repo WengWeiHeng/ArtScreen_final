@@ -122,9 +122,6 @@ class ARResultController: UIViewController {
             
             self.setEmitter(size: size, speed: speed, red: red, green: green, blue: blue)
         }
-        
-        
-        
     }
     
     func setEmitter(size: CGFloat, speed: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat) {

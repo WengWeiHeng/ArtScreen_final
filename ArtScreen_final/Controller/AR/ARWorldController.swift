@@ -67,7 +67,29 @@ class ARWorldController: UIViewController {
         guard let hitNode = sceneView.hitTest(touchLocation, options: nil).first?.node else { return }
         guard let nodeName = hitNode.name else { return }
         
-        print(nodeName)
+        print("DEBUG: hit node position \(hitNode.name)")
+        
+        for index in 0..<artworks.count {
+            if nodeName == "artworkNode\(index)" {
+                
+                let physicalWidth = artworks[index].width * 0.0008
+                let physicalHeight = artworks[index].height * 0.0008
+                let animatePlane = SCNPlane(width: CGFloat(physicalWidth), height: CGFloat(physicalHeight))
+                
+                DispatchQueue.main.async {
+                    let controller = ARResultController()
+                    controller.artwork = self.artworks[index]
+                    animatePlane.firstMaterial?.diffuse.contents = controller.view
+                    hitNode.geometry = animatePlane
+                }
+                
+//                let animateNode = SCNNode(geometry: animatePlane)
+//                animateNode.eulerAngles = hitNode.eulerAngles
+//                animateNode.position = hitNode.position
+//
+//                hitNode.addChildNode(animateNode)
+            }
+        }
     }
     
     //MARK: - API
@@ -171,6 +193,7 @@ extension ARWorldController: ARSCNViewDelegate {
                 let mainNode = SCNNode()
                 mainNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
                 mainNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+                mainNode.name = "mainNode"
                 node.addChildNode(mainNode)
                 
                 self.highlightDetection(on: mainNode, width: CGFloat(physicalWidth), height: CGFloat(physicalHeight)) {

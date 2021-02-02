@@ -9,10 +9,10 @@ import UIKit
 
 class ExhibitionEditController: UIViewController {
     
+    //MARK: - Properties
     var exhibitionID: String?
     var exhibition: ExhibitionDetail?
     
-    //MARK: - Properties
     private let basicLabel: UILabel = {
         let label = AddExhibitionUtilities().customTitleLebael(titleText: "Basic", textColor: .mainPurple)
         
@@ -42,9 +42,9 @@ class ExhibitionEditController: UIViewController {
     }()
     
     private let exhibitionTitleTextView: UITextView = {
-        let tv = AddExhibitionUtilities().customTestView(fontSize: 16, textColor: .mainPurple)
-        tv.setHeight(height: 100)
-        tv.text = "Lorem ipsum dolor sit amet,consectetur adipiscing elit.Mauris fermentum nulla sit ametiaculis. "
+        let tv = AddExhibitionUtilities().customTestView(fontSize: 15, textColor: .mainPurple)
+        tv.setHeight(height: 60)
+        
         
         return tv
     }()
@@ -56,9 +56,8 @@ class ExhibitionEditController: UIViewController {
     }()
     
     private let introduceTextView: UITextView = {
-        let tv = AddExhibitionUtilities().customTestView(fontSize: 16, textColor: .mainPurple)
-        tv.setDimensions(width: screenWidth, height: 210)
-        tv.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fermentum nulla sit amet elementum iaculis. Donec ac nisi dictum, hendrerit quam ut, consequat neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec hendrerit facilisis tortor nec pretium. Mauris eu fringilla orci. Cras in enim lorem. Sed nec libero rhoncus, lacinia erat nec, ultricies risus. Mauris a faucibus neque. Suspendisse urna purus, maximus sit amet urna ac, laoreet varius orci. Vestibulum ornare ex ut enim gravida, ut finibus odio lobortis. Nulla sagittis ac leo ut feugiat. In eu magna mi. Duis ultrices pulvinar sodales. Donec imperdiet fermentum tortor quis ornare. Donec vel libero in odio sollicitudin pretium."
+        let tv = AddExhibitionUtilities().customTestView(fontSize: 15, textColor: .mainPurple)
+        tv.setDimensions(width: screenWidth, height: 60)
         
         return tv
     }()
@@ -92,6 +91,18 @@ class ExhibitionEditController: UIViewController {
         }
     }
     
+    func updateExhibition() {
+        guard let exhibitionID = exhibitionID else { return }
+        guard let exhibitionName = exhibitionTitleTextView.text else { return }
+        guard let information = introduceTextView.text else { return }
+        
+        let credential = UpdateExhibitionCredentials(exhibitionID: exhibitionID, exhibitionName: exhibitionName, information: information)
+        
+        ExhibitionService.shared.updateExhibition(credentials: credential)
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
     //MARK: - Selectors
     @objc func handleDone() {
         let alert = UIAlertController(title: "Upload new information", message:"Are you sure to change your exhibition information?", preferredStyle: .alert)
@@ -102,7 +113,7 @@ class ExhibitionEditController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
             // exhibition update function
-            self.dismiss(animated: true, completion: nil)
+            self.updateExhibition()
         }))
 
         self.present(alert, animated: true, completion: nil)
@@ -128,6 +139,7 @@ class ExhibitionEditController: UIViewController {
         
         let allStack = UIStackView(arrangedSubviews: [imageStack, introduceStack])
         allStack.axis = .vertical
+        allStack.spacing = 10
         
         view.addSubview(basicLabel)
         basicLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 12, paddingLeft: 16)
@@ -137,7 +149,6 @@ class ExhibitionEditController: UIViewController {
         
         view.addSubview(privacyLabel)
         privacyLabel.anchor(top: allStack.bottomAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 16)
-        
     }
     
     func configureNavigationBar() {

@@ -21,6 +21,12 @@ struct UpdateArtworkID_Exhibiton {
     let userID: Int
 }
 
+struct UpdateExhibitionCredentials {
+    let exhibitionID: String
+    let exhibitionName: String
+    let information: String
+}
+
 class ExhibitionService {
     static let shared = ExhibitionService()
     
@@ -50,7 +56,7 @@ class ExhibitionService {
         //... body
         print("DEBUG: upload data contain is \(param)")
         print(exhibitionCredentials.exhibitionImage.size)
-        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "exhibition-\(uuid).jpg")
+        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "exhibition-\(uuid).jpg", mimetype: "image/jpg")
         request.httpBody = createBody
         
         //launch session
@@ -80,6 +86,36 @@ class ExhibitionService {
         return uuid
     }
     
+    func updateExhibition(credentials: UpdateExhibitionCredentials) {
+        let url = URL(string: UPDATE_EXHIBITION_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "exhibitionID=\(credentials.exhibitionID)&exhibitionName=\(credentials.exhibitionName)&information=\(credentials.information)"
+        request.httpBody = body.data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { (data, request, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        print("DEBUG: updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("DEBUG: Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("DEBUG: error:\(error)")
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                }
+            }
+        }.resume()
+    }
+    
     func updateArtworkID(updateArtworkID: UpdateArtworkID_Exhibiton) {
         let url = URL(string: POST_EXHIBITION_UPDATE_ARTWORK_URL)!
         var request = URLRequest(url: url)
@@ -91,7 +127,7 @@ class ExhibitionService {
             DispatchQueue.main.async {
                 if error == nil {
                     do {
-                        print("DEBUG: -updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        print("DEBUG: updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
                         //json containers $returnArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
 

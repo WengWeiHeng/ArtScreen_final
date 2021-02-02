@@ -99,7 +99,7 @@ struct AuthService {
         guard let imageData = profileImage.jpegData(compressionQuality: 0.5) else { return }
         
         //... body
-        request.httpBody = createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary,filename: "ava.jpg")
+        request.httpBody = createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary,filename: "ava.jpg", mimetype: "image/jpg")
         //launc session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 
@@ -149,7 +149,7 @@ struct AuthService {
         }.resume()
     }
     
-    func createBodyWithPath(parameters: [String : Any], filePathKey: String?, imageDataKey: Data, boundary: String, filename : String) -> Data{
+    func createBodyWithPath(parameters: [String : Any], filePathKey: String?, imageDataKey: Data, boundary: String, filename : String, mimetype: String) -> Data{
         let body = NSMutableData()
         if !parameters.isEmpty {
             for (key, value) in parameters {
@@ -159,7 +159,7 @@ struct AuthService {
             }
         }
 //        let filename = "ava.jpg"
-        let mimetype = "image/jpg"
+//        let mimetype = "image/jpg"
         body.appendString(string: "--\(boundary)\r\n")
         body.appendString(string: "Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
         body.appendString(string: "Content-Type: \(mimetype)\r\n\r\n")

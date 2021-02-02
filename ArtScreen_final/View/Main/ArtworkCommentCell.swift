@@ -17,19 +17,29 @@ class ArtworkCommentCell: UITableViewCell {
             fetchComment()
         }
     }
+
     var comments = [CommentDetail]()
-    
     private var tableView = UITableView()
+    
+    private let allCommentButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitleColor(.mainBackground, for: .normal)
+        button.setTitle("Read all comment", for: .normal)
+        button.setDimensions(width: 120, height: 20)
+        
+        return button
+    }()
     
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        print("DEBUG: init")
         backgroundColor = .mainDarkGray
         selectionStyle = .none
         
         addSubview(tableView)
-        tableView.addConstraintsToFillView(self)
+        tableView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
         tableView.setHeight(height: 195)
         tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
         tableView.rowHeight = 65
@@ -38,32 +48,45 @@ class ArtworkCommentCell: UITableViewCell {
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
+
+        addSubview(allCommentButton)
+        allCommentButton.anchor(top: tableView.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, paddingLeft: 16)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     //MARK: - API
     func fetchComment() {
         guard let artwork = artwork else { return }
         CommentService.shared.fetchComment(artwork: artwork) { comments in
             self.comments = comments
             DispatchQueue.main.async {
+                if comments.isEmpty {
+                    self.tableView.removeFromSuperview()
+                    self.allCommentButton.removeFromSuperview()
+                } else {
+                    if comments.count <= 3 {
+                        print("DEBUG: comments count \(comments.count)")
+//                        self.tableView.setHeight(height: CGFloat(comments.count * 65))
+                    } else {
+                        print("DEBUG: comments count \(comments.count)")
+//                        self.tableView.setHeight(height: CGFloat(3 * 65))
+                    }
+                }
                 self.tableView.reloadData()
             }
         }
     }
-    
-    func configureData() {
-        
-    }
 }
 
+//MARK: - TableViewDelegate
 extension ArtworkCommentCell: UITableViewDelegate {
     
 }
 
+//MARK: - TableViewDataSource
 extension ArtworkCommentCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if comments.isEmpty {

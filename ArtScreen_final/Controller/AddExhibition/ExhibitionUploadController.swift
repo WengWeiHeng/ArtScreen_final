@@ -40,7 +40,7 @@ class ExhibitionUploadController: UIViewController {
         leftButton.setTitle("Done", for: .normal)
         leftButton.setTitleColor(.white, for: .normal)
         leftButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        leftButton.addTarget(self, action: #selector(handleBackAction), for: .touchUpInside)
+        leftButton.addTarget(self, action: #selector(handleDoneAction), for: .touchUpInside)
         
         let rightButton = UIButton(type: .system)
         rightButton.setImage(#imageLiteral(resourceName: "more"), for: .normal)
@@ -116,7 +116,7 @@ class ExhibitionUploadController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
     }
     
     //MARK: - API
@@ -136,7 +136,7 @@ class ExhibitionUploadController: UIViewController {
     }
     
     //MARK: - Selectors
-    @objc func handleBackAction() {
+    @objc func handleDoneAction() {
         print("DEBUG: Done - Access Upload ExhibitionID to Artwork")
         for i in 0..<selectedArtwork.count {
             let updateExhibitionID = UpdateArtworkID_Exhibiton(exhibitionID: exhibitionID, artworkID: selectedArtwork[i].artworkID, userID: selectedArtwork[i].userID)
@@ -230,14 +230,6 @@ class ExhibitionUploadController: UIViewController {
         exhibitionSendView.heightAnchor.constraint(equalToConstant: sendViewHeight).isActive = true
         exhibitionSendView.layer.cornerRadius = 24
         exhibitionSendView.delegate = self
-    }
-    
-    func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleBackAction))
-        navigationItem.leftBarButtonItem?.tintColor = .white
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleEditMoreAction))
-        navigationItem.rightBarButtonItem?.tintColor = .white
     }
 }
 

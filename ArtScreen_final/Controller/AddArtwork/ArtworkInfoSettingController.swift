@@ -147,12 +147,6 @@ class ArtworkInfoSettingController: UIViewController {
     //MARK: - Selectors
     @objc func tapbuttonPhotoLibrary() {
         navigationController?.popViewController(animated: true)
-//        for controller in self.navigationController!.viewControllers as Array {
-//            if controller.isKind(of: AddArtworkController.self) {
-//                self.navigationController!.popToViewController(controller, animated: true)
-//                break
-//            }
-//        }
     }
     
     @objc func tapbuttonSendImage() {
@@ -166,8 +160,6 @@ class ArtworkInfoSettingController: UIViewController {
         print("DEBUG: user is \(user.id) in artwork upload page")
 
         let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(artworkImageWidth), height: Float(artworkImageHeight), lat: locationLat, lng: locationLng)
-        
-//        showLoader(true, withText: "Loading..")
         
         if itemCredentials == nil {
             print("DEBUG: send no item artwork..")

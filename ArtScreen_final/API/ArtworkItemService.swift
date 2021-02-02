@@ -68,12 +68,12 @@ struct ArtworkItemService {
         //if picture is selected, compress it by half
         var imageData = Data()
         
-        imageData = artworkItem.artworkItemImage!.jpegData(compressionQuality: 0.5)!
+        imageData = artworkItem.artworkItemImage!.pngData()!
         //... body
         print(param)
 
-        request.httpBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artworkItem-\(artworkID).png")
-        print("DEBUG: -Update ArtworkItem")
+        request.httpBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artworkItem-\(artworkID).png", mimetype: "image/png")
+        print("DEBUG: Update ArtworkItem")
         //launch session
         URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             DispatchQueue.main.async {
@@ -87,11 +87,11 @@ struct ArtworkItemService {
                             print("Error while parsing")
                             return
                         }
-                    }catch {
-                        print("Error:\(error)")
+                    } catch {
+                        print("DEBUG: Error:\(error) in catch")
                     }
                 } else {
-                    print("Error:\(error?.localizedDescription ?? "")")
+                    print("Error:\(error?.localizedDescription ?? "") in error else")
                 }
             }
         }.resume()

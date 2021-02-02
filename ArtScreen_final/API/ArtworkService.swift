@@ -56,7 +56,7 @@ struct ArtworkService {
         
         imageData = artworkCredentials.artworkImage.jpegData(compressionQuality: 0.5)!
         
-        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artwork-\(uuid).jpg")
+        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "artwork-\(uuid).jpg", mimetype: "image/jpg")
         request.httpBody = createBody
         
         //launch session

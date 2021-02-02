@@ -16,6 +16,7 @@ class ARResultController: UIViewController {
             fetchArtworkItem()
         }
     }
+    
     var artworkItem: ArtworkItem? {
         didSet {
             configureArtworkItemData()
@@ -24,7 +25,6 @@ class ARResultController: UIViewController {
     
     var circleWidth: CGFloat!
     var circleHeight: CGFloat!
-    
     var trimImageView = UIImageView()
     
     var originImageView: UIImageView = {

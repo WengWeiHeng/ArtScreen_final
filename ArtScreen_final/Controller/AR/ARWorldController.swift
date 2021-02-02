@@ -82,12 +82,6 @@ class ARWorldController: UIViewController {
                     animatePlane.firstMaterial?.diffuse.contents = controller.view
                     hitNode.geometry = animatePlane
                 }
-                
-//                let animateNode = SCNNode(geometry: animatePlane)
-//                animateNode.eulerAngles = hitNode.eulerAngles
-//                animateNode.position = hitNode.position
-//
-//                hitNode.addChildNode(animateNode)
             }
         }
     }

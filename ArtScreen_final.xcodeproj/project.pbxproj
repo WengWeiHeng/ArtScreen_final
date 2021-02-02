@@ -29,8 +29,6 @@
 		B0110774254263DB00041A01 /* EditToolBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110773254263DB00041A01 /* EditToolBarCell.swift */; };
 		B0110777254263FA00041A01 /* ToolBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0110776254263FA00041A01 /* ToolBarViewModel.swift */; };
 		B011078925426D4E00041A01 /* CameraViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078825426D4E00041A01 /* CameraViewX.swift */; };
-		B011078C25426E2200041A01 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078B25426E2200041A01 /* AlbumView.swift */; };
-		B011078F25426E4F00041A01 /* MyHeaderFooterCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */; };
 		B01107922542702D00041A01 /* AnimateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107912542702D00041A01 /* AnimateController.swift */; };
 		B01107952542703C00041A01 /* ConfirmImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107942542703C00041A01 /* ConfirmImageController.swift */; };
 		B01107992542706400041A01 /* ArtworkInfoSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01107982542706400041A01 /* ArtworkInfoSettingController.swift */; };
@@ -103,6 +101,9 @@
 		B0B8B4902555520D003A1EAD /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B0B8B48F2555520D003A1EAD /* art.scnassets */; };
 		B0BB94572563683900FAD25B /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB94562563683900FAD25B /* MessageView.swift */; };
 		B0BB945B25636DDB00FAD25B /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BB945A25636DDB00FAD25B /* MessageCell.swift */; };
+		B0C761D125C90AC0008BC721 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C761D025C90AC0008BC721 /* AlbumView.swift */; };
+		B0C761D425C90B60008BC721 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C761D325C90B60008BC721 /* AlbumCell.swift */; };
+		B0C761D725C90B6C008BC721 /* AlbumHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C761D625C90B6C008BC721 /* AlbumHeaderView.swift */; };
 		B0CF8343259740EB00264126 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CF8342259740EB00264126 /* CameraView.swift */; };
 		B0D138EA25637931001884A7 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D138E925637931001884A7 /* ChatController.swift */; };
 		B0D1411025418E0400D9A677 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D1410F25418E0400D9A677 /* UserProfileController.swift */; };
@@ -150,8 +151,6 @@
 		B0110773254263DB00041A01 /* EditToolBarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToolBarCell.swift; sourceTree = "<group>"; };
 		B0110776254263FA00041A01 /* ToolBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewModel.swift; sourceTree = "<group>"; };
 		B011078825426D4E00041A01 /* CameraViewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewX.swift; sourceTree = "<group>"; };
-		B011078B25426E2200041A01 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
-		B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHeaderFooterCollectionView.swift; sourceTree = "<group>"; };
 		B01107912542702D00041A01 /* AnimateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateController.swift; sourceTree = "<group>"; };
 		B01107942542703C00041A01 /* ConfirmImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmImageController.swift; sourceTree = "<group>"; };
 		B01107982542706400041A01 /* ArtworkInfoSettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkInfoSettingController.swift; sourceTree = "<group>"; };
@@ -226,6 +225,9 @@
 		B0B8B48F2555520D003A1EAD /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		B0BB94562563683900FAD25B /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B0BB945A25636DDB00FAD25B /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		B0C761D025C90AC0008BC721 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		B0C761D325C90B60008BC721 /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
+		B0C761D625C90B6C008BC721 /* AlbumHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumHeaderView.swift; sourceTree = "<group>"; };
 		B0CF8342259740EB00264126 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		B0D138E925637931001884A7 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		B0D1410F25418E0400D9A677 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
@@ -300,13 +302,12 @@
 		B011078725426B0900041A01 /* AddArtwork */ = {
 			isa = PBXGroup;
 			children = (
+				B0C761CF25C90AAE008BC721 /* Album */,
 				B01107C42542723900041A01 /* AnimateSetting */,
 				B01107B6254271CD00041A01 /* LassoTool */,
 				B01107AE2542718B00041A01 /* PenTool */,
 				B011078825426D4E00041A01 /* CameraViewX.swift */,
 				B0CF8342259740EB00264126 /* CameraView.swift */,
-				B011078B25426E2200041A01 /* AlbumView.swift */,
-				B011078E25426E4F00041A01 /* MyHeaderFooterCollectionView.swift */,
 				B011079C254270EC00041A01 /* FeatureToolBarView.swift */,
 				B01107A22542712900041A01 /* FeatureToolBarCell.swift */,
 				B01107A52542714100041A01 /* AnimateToolBarView.swift */,
@@ -528,6 +529,16 @@
 				B091B4EB258F29D1004C6CD2 /* Notification.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B0C761CF25C90AAE008BC721 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				B0C761D025C90AC0008BC721 /* AlbumView.swift */,
+				B0C761D325C90B60008BC721 /* AlbumCell.swift */,
+				B0C761D625C90B6C008BC721 /* AlbumHeaderView.swift */,
+			);
+			path = Album;
 			sourceTree = "<group>";
 		};
 		B0D1412C254197B900D9A677 /* AddArtwork */ = {
@@ -800,15 +811,16 @@
 				B01107A92542715600041A01 /* AnimateToolBarCell.swift in Sources */,
 				B01107682542630000041A01 /* FilterView.swift in Sources */,
 				B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */,
-				B011078F25426E4F00041A01 /* MyHeaderFooterCollectionView.swift in Sources */,
 				B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */,
 				B0662FF425787BD1008171D0 /* ArtworkItemService.swift in Sources */,
 				B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */,
 				B0A68608255D517C0012D391 /* ArtworkDetailCell.swift in Sources */,
 				B0A6860B255D518B0012D391 /* ArtworkCommentCell.swift in Sources */,
 				B07C74C12541206400920F59 /* AuthService.swift in Sources */,
+				B0C761D125C90AC0008BC721 /* AlbumView.swift in Sources */,
 				B0BB945B25636DDB00FAD25B /* MessageCell.swift in Sources */,
 				B01107D6254272B000041A01 /* EmitterSettingView.swift in Sources */,
+				B0C761D725C90B6C008BC721 /* AlbumHeaderView.swift in Sources */,
 				B011076B2542630F00041A01 /* FilterViewCell.swift in Sources */,
 				B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */,
 				B01107CD2542726F00041A01 /* OpacitySettingView.swift in Sources */,
@@ -820,7 +832,6 @@
 				B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */,
 				B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */,
 				B0110771254263B300041A01 /* EditToolBarView.swift in Sources */,
-				B011078C25426E2200041A01 /* AlbumView.swift in Sources */,
 				B0A68605255D51420012D391 /* ArtworkDetailHeaderView.swift in Sources */,
 				B069BE6B2564A7A400CFE7F0 /* UserService.swift in Sources */,
 				B01107532542613600041A01 /* UserCoverView.swift in Sources */,
@@ -855,6 +866,7 @@
 				B011073825425C0E00041A01 /* ExhibitionUploadController.swift in Sources */,
 				B091B4E9258F296F004C6CD2 /* NotificationService.swift in Sources */,
 				B0110759254261E100041A01 /* UserInfoView.swift in Sources */,
+				B0C761D425C90B60008BC721 /* AlbumCell.swift in Sources */,
 				B0CF8343259740EB00264126 /* CameraView.swift in Sources */,
 				B011074925425DF000041A01 /* ExhibitionSendView.swift in Sources */,
 				B0E58D15254164E500E5A203 /* MenuViewModel.swift in Sources */,
@@ -1028,7 +1040,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021";
+				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021.02";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1048,7 +1060,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021";
+				PRODUCT_BUNDLE_IDENTIFIER = "weng.heng.ArtScreen-2021.02";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

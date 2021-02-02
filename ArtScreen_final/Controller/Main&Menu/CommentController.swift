@@ -72,6 +72,9 @@ class CommentController: UITableViewController {
         tableView.showsVerticalScrollIndicator = false
         tableView.isScrollEnabled = true
         tableView.backgroundColor = .mainDarkGray
+        
+        tableView.alwaysBounceVertical = true
+        tableView.keyboardDismissMode = .interactive
     }
 }
 

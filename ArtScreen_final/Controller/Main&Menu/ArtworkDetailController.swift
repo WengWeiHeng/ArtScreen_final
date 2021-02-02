@@ -24,20 +24,15 @@ class ArtworkDetailController: UITableViewController {
         return view
     }()
     
-    private lazy var footerView: UIView = {
-        let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
-        let view = UIView(frame: frame)
+    private lazy var customInputView: CustomInputAccessoryView = {
+        let inputView = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
+        inputView.delegate = self
         
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.mainBackground, for: .normal)
-        button.setTitle("Read all comment", for: .normal)
-        button.addTarget(self, action: #selector(handleShowAllComment), for: .touchUpInside)
-        button.setDimensions(width: 120, height: 20)
-        
-        view.addSubview(button)
-        button.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 12, paddingLeft: 16)
-        
+        return inputView
+    }()
+    
+    private let footerView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 126))
         return view
     }()
     
@@ -61,6 +56,14 @@ class ArtworkDetailController: UITableViewController {
         fetchComment()
     }
     
+    override var inputAccessoryView: UIView? {
+        get { return customInputView }
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
     //MARK: - API
     func fetchComment() {
         guard let artwork = artwork else { return }
@@ -76,14 +79,6 @@ class ArtworkDetailController: UITableViewController {
     @objc func handleDismissal() {
         print("DEBUG: dismissal detail controller")
         dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func handleShowAllComment() {
-        guard let user = user else { return }
-        guard let artwork = artwork else { return }
-        let controller = CommentController(user: user, artwork: artwork)
-//        controller.comments = comments
-        navigationController?.pushViewController(controller, animated: true)
     }
     
     //MARK: - Helpers
@@ -108,6 +103,9 @@ class ArtworkDetailController: UITableViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.alwaysBounceVertical = true
+        tableView.keyboardDismissMode = .interactive
     }
     
     func configureArtworkData() {
@@ -122,7 +120,6 @@ extension ArtworkDetailController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ArtworkDetailCell
@@ -136,6 +133,35 @@ extension ArtworkDetailController {
             return cell
         default:
             fatalError("Failed to instantiate the table view cell for artwork detail controller")
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            guard let user = user else { return }
+            guard let artwork = artwork else { return }
+            let controller = CommentController(user: user, artwork: artwork)
+    //        controller.comments = comments
+            navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+}
+
+//MARK: - CustomInputAccessoryViewDelegate
+extension ArtworkDetailController: CustomInputAccessoryViewDelegate {
+    func inputView(_ inputView: CustomInputAccessoryView, eantsToSend message: String) {
+        guard let artwork = artwork else { return }
+        guard let user = user else { return }
+        CommentService.shared.uploadComment(artwork: artwork, user: user, message: message) { error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("DEBUG: Error is \(error.localizedDescription)")
+                    return
+                }
+                inputView.clearMessageText()
+                self.fetchComment()
+//                self.tableView.reloadData()
+            }
         }
     }
 }

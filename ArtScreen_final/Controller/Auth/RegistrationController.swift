@@ -217,6 +217,7 @@ extension RegistrationController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
+    
     @objc func hideKeyboard() {
         view.endEditing(true)
     }

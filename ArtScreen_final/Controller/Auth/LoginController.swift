@@ -115,6 +115,21 @@ class LoginController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height / 2
+            if view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardHeight
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
     //MARK: - API
     func fetchUser() {
         UserService.shared.fetchUser { user in
@@ -142,6 +157,10 @@ class LoginController: UIViewController {
         view.addSubview(stack)
         stack.anchor(left: view.leftAnchor, bottom: dontHaveAccountButton.topAnchor, right: view.rightAnchor, paddingLeft: 32, paddingBottom: 32, paddingRight: 32)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
 //        setBackground()
     }
     
@@ -157,5 +176,19 @@ class LoginController: UIViewController {
         DispatchQueue.main.async {
             player.play()
         }
+    }
+}
+
+//MARK: - Close Keyboard
+extension LoginController {
+    /// tap outside the textField to close the keyboard
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddExhibitionController.hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
 }

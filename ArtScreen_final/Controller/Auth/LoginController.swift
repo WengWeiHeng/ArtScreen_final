@@ -12,6 +12,7 @@ class LoginController: UIViewController {
     
     //MARK: - Properties
     var user: User?
+    var player = AVPlayer()
     
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -23,7 +24,7 @@ class LoginController: UIViewController {
     }()
     
     private lazy var emailContainerView: UIView = {
-        let image = #imageLiteral(resourceName: "ic_mail_outline_white_2x")
+        let image = #imageLiteral(resourceName: "ic_person_outline_white_2x")
         let view = Utilities().inputContainerView(withImage: image, textField: emailTextField)
         
         return view
@@ -38,7 +39,7 @@ class LoginController: UIViewController {
     }()
     
     private let emailTextField: UITextField = {
-        let tf = Utilities().textField(withPlaceholder: "Email")
+        let tf = Utilities().textField(withPlaceholder: "Username")
         
         return tf
     }()
@@ -74,12 +75,13 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setBackground()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        setBackground()
+//        setBackground()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,6 +132,11 @@ class LoginController: UIViewController {
         }
     }
     
+    @objc func endOfMovie() {
+        player.seek(to: .zero)
+        player.play()
+    }
+    
     //MARK: - API
     func fetchUser() {
         UserService.shared.fetchUser { user in
@@ -161,21 +168,20 @@ class LoginController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-//        setBackground()
+        NotificationCenter.default.addObserver(self, selector: #selector(endOfMovie), name: .AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func setBackground() {
-        let url = URL(string: "http://artscreen.sakura.ne.jp/mp4/museum.mov")!
-        let player = AVPlayer(url: url)
+        guard let path = Bundle.main.path(forResource: "museum", ofType: "mp4") else { return }
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+        
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = view.bounds
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.zPosition = -1
         view.layer.insertSublayer(playerLayer, at: 0)
         
-        DispatchQueue.main.async {
-            player.play()
-        }
+        player.play()
     }
 }
 

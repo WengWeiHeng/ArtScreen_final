@@ -89,6 +89,7 @@
 		B091B4F0258F3224004C6CD2 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B091B4EF258F3224004C6CD2 /* NotificationViewModel.swift */; };
 		B09B915C25465752003A1CC1 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = B09B915B25465752003A1CC1 /* MapStyle.json */; };
 		B09B9160254673C1003A1CC1 /* MapInfoInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */; };
+		B0A4925325CBB886003D3AB2 /* museum.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = B0A4925125CBB7DD003D3AB2 /* museum.mp4 */; };
 		B0A685DC255D29480012D391 /* GravitySliderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */; };
 		B0A685E3255D325C0012D391 /* ArtworkDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A685E2255D325C0012D391 /* ArtworkDetailController.swift */; };
 		B0A685FD255D4DEE0012D391 /* ArtworkInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A685FC255D4DEE0012D391 /* ArtworkInputView.swift */; };
@@ -213,6 +214,7 @@
 		B091B4EF258F3224004C6CD2 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B09B915B25465752003A1CC1 /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		B09B915F254673C1003A1CC1 /* MapInfoInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInfoInputView.swift; sourceTree = "<group>"; };
+		B0A4925125CBB7DD003D3AB2 /* museum.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = museum.mp4; sourceTree = "<group>"; };
 		B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitySliderFlowLayout.swift; sourceTree = "<group>"; };
 		B0A685E2255D325C0012D391 /* ArtworkDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkDetailController.swift; sourceTree = "<group>"; };
 		B0A685FC255D4DEE0012D391 /* ArtworkInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkInputView.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				B011142B253FD777009D55FA /* AppDelegate.swift */,
 				B011142D253FD777009D55FA /* SceneDelegate.swift */,
 				B09B915B25465752003A1CC1 /* MapStyle.json */,
+				B0A4925125CBB7DD003D3AB2 /* museum.mp4 */,
 				B0111431253FD777009D55FA /* Main.storyboard */,
 				B05492212591F8510059ED55 /* Assets.xcassets */,
 				B0B8B48F2555520D003A1EAD /* art.scnassets */,
@@ -700,6 +703,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0A4925325CBB886003D3AB2 /* museum.mp4 in Resources */,
 				B09B915C25465752003A1CC1 /* MapStyle.json in Resources */,
 				B0111438253FD778009D55FA /* LaunchScreen.storyboard in Resources */,
 				B0B8B4902555520D003A1EAD /* art.scnassets in Resources */,
@@ -962,7 +966,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1017,7 +1021,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

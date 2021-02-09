@@ -30,6 +30,47 @@ struct NotificationViewModel {
         }
     }
     
+    var time: String {
+        let startDate = notification.time
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let formatedStartDate = dateFormatter.date(from: startDate)
+        let currentDate = Date()
+
+        let elapsedSecond = Calendar.current.dateComponents([.second], from: currentDate, to: formatedStartDate!).second!
+        let elapsedMinute = Calendar.current.dateComponents([.minute], from: currentDate, to: formatedStartDate!).minute!
+        let elapsedHour = Calendar.current.dateComponents([.hour], from: currentDate, to: formatedStartDate!).hour!
+        let elapsedDays = Calendar.current.dateComponents([.day], from: currentDate, to: formatedStartDate!).day!
+        let elapsedMonth = Calendar.current.dateComponents([.month], from: currentDate, to: formatedStartDate!).month!
+        let elapsedYear = Calendar.current.dateComponents([.year], from: currentDate, to: formatedStartDate!).year!
+        
+        if -elapsedSecond < 60 {
+            return String(-elapsedSecond) + "秒前"
+        }
+
+        if -elapsedMinute < 60 {
+            return String(-elapsedMinute) + "分前"
+        }
+        
+        if -elapsedHour < 24 {
+            return String(-elapsedHour) + "時前"
+        }
+        
+        if -elapsedDays < 30 {
+            return String(-elapsedDays) + "日前"
+        }
+        
+        if -elapsedMonth < 12 {
+            return String(-elapsedMonth) + "月前"
+        }
+
+        if -elapsedMonth > 12 {
+            return String(-elapsedYear) + "年前"
+        }
+        
+        return "DEBUG: Notification is nil"
+    }
+    
     init(user: User, notification: NotificationDetail) {
         self.fromUser = user
         self.notification = notification

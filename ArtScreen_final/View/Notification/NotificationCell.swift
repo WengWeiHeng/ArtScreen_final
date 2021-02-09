@@ -42,7 +42,7 @@ class NotificationCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .mainAlphaGray
-        label.text = "3s"
+//        label.text = "3s"
         
         return label
     }()
@@ -81,8 +81,8 @@ class NotificationCell: UITableViewCell {
             DispatchQueue.main.async {
                 self.profileImageView.sd_setImage(with: viewModel.fromUserImage)
                 self.descriptionLabel.text = viewModel.message
+                self.timeLabel.text = viewModel.time
             }
         }
-        
     }
 }

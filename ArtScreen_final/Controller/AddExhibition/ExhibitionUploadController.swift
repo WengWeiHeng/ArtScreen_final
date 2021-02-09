@@ -115,6 +115,7 @@ class ExhibitionUploadController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+//        presentingViewController?.beginAppearanceTransition(false, animated: animated)
         super.viewWillAppear(animated)
 //        navigationController?.navigationBar.isHidden = true
     }

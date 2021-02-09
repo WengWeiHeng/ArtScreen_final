@@ -148,6 +148,38 @@ class ExhibitionService {
         }.resume()
     }
     
+    func deleteExhibition(withExhibition exhibition: ExhibitionDetail, completion: ((Error?) -> Void)?) {
+        let url = URL(string: DELETE_EXHIBITION_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "exhibitionID=\(exhibition.exhibitionID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { (data, request, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        print("DEBUG: updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("DEBUG: Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("DEBUG: error:\(error)")
+                        completion!(error)
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    completion!(error)
+                }
+            }
+        }.resume()
+    }
+    
     //MARK: - Fetch Exhibition    
     func fetchExhibitions(completion: @escaping([ExhibitionDetail]) -> Void) {
         let url = URL(string: GET_ALL_EXHIBITION_URL)!

@@ -53,8 +53,8 @@ class UserContentView: UIView {
     private let userInfoView = UserInfoView()
     private let filterBar = FilterView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), state: .inUserView)
     
-    private let userExhibitionView = UserExhibitionView()
-    private let userArtworkView = UserArtworkView()
+    let userExhibitionView = UserExhibitionView()
+    let userArtworkView = UserArtworkView()
     
     private let editButton: UIButton = {
         let button = UIButton(type: .system)

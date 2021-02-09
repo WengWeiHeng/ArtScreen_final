@@ -250,13 +250,30 @@ class ExhibitionDetailController: UIViewController {
     @objc func handleEditAction() {
         guard let user = user else { return }
         guard let exhibition = exhibition else { return }
-        let controller = ExhibitionUploadController(user: user)
-        controller.exhibitionID = exhibition.exhibitionID
-        controller.exhibitionTitleText = exhibition.exhibitionName
         
+        let alert = UIAlertController(title: "Edit Exhibition information", message: "", preferredStyle: .actionSheet)
+        alert.view.tintColor = .mainPurple
         
-        controller.modalPresentationStyle = .fullScreen
-        present(controller, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+            let controller = ExhibitionUploadController(user: user)
+            controller.exhibitionID = exhibition.exhibitionID
+            controller.exhibitionTitleText = exhibition.exhibitionName
+            controller.modalPresentationStyle = .fullScreen
+            self.present(controller, animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .cancel, handler: { _ in
+            guard let exhibition = self.exhibition else { return }
+            ExhibitionService.shared.deleteExhibition(withExhibition: exhibition) { error in
+                if let error = error {
+                    self.showError(error.localizedDescription)
+                }
+                
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Helpers

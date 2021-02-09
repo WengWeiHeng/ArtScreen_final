@@ -28,7 +28,7 @@ class UserExhibitionView: UIView {
     
     var exhibitions = [ExhibitionDetail]()
     
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = WaterfallLayout()
         layout.delegate = self
         layout.sectionInset = UIEdgeInsets(top: 0, left: 12, bottom: 12, right: 12)

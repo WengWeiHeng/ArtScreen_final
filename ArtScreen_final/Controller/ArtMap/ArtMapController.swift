@@ -31,6 +31,14 @@ class ArtMapController: UIViewController {
     private var mapInfoViewBottom = NSLayoutConstraint()
     private let mapInfoViewHeight: CGFloat = 300
     
+    private let markerLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .mainPurple
+        
+        return label
+    }()
+    
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,6 +141,7 @@ class ArtMapController: UIViewController {
         let marker = GMSMarker(position: position)
         let markerImage = UIImage(imageLiteralResourceName: "marker").withRenderingMode(.alwaysOriginal)
         let markerView = UIImageView(image: markerImage)
+ 
         marker.iconView = markerView
         marker.map = mapView
     }

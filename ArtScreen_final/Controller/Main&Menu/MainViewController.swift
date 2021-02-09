@@ -149,6 +149,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+//        fetchExhibitions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchExhibitions()
     }
     
@@ -352,7 +357,7 @@ extension MainViewController: UICollectionViewDelegate {
 
 //MARK: - MainCollectionViewCellDelegate
 extension MainViewController: MainCollectionViewCellDelegate {
-    func handleMoveUserProfile(user: User) {
+    func handleMoveUserProfile(user: User, completion: @escaping (() -> Void)) {
         let controller = UserProfileController(user: user)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
@@ -388,10 +393,31 @@ extension MainViewController: MainCollectionViewCellDelegate {
         present(nav, animated: true, completion: nil)
     }
     
-    func openARWorld(exhibition: ExhibitionDetail) {
+    func openARWorld(exhibition: ExhibitionDetail, completion: @escaping (() -> Void)) {
         let controller = ARWorldController(exhibition: exhibition)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    func editExhibition(exhibition: ExhibitionDetail, completion: @escaping (() -> Void)) {
+        guard let user = user else { return }
+        
+        let alert = UIAlertController(title: "Edit Exhibition information", message: "", preferredStyle: .actionSheet)
+        alert.view.tintColor = .mainPurple
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+            let controller = ExhibitionUploadController(user: user)
+            controller.exhibitionID = exhibition.exhibitionID
+            controller.exhibitionTitleText = exhibition.exhibitionName
+            controller.modalPresentationStyle = .fullScreen
+            self.present(controller, animated: true, completion: completion)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
 }

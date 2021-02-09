@@ -22,15 +22,24 @@ enum CellState {
 protocol MainCollectionViewCellDelegate: class {
     func itemDismissal(isDismissal: Bool)
     func handleShowDetail(artwork: ArtworkDetail)
-    func handleMoveUserProfile(user: User)
-    func openARWorld(exhibition: ExhibitionDetail)
+    func handleMoveUserProfile(user: User, completion: @escaping (() -> Void))
+    func openARWorld(exhibition: ExhibitionDetail, completion: @escaping (() -> Void))
+    func editExhibition(exhibition: ExhibitionDetail, completion: @escaping (() -> Void))
 }
 
 class MainCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Properties
-    var user: User?
+    var user: User? {
+        didSet {
+            DispatchQueue.main.async {
+                self.checkUserIs(user: self.user!)
+            }
+            
+        }
+    }
     var exhibition: ExhibitionDetail?
+    var isFollowed = false
     
     private var exhibitionDetail: ExhibitionDetailController?
     private var artworkInputView = ArtworkInputView()
@@ -60,7 +69,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
         pan.delegate = self
-        
+
         return pan
     }()
     
@@ -125,38 +134,28 @@ class MainCollectionViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.setDimensions(width: 28, height: 28)
-        iv.layer.cornerRadius = 28 / 2
+        iv.setDimensions(width: 36, height: 36)
+        iv.layer.cornerRadius = 36 / 2
         iv.backgroundColor = .mainPurple
         iv.image = #imageLiteral(resourceName: "coverImage")
         
         return iv
     }()
     
-    private lazy var usernameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 14)
-        label.textColor = .mainPurple
-        label.text = "Jack Mauris"
+    private let usernameButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.setTitleColor(.mainPurple, for: .normal)
         
-        let tap = UIGestureRecognizer(target: self, action: #selector(handleShowUserProfile))
-        label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(tap)
-        
-        return label
+        return button
     }()
     
-    private let followButton: UIButton = {
+    private let actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Follow", for: .normal)
-        button.setTitleColor(.mainPurple, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.mainPurple.cgColor
-        button.setDimensions(width: 80, height: 28)
-        button.layer.cornerRadius = 28 / 2
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.setDimensions(width: 92, height: 32)
+        button.layer.cornerRadius = 32 / 2
         button.alpha = 0
-        button.addTarget(self, action: #selector(handleFollow), for: .touchUpInside)
         
         return button
     }()
@@ -227,7 +226,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     }()
     
     private lazy var userStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [userImageView, usernameLabel])
+        let stack = UIStackView(arrangedSubviews: [userImageView, usernameButton])
         stack.axis = .horizontal
         stack.spacing = 10
         stack.alpha = 0
@@ -274,12 +273,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         addSubview(userStack)
         userStack.anchor(top: actionButtonStack.bottomAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 16)
         
-        addSubview(followButton)
-        followButton.centerY(inView: userStack)
-        followButton.anchor(right: socialDataStack.rightAnchor)
+        addSubview(actionButton)
+        actionButton.centerY(inView: userStack)
+        actionButton.anchor(right: socialDataStack.rightAnchor)
         
         addSubview(exhibitionStack)
-        exhibitionStack.anchor(top: userStack.bottomAnchor, left: userStack.leftAnchor, right: followButton.rightAnchor, paddingTop: 16)
+        exhibitionStack.anchor(top: userStack.bottomAnchor, left: userStack.leftAnchor, right: actionButton.rightAnchor, paddingTop: 16)
 
         addSubview(artworkInputView)
         artworkInputView.translatesAutoresizingMaskIntoConstraints = false
@@ -300,6 +299,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         closeButton.addTarget(self, action: #selector(handleCloseCell), for: .touchUpInside)
         
         arWorldButton.addTarget(self, action: #selector(openARWorld), for: .touchUpInside)
+        usernameButton.addTarget(self, action: #selector(handleShowUserProfile), for: .touchUpInside)
         
         addGestureRecognizer(panRecognizer)
     }
@@ -308,13 +308,50 @@ class MainCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - API
+    func checkUserIs(user: User) {
+        let currentUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+        if user.username != currentUser!["username"] as! String {
+            checkUserisFollowing(user: user)
+        } else {
+            actionButton.setTitle("Edit", for: .normal)
+            actionButton.setTitleColor(.mainPurple, for: .normal)
+            actionButton.layer.borderColor = UIColor.mainPurple.cgColor
+            actionButton.layer.borderWidth = 1.25
+            actionButton.backgroundColor = .none
+            actionButton.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
+        }
+    }
+    
+    func checkUserisFollowing(user: User) {
+        UserService.shared.checkUserIsFollowing(user: user) { (isFollowed) in
+            DispatchQueue.main.async {
+                self.isFollowed = isFollowed
+                self.actionButtonStyle(isFollowed: isFollowed)
+                self.actionButton.addTarget(self, action: #selector(self.handleFollowAction), for: .touchUpInside)
+            }
+        }
+    }
+    
+    func userFollowing() {
+        guard let user = user else { return }
+        UserService.shared.followingUser(user: user)
+        actionButtonStyle(isFollowed: isFollowed)
+    }
+    
+    func unfollowUser() {
+        guard let user = user else { return }
+        UserService.shared.unfollowUser(user: user)
+        actionButtonStyle(isFollowed: isFollowed)
+    }
+    
     //MARK: - Selectors
     @objc func popupViewPanned(recognizer: UIPanGestureRecognizer){
         switch recognizer.state{
         case .began:
             toggle()
             animator.pauseAnimation()
-            
+
             //手勢中斷動畫
             animationProgress = animator.fractionComplete
         case .changed:
@@ -323,10 +360,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             if state == .expanded{ fraction *= 1}
             if animator.isReversed{ fraction *= -1 }
             animator.fractionComplete = fraction
-            
+
             //手勢中斷動畫
             animator.fractionComplete = fraction + animationProgress
-            
+
         case .ended:
             let velocity = recognizer.velocity(in: self)
             let shouldComplete = velocity.y > 0
@@ -334,7 +371,7 @@ class MainCollectionViewCell: UICollectionViewCell {
                 animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
                 break
             }
-            
+
             switch state{
             case .expanded:
                 if !shouldComplete && !animator.isReversed{ animator.isReversed = !animator.isReversed }
@@ -344,7 +381,7 @@ class MainCollectionViewCell: UICollectionViewCell {
                 if !shouldComplete && animator.isReversed{ animator.isReversed = !animator.isReversed }
             }
             animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-            
+
         default:
             ()
         }
@@ -380,23 +417,43 @@ class MainCollectionViewCell: UICollectionViewCell {
         transitionAnimator.startAnimation()
     }
     
-    @objc func handleFollow() {
-        print("DEBUG: Handle Follow..")
-    }
-    
     @objc func handleShowUserProfile() {
         guard let user = user else { return }
-        delegate?.handleMoveUserProfile(user: user)
+        delegate?.handleMoveUserProfile(user: user, completion: {
+            self.collectionView?.reloadData()
+        })
     }
     
     @objc func openARWorld() {
         guard let exhibition = exhibition else { return }
-        delegate?.openARWorld(exhibition: exhibition)
+        delegate?.openARWorld(exhibition: exhibition, completion: {
+            self.collectionView?.reloadData()
+        })
+    }
+    
+    @objc func handleFollowAction() {
+        print("DEBUG: handle follow action")
+        isFollowed.toggle()
+        if isFollowed {
+            print("DEBUG: do following")
+            userFollowing()
+            
+        } else {
+            print("DEBUG: do unfollow")
+            unfollowUser()
+        }
+    }
+    
+    @objc func handleEditAction() {
+        guard let exhibition = exhibition else { return }
+        delegate?.editExhibition(exhibition: exhibition, completion: {
+            self.collectionView?.reloadData()
+        })
+        
     }
     
     //MARK: - Helpers
     func configureData(with exhibition: ExhibitionDetail, collectionView: UICollectionView, index: Int) {
-        
         exhibitionImage.sd_setImage(with: exhibition.path)
         exhibitionTitleLabel.text = exhibition.exhibitionName
         exhibitionIntroduction.text = exhibition.information
@@ -409,7 +466,7 @@ class MainCollectionViewCell: UICollectionViewCell {
             
             DispatchQueue.main.async {
                 self.userImageView.sd_setImage(with: user.ava)
-                self.usernameLabel.text = user.username
+                self.usernameButton.setTitle(user.username, for: .normal)
             }
         }
 
@@ -438,7 +495,7 @@ class MainCollectionViewCell: UICollectionViewCell {
             self.actionButtonStack.alpha = 0
             self.socialDataStack.alpha = 0
             self.userStack.alpha = 0
-            self.followButton.alpha = 0
+            self.actionButton.alpha = 0
             self.exhibitionStack.alpha = 0
             self.filterButtonStack.alpha = 0
             self.artworkInputView.alpha = 0
@@ -482,7 +539,7 @@ class MainCollectionViewCell: UICollectionViewCell {
             self.actionButtonStack.alpha = 1
             self.socialDataStack.alpha = 1
             self.userStack.alpha = 1
-            self.followButton.alpha = 1
+            self.actionButton.alpha = 1
             self.exhibitionStack.alpha = 1
             self.filterButtonStack.alpha = 1
             self.artworkInputView.alpha = 1
@@ -510,6 +567,25 @@ class MainCollectionViewCell: UICollectionViewCell {
             }
         }
         animator.startAnimation()
+    }
+    
+    func actionButtonStyle(isFollowed: Bool) {
+        if isFollowed {
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("Following", for: .normal)
+                self.actionButton.backgroundColor = .mainPurple
+                self.actionButton.setTitleColor(.white, for: .normal)
+                self.actionButton.layer.borderWidth = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("Follow", for: .normal)
+                self.actionButton.layer.borderColor = UIColor.mainPurple.cgColor
+                self.actionButton.setTitleColor(.mainPurple, for: .normal)
+                self.actionButton.layer.borderWidth = 1.25
+                self.actionButton.backgroundColor = .none
+            }
+        }
     }
 }
 

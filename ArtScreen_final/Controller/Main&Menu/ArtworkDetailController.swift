@@ -16,6 +16,7 @@ class ArtworkDetailController: UITableViewController {
     var user: User?
     var artwork: ArtworkDetail?
     var comments = [CommentDetail]()
+    var isLike = false
     
     private lazy var headerView: ArtworkDetailHeaderView = {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 500)
@@ -72,6 +73,13 @@ class ArtworkDetailController: UITableViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+        }
+    }
+    
+    func checkIsUserLike() {
+        guard let artwork = artwork else { return }
+        LikeService.shared.checkUserIsLike(withState: .artwork, artwork: artwork) { (isLike) in
+            self.isLike = isLike
         }
     }
 
@@ -162,6 +170,22 @@ extension ArtworkDetailController: CustomInputAccessoryViewDelegate {
                 self.fetchComment()
 //                self.tableView.reloadData()
             }
+        }
+    }
+}
+
+extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
+    func handleArtworkLike() {
+        isLike.toggle()
+        if isLike {
+            print("DEBUG: do Like")
+            guard let artwork = artwork else { return }
+            LikeService.shared.fetchLikeArtwork(withArtwork: artwork)
+            
+        } else {
+            print("DEBUG: do unLike")
+            guard let artwork = artwork else { return }
+            LikeService.shared.unlike(withState: .artwork, artwork: artwork)
         }
     }
 }

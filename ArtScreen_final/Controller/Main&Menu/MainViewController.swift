@@ -333,6 +333,7 @@ extension MainViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MainCollectionViewCell
         cell.configureData(with: exhibitions[indexPath.row], collectionView: collectionView, index: indexPath.row)
         cell.exhibition = exhibitions[indexPath.row]
+        cell.checkIsUserLike(exhibition: exhibitions[indexPath.row])
         cell.delegate = self
         
         return cell

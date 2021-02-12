@@ -81,6 +81,7 @@
 		B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B071E071254FE266007FBB89 /* ARCameraController.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
+		B07D923F25D61F9A00678849 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07D923E25D61F9A00678849 /* LikeService.swift */; };
 		B07FB4922589B0340067F399 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4912589B0340067F399 /* Comments.swift */; };
 		B07FB4952589B03E0067F399 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4942589B03E0067F399 /* CommentService.swift */; };
 		B07FB4992589BBA60067F399 /* Contents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07FB4982589BBA60067F399 /* Contents.swift */; };
@@ -206,6 +207,7 @@
 		B071E071254FE266007FBB89 /* ARCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraController.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B07D923E25D61F9A00678849 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
 		B07FB4912589B0340067F399 /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		B07FB4942589B03E0067F399 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		B07FB4982589BBA60067F399 /* Contents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contents.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				B050EEB72578C74100D26268 /* ExhibitionService.swift */,
 				B07FB4942589B03E0067F399 /* CommentService.swift */,
 				B091B4E8258F296F004C6CD2 /* NotificationService.swift */,
+				B07D923E25D61F9A00678849 /* LikeService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -816,6 +819,7 @@
 				B01107682542630000041A01 /* FilterView.swift in Sources */,
 				B04CCA0A25400C5C00199443 /* LoginController.swift in Sources */,
 				B0D141162541911000D9A677 /* AddExhibitionController.swift in Sources */,
+				B07D923F25D61F9A00678849 /* LikeService.swift in Sources */,
 				B0662FF425787BD1008171D0 /* ArtworkItemService.swift in Sources */,
 				B0DECB5225A6A0E500F8CDD9 /* BlurSettingView.swift in Sources */,
 				B0A68608255D517C0012D391 /* ArtworkDetailCell.swift in Sources */,

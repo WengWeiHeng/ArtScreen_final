@@ -10,8 +10,17 @@ import UIKit
 class ExhibitionDetailController: UIViewController {
     
     //MARK: - Properties
-    var user: User?
+    var user: User? {
+        didSet {
+            DispatchQueue.main.async {
+                self.checkUserIs(user: self.user!)
+                self.checkIsUserLike()
+            }
+        }
+    }
     var exhibition: ExhibitionDetail?
+    var isLike = false
+    var isFollowed = false
     
     private var artworkInputView = ArtworkInputView()
     private var rightConstraint = NSLayoutConstraint()
@@ -47,7 +56,7 @@ class ExhibitionDetailController: UIViewController {
     
     let likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysTemplate), for: .normal)
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
         button.backgroundColor = .mainPurple
@@ -212,6 +221,54 @@ class ExhibitionDetailController: UIViewController {
         hideNavigationBar(selector: #selector(handleDismissal))
     }
     
+    //MARK: - API
+    func checkUserIs(user: User) {
+        let currentUser = UserDefaults.standard.value(forKey: "parseJSON") as? NSDictionary
+        if user.username != currentUser!["username"] as! String {
+            checkUserisFollowing(user: user)
+        } else {
+            actionButton.setTitle("Edit", for: .normal)
+            actionButton.setTitleColor(.mainPurple, for: .normal)
+            actionButton.layer.borderColor = UIColor.mainPurple.cgColor
+            actionButton.layer.borderWidth = 1.25
+            actionButton.backgroundColor = .none
+            actionButton.addTarget(self, action: #selector(handleEditAction), for: .touchUpInside)
+        }
+    }
+    
+    func checkUserisFollowing(user: User) {
+        UserService.shared.checkUserIsFollowing(user: user) { (isFollowed) in
+            DispatchQueue.main.async {
+                self.isFollowed = isFollowed
+                self.actionButtonStyle(isFollowed: isFollowed)
+                self.actionButton.addTarget(self, action: #selector(self.handleFollowAction), for: .touchUpInside)
+            }
+        }
+    }
+    
+    func userFollowing() {
+        guard let user = user else { return }
+        UserService.shared.followingUser(user: user)
+        actionButtonStyle(isFollowed: isFollowed)
+    }
+    
+    func unfollowUser() {
+        guard let user = user else { return }
+        UserService.shared.unfollowUser(user: user)
+        actionButtonStyle(isFollowed: isFollowed)
+    }
+    
+    func checkIsUserLike() {
+        guard let exhibition = exhibition else { return }
+        LikeService.shared.checkUserIsLike(withState: .exhibition, exhibition: exhibition) { (isLike) in
+            DispatchQueue.main.async {
+                
+                self.isLike = isLike
+                self.likeButtonStyle(isLike: isLike)
+            }
+        }
+    }
+    
     //MARK: - Selectors
     @objc func infoButtonAction(_ sender: Any) {
         let transitionAnimator = UIViewPropertyAnimator(duration: 0.6, dampingRatio: 1) {
@@ -239,8 +296,17 @@ class ExhibitionDetailController: UIViewController {
         transitionAnimator.startAnimation()
     }
     
-    @objc func handleFollow() {
-        print("DEBUG: Handle Follow..")
+    @objc func handleFollowAction() {
+        print("DEBUG: handle follow action")
+        isFollowed.toggle()
+        if isFollowed {
+            print("DEBUG: do following")
+            userFollowing()
+            
+        } else {
+            print("DEBUG: do unfollow")
+            unfollowUser()
+        }
     }
     
     @objc func handleDismissal() {
@@ -274,6 +340,18 @@ class ExhibitionDetailController: UIViewController {
         }))
 
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func handleLikeAction() {
+        isLike.toggle()
+        guard let exhibition = exhibition else { return }
+        if isLike {
+            LikeService.shared.fetchLikeExhibition(withExhibition: exhibition)
+            likeButtonStyle(isLike: isLike)
+        } else {
+            LikeService.shared.unlike(withState: .exhibition, exhibition: exhibition)
+            likeButtonStyle(isLike: isLike)
+        }
     }
     
     //MARK: - Helpers
@@ -330,6 +408,39 @@ class ExhibitionDetailController: UIViewController {
         view.addSubview(filterButtonStack)
         filterButtonStack.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
         filterButtonStack.centerX(inView: view)
+    }
+    
+    func actionButtonStyle(isFollowed: Bool) {
+        if isFollowed {
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("Following", for: .normal)
+                self.actionButton.backgroundColor = .mainPurple
+                self.actionButton.setTitleColor(.white, for: .normal)
+                self.actionButton.layer.borderWidth = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                self.actionButton.setTitle("Follow", for: .normal)
+                self.actionButton.layer.borderColor = UIColor.mainPurple.cgColor
+                self.actionButton.setTitleColor(.mainPurple, for: .normal)
+                self.actionButton.layer.borderWidth = 1.25
+                self.actionButton.backgroundColor = .none
+            }
+        }
+    }
+    
+    func likeButtonStyle(isLike: Bool) {
+        if isLike {
+            UIView.animate(withDuration: 0.4) {
+                self.likeButton.backgroundColor = .mainBackground
+                self.likeButton.tintColor = .mainPurple
+            }
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                self.likeButton.backgroundColor = .mainPurple
+                self.likeButton.tintColor = .white
+            }
+        }
     }
 }
 

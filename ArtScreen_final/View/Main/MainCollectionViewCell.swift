@@ -35,11 +35,12 @@ class MainCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 self.checkUserIs(user: self.user!)
             }
-            
         }
     }
+    
     var exhibition: ExhibitionDetail?
     var isFollowed = false
+    var isLike = false
     
     private var exhibitionDetail: ExhibitionDetailController?
     private var artworkInputView = ArtworkInputView()
@@ -105,10 +106,9 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     private let likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysTemplate), for: .normal)
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
-        button.backgroundColor = .mainPurple
         button.layer.maskedCorners = .layerMaxXMinYCorner
         button.layer.cornerRadius = 15
         
@@ -300,6 +300,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         arWorldButton.addTarget(self, action: #selector(openARWorld), for: .touchUpInside)
         usernameButton.addTarget(self, action: #selector(handleShowUserProfile), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         
         addGestureRecognizer(panRecognizer)
     }
@@ -343,6 +344,16 @@ class MainCollectionViewCell: UICollectionViewCell {
         guard let user = user else { return }
         UserService.shared.unfollowUser(user: user)
         actionButtonStyle(isFollowed: isFollowed)
+    }
+    
+    func checkIsUserLike(exhibition: ExhibitionDetail) {
+        LikeService.shared.checkUserIsLike(withState: .exhibition, exhibition: exhibition) { (isLike) in
+            DispatchQueue.main.async {
+                print("DEBUG: is Like \(isLike)")
+                self.isLike = isLike
+                self.likeButtonStyle(isLike: isLike)
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -449,7 +460,18 @@ class MainCollectionViewCell: UICollectionViewCell {
         delegate?.editExhibition(exhibition: exhibition, completion: {
             self.collectionView?.reloadData()
         })
-        
+    }
+    
+    @objc func handleLikeAction() {
+        isLike.toggle()
+        guard let exhibition = exhibition else { return }
+        if isLike {
+            LikeService.shared.fetchLikeExhibition(withExhibition: exhibition)
+            likeButtonStyle(isLike: isLike)
+        } else {
+            LikeService.shared.unlike(withState: .exhibition, exhibition: exhibition)
+            likeButtonStyle(isLike: isLike)
+        }
     }
     
     //MARK: - Helpers
@@ -584,6 +606,20 @@ class MainCollectionViewCell: UICollectionViewCell {
                 self.actionButton.setTitleColor(.mainPurple, for: .normal)
                 self.actionButton.layer.borderWidth = 1.25
                 self.actionButton.backgroundColor = .none
+            }
+        }
+    }
+    
+    func likeButtonStyle(isLike: Bool) {
+        if isLike {
+            UIView.animate(withDuration: 0.4) {
+                self.likeButton.backgroundColor = .mainBackground
+                self.likeButton.tintColor = .mainPurple
+            }
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                self.likeButton.backgroundColor = .mainPurple
+                self.likeButton.tintColor = .white
             }
         }
     }

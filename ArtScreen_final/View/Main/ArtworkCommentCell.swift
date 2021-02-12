@@ -30,26 +30,26 @@ class ArtworkCommentCell: UITableViewCell {
         
         return button
     }()
-    func configureHeight(bottom: CGFloat) {
-        addSubview(allCommentButton)
-        allCommentButton.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 16, paddingBottom: bottom)
-        
-        addSubview(tableView)
-        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: allCommentButton.topAnchor, right: rightAnchor)
-//        tableView.setHeight(height: height)
-        tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
-        tableView.rowHeight = 65
-        tableView.backgroundColor = .none
-        tableView.separatorStyle = .none
-        tableView.isScrollEnabled = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        
-        
-//        print("DEBUG: Height is \(height)")
-        print("DEBUG: Height is \(tableView.frame.height)")
-    }
+//    func configureHeight(bottom: CGFloat) {
+//        addSubview(allCommentButton)
+//        allCommentButton.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 16, paddingBottom: bottom)
+//
+//        addSubview(tableView)
+//        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: allCommentButton.topAnchor, right: rightAnchor)
+////        tableView.setHeight(height: height)
+//        tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
+//        tableView.rowHeight = 65
+//        tableView.backgroundColor = .none
+//        tableView.separatorStyle = .none
+//        tableView.isScrollEnabled = false
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//
+//
+//
+////        print("DEBUG: Height is \(height)")
+//        print("DEBUG: Height is \(tableView.frame.height)")
+//    }
     
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,15 +58,18 @@ class ArtworkCommentCell: UITableViewCell {
         backgroundColor = .mainDarkGray
         selectionStyle = .none
         
+        addSubview(tableView)
+        tableView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
+        tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
+        tableView.rowHeight = 65
+        tableView.backgroundColor = .none
+        tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
+        tableView.delegate = self
+        tableView.dataSource = self
         
-//        tableView.setHeight(height: 195)
-//        tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
-//        tableView.rowHeight = 65
-//        tableView.backgroundColor = .none
-//        tableView.separatorStyle = .none
-//        tableView.isScrollEnabled = false
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        addSubview(allCommentButton)
+        allCommentButton.anchor(top: tableView.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 16)
 
         
     }
@@ -86,15 +89,9 @@ class ArtworkCommentCell: UITableViewCell {
                     self.allCommentButton.removeFromSuperview()
                 } else {
                     if comments.count <= 3 {
-                        print("DEBUG: comments count \(comments.count)")
-//                        self.tableView.setHeight(height: CGFloat(comments.count * 65))
-                        self.configureHeight(bottom: CGFloat(195 - comments.count * 65))
-//                        self.allCommentButton.anchor(paddingBottom: CGFloat(195 - comments.count * 65))
+                        self.tableView.setHeight(height: CGFloat(comments.count * 65))
                     } else {
-                        print("DEBUG: comments count \(comments.count)")
-//                        self.tableView.setHeight(height: CGFloat(3 * 65))
-                        self.configureHeight(bottom: CGFloat(195 - 3 * 65))
-//                        self.allCommentButton.anchor(paddingBottom: CGFloat(195 - 3 * 65))
+                        self.tableView.setHeight(height: CGFloat(3 * 65))
                     }
                 }
                 self.tableView.reloadData()

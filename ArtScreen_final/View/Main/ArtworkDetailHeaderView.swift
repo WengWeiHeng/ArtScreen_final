@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol ArtworkDetailHeaderViewDelegate: class {
+    func handleArtworkLike()
+}
+
 class ArtworkDetailHeaderView: UIView {
     
     //MARK: - Proporties
+    weak var delegate: ArtworkDetailHeaderViewDelegate?
+    
     var artworkImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -38,6 +44,7 @@ class ArtworkDetailHeaderView: UIView {
         button.backgroundColor = .mainPurple
         button.layer.maskedCorners = .layerMaxXMinYCorner
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(handleArtworkLike), for: .touchUpInside)
         
         return button
     }()
@@ -80,5 +87,10 @@ class ArtworkDetailHeaderView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Selectors
+    @objc func handleArtworkLike() {
+        delegate?.handleArtworkLike()
     }
 }

@@ -59,4 +59,8 @@ let GET_NOTIFICATION_URL = "http://artscreen.sakura.ne.jp/notification/getNotifi
 //MARK: - FOLLOW
 let FOLLOWED_COUNT_URL = "http://artscreen.sakura.ne.jp/follow/followed_count.php"
 
-
+//MARK: - LIKE
+let LIKE_ARTWORK_URL = "http://artscreen.sakura.ne.jp/like/likeArtwork.php"
+let LIKE_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/like/likeExhibition.php"
+let UNLIKE_URL = "http://artscreen.sakura.ne.jp/like/unlike.php"
+let CHECK_IS_USER_LIKE = "http://artscreen.sakura.ne.jp/like/checkIsUserLike.php"

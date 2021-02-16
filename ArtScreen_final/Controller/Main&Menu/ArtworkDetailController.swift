@@ -21,6 +21,7 @@ class ArtworkDetailController: UITableViewController {
     private lazy var headerView: ArtworkDetailHeaderView = {
         let frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 500)
         let view = ArtworkDetailHeaderView(frame: frame)
+        view.delegate = self
         
         return view
     }()
@@ -33,7 +34,7 @@ class ArtworkDetailController: UITableViewController {
     }()
     
     private let footerView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 126))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 300))
         return view
     }()
     
@@ -42,6 +43,7 @@ class ArtworkDetailController: UITableViewController {
         self.user = user
         self.artwork = artwork
         super.init(nibName: nil, bundle: nil)
+        checkIsUserLike()
     }
     
     required init?(coder: NSCoder) {
@@ -79,7 +81,11 @@ class ArtworkDetailController: UITableViewController {
     func checkIsUserLike() {
         guard let artwork = artwork else { return }
         LikeService.shared.checkUserIsLike(withState: .artwork, artwork: artwork) { (isLike) in
-            self.isLike = isLike
+            DispatchQueue.main.async {
+                self.isLike = isLike
+                self.likeButtonStyle(isLike: isLike, button: self.headerView.likeButton)
+            }
+            
         }
     }
 
@@ -119,6 +125,20 @@ class ArtworkDetailController: UITableViewController {
     func configureArtworkData() {
         guard let artwork = artwork else { return }
         headerView.artworkImageView.sd_setImage(with: artwork.path)
+    }
+    
+    func likeButtonStyle(isLike: Bool, button: UIButton) {
+        if isLike {
+            UIView.animate(withDuration: 0.4) {
+                button.backgroundColor = .mainBackground
+                button.tintColor = .mainPurple
+            }
+        } else {
+            UIView.animate(withDuration: 0.4) {
+                button.backgroundColor = .mainPurple
+                button.tintColor = .white
+            }
+        }
     }
 }
 
@@ -175,17 +195,19 @@ extension ArtworkDetailController: CustomInputAccessoryViewDelegate {
 }
 
 extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
-    func handleArtworkLike() {
+    func handleArtworkLike(button: UIButton) {
         isLike.toggle()
         if isLike {
             print("DEBUG: do Like")
             guard let artwork = artwork else { return }
             LikeService.shared.fetchLikeArtwork(withArtwork: artwork)
+            likeButtonStyle(isLike: isLike, button: button)
             
         } else {
             print("DEBUG: do unLike")
             guard let artwork = artwork else { return }
             LikeService.shared.unlike(withState: .artwork, artwork: artwork)
+            likeButtonStyle(isLike: isLike, button: button)
         }
     }
 }

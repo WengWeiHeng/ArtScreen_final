@@ -102,7 +102,7 @@ class AlbumView: UIView {
             // enumerate objects
             allPhotos.enumerateObjects { (asset, count, stop) in
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 200, height: 200)
+                let targetSize = CGSize(width: 2000, height: 2000)
                 let options = PHImageRequestOptions()
                 options.isSynchronous = true
                 

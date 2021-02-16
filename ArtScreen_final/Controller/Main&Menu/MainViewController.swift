@@ -8,8 +8,8 @@
 import UIKit
 
 private let reuseIdentifier = "MainCollectionViewCell"
-let collectionViewCellHeightCoefficient: CGFloat = 1.1
-let collectionViewCellWidthCoefficient: CGFloat = 0.7
+let collectionViewCellHeightCoefficient: CGFloat = 1.075
+let collectionViewCellWidthCoefficient: CGFloat = 0.8
 
 protocol MainControllerDelegate: class {
     func handleMenuToggle()
@@ -390,7 +390,9 @@ extension MainViewController: MainCollectionViewCellDelegate {
         guard let user = user else { return }
         let controller = ArtworkDetailController(user: user, artwork: artwork)
         let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .fullScreen
+//        nav.modalPresentationStyle = .fullScreen
+        nav.isModalInPresentation = true
+        
         present(nav, animated: true, completion: nil)
     }
     
@@ -411,7 +413,8 @@ extension MainViewController: MainCollectionViewCellDelegate {
             let controller = ExhibitionUploadController(user: user)
             controller.exhibitionID = exhibition.exhibitionID
             controller.exhibitionTitleText = exhibition.exhibitionName
-            controller.modalPresentationStyle = .fullScreen
+//            controller.modalPresentationStyle = .fullScreen
+            controller.isModalInPresentation = true
             self.present(controller, animated: true, completion: completion)
         }))
         

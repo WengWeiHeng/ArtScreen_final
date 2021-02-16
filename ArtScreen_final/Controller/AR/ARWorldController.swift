@@ -48,6 +48,10 @@ class ARWorldController: UIViewController {
         configureUI()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -119,8 +123,24 @@ class ARWorldController: UIViewController {
             let artworkBox = SCNBox(width: artworkWidth * 0.0008, height: artworkHeight * 0.0008, length: 0.01, chamferRadius: 0)
 
             let artworkNode = SCNNode()
-            artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (artworkDistance * Float(index)))
-            artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
+            
+            if index <= 4 {
+                artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (artworkDistance * Float(index)))
+                artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
+                print("DEBUG: index: \(index)")
+                print("DEBUG: artworkNode position: \(artworkNode.position) <= 4")
+            } else if index > 4 && index < 7{
+                
+                artworkNode.position = SCNVector3Make(0.2 - (artworkDistance * Float(index - 5)), 0.3, -0.65)
+                artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 1, 0)
+                
+                print("DEBUG: index: \(index)")
+                print("DEBUG: artworkNode position: \(artworkNode.position) > 4")
+            } else if index > 6 {
+                artworkNode.position = SCNVector3Make(-0.5, 0.3, -0.5 + (artworkDistance * Float(index - 7)))
+                artworkNode.eulerAngles = SCNVector3(0, Float.pi / 2, 0)
+            }
+            
             
             let artworkMaterial = SCNMaterial()
             artworkImage = getImageByUrl(url: artworks[index].path)

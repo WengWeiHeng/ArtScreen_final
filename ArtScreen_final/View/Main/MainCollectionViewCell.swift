@@ -349,7 +349,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     func checkIsUserLike(exhibition: ExhibitionDetail) {
         LikeService.shared.checkUserIsLike(withState: .exhibition, exhibition: exhibition) { (isLike) in
             DispatchQueue.main.async {
-                print("DEBUG: is Like \(isLike)")
                 self.isLike = isLike
                 self.likeButtonStyle(isLike: isLike)
             }
@@ -357,7 +356,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Selectors
-    @objc func popupViewPanned(recognizer: UIPanGestureRecognizer){
+    @objc func popupViewPanned(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state{
         case .began:
             toggle()

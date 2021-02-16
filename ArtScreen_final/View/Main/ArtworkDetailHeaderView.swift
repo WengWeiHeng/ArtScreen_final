@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ArtworkDetailHeaderViewDelegate: class {
-    func handleArtworkLike()
+    func handleArtworkLike(button: UIButton)
 }
 
 class ArtworkDetailHeaderView: UIView {
@@ -25,9 +25,9 @@ class ArtworkDetailHeaderView: UIView {
         return iv
     }()
     
-    private let shareButton: UIButton = {
+    let actionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "share").withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "setting").withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .mainDarkGray
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
@@ -36,15 +36,17 @@ class ArtworkDetailHeaderView: UIView {
         return button
     }()
     
-    private let likeButton: UIButton = {
+    lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "like").withRenderingMode(.alwaysTemplate), for: .normal)
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
+        button.tintColor = .white
         button.backgroundColor = .mainPurple
         button.layer.maskedCorners = .layerMaxXMinYCorner
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(handleArtworkLike), for: .touchUpInside)
+        button.isUserInteractionEnabled = true
         
         return button
     }()
@@ -71,7 +73,7 @@ class ArtworkDetailHeaderView: UIView {
         addSubview(artworkImageView)
         artworkImageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 450)
         
-        let actionStack = UIStackView(arrangedSubviews: [shareButton, likeButton])
+        let actionStack = UIStackView(arrangedSubviews: [actionButton, likeButton])
         actionStack.axis = .horizontal
         actionStack.spacing = 0
         
@@ -91,6 +93,6 @@ class ArtworkDetailHeaderView: UIView {
     
     //MARK: - Selectors
     @objc func handleArtworkLike() {
-        delegate?.handleArtworkLike()
+        delegate?.handleArtworkLike(button: likeButton)
     }
 }

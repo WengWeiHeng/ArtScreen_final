@@ -365,17 +365,13 @@ class MainCollectionViewCell: UICollectionViewCell {
     //MARK: - Selectors
     @objc func popupViewTapped(recognizer: UITapGestureRecognizer) {
         print("DEBUG: tapped..")
-        toggle()
-//        switch recognizer.state {
-//        case .began:
-////            toggle()
-//            print("DEBUG: tapped..")
-//        case .ended:
-//
-//
-//        default:
-//            ()
-//        }
+        
+        switch state {
+        case .collapsed:
+            toggle()
+        case .expanded:
+            removeGestureRecognizer(tapRecognizer)
+        }
     }
     
     @objc func popupViewPanned(recognizer: UIPanGestureRecognizer) {

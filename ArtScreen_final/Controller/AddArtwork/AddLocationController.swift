@@ -57,6 +57,8 @@ class AddLocationController: UITableViewController {
     func configureNavigationBar() {
         navigationItem.title = "Add Location"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismissal))
         navigationItem.rightBarButtonItem?.tintColor = .white

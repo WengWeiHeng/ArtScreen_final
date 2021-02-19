@@ -25,6 +25,7 @@ struct UpdateExhibitionCredentials {
     let exhibitionID: String
     let exhibitionName: String
     let information: String
+    let privacy: Int
 }
 
 class ExhibitionService {
@@ -87,10 +88,11 @@ class ExhibitionService {
     }
     
     func updateExhibition(credentials: UpdateExhibitionCredentials) {
+        guard let id = Int(userDefault["id"] as! String) else { return }
         let url = URL(string: UPDATE_EXHIBITION_URL)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let body = "exhibitionID=\(credentials.exhibitionID)&exhibitionName=\(credentials.exhibitionName)&information=\(credentials.information)"
+        let body = "exhibitionID=\(credentials.exhibitionID)&userID=\(id)&exhibitionName=\(credentials.exhibitionName)&information=\(credentials.information)&privacy=\(credentials.privacy)"
         request.httpBody = body.data(using: .utf8)
         
         URLSession.shared.dataTask(with: request) { (data, request, error) in
@@ -231,6 +233,12 @@ class ExhibitionService {
         request.httpBody = body.data(using: .utf8)
         
         readExhibitionData(request: request, completion: completion)
+    }
+    
+    func fetchExhibitionCallBack(exhibition: ExhibitionDetail, completion: @escaping(ExhibitionDetail) -> Void) {
+        ExhibitionService.shared.fetchExhibition(withExhibitionID: exhibition.exhibitionID) { (exhibition) in
+            completion(exhibition)
+        }
     }
     
     func readExhibitionData(request: NSMutableURLRequest, completion: @escaping([ExhibitionDetail]) -> Void) {

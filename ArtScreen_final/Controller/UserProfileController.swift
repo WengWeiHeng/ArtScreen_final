@@ -341,6 +341,12 @@ class UserProfileController: UIViewController {
             }
         }
     }
+    
+    func callBack(exhibition: ExhibitionDetail) {
+        DispatchQueue.main.async {
+            self.userContentView.userExhibitionView.fetchUserExhibition()
+        }
+    }
 }
 
 extension State {
@@ -372,6 +378,9 @@ extension UserProfileController: UserContentViewDelegate {
     func moveToExhibitionDetail(exhibition: ExhibitionDetail) {
         guard let user = user else { return }
         let controller = ExhibitionDetailController(user: user)
+        controller.exhibitionCallBack = { (exhibition) in
+            self.callBack(exhibition: exhibition)
+        }
         controller.exhibition = exhibition
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen

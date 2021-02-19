@@ -11,6 +11,8 @@ class AddExhibitionController: UIViewController {
     
     //MARK: - Properties
     var user: User?
+    var exhibition: ExhibitionDetail?
+    
     private var isOnline: Bool = true
     private let imagePicker = UIImagePickerController()
     private var exhibitionImage: UIImage?
@@ -158,10 +160,9 @@ class AddExhibitionController: UIViewController {
         
         let exhibitionCredentials = ExhibitionCredentials(exhibitionName: exhibitionName, information: information, exhibitionImage: image, privacy: privacy)
         let exhibitionID = ExhibitionService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
-//        ExhibitionService.shared.uploadExhibiton(exhibitionCredentials: exhibitionCredentials, user: user)
-        
+
         let controller = ExhibitionUploadController(user: user)
-        controller.exhibitionTitleText = titleTextField.text
+        controller.exhibitionTitleLabel.text = titleTextField.text
         controller.exhibitionID = exhibitionID
         navigationController?.pushViewController(controller, animated: true)
     }

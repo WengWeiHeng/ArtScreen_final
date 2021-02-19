@@ -17,9 +17,10 @@ class ExhibitionUploadController: UIViewController {
     
     private var artworks = [ArtworkDetail]()
     private var selectedArtwork = [ArtworkDetail]()
-    var exhibitionID: String!
+    var exhibitionCallBack: ((ExhibitionDetail) -> Void)?
     
-    var exhibitionTitleText: String?
+    var exhibitionID: String!
+    var exhibition: ExhibitionDetail?
     
     private let addArtworkInputView = AddArtworkInputView()
     private let exhibitionSettingView = ExhibitionSettingView()
@@ -58,7 +59,7 @@ class ExhibitionUploadController: UIViewController {
         return view
     }()
     
-    private let exhibitionTitleLabel: UILabel = {
+    let exhibitionTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
@@ -111,13 +112,12 @@ class ExhibitionUploadController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchExhibition()
         fetchExhibitionArtwork()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        presentingViewController?.beginAppearanceTransition(false, animated: animated)
         super.viewWillAppear(animated)
-//        navigationController?.navigationBar.isHidden = true
     }
     
     //MARK: - API
@@ -136,14 +136,33 @@ class ExhibitionUploadController: UIViewController {
         }
     }
     
+    func fetchExhibition() {
+        guard let exhibitionID = exhibitionID else { return }
+        ExhibitionService.shared.fetchExhibition(withExhibitionID: exhibitionID) { (exhibition) in
+            self.exhibition = exhibition
+            DispatchQueue.main.async {
+                self.exhibitionTitleLabel.text = exhibition.exhibitionName
+            }
+        }
+    }
+    
+    
+    
     //MARK: - Selectors
     @objc func handleDoneAction() {
         print("DEBUG: Done - Access Upload ExhibitionID to Artwork")
+        guard let exhibitionID = exhibitionID else { return }
         for i in 0..<selectedArtwork.count {
             let updateExhibitionID = UpdateArtworkID_Exhibiton(exhibitionID: exhibitionID, artworkID: selectedArtwork[i].artworkID, userID: selectedArtwork[i].userID)
             ExhibitionService.shared.updateArtworkID(updateArtworkID: updateExhibitionID)
         }
-        dismiss(animated: true, completion: nil)
+        
+        dismiss(animated: true) {
+            guard let exhibition = self.exhibition else { return }
+            ExhibitionService.shared.fetchExhibitionCallBack(exhibition: exhibition) { (exhibition) in
+                self.exhibitionCallBack?(exhibition)
+            }
+        }
     }
     
     @objc func handleEditMoreAction() {
@@ -183,7 +202,7 @@ class ExhibitionUploadController: UIViewController {
 
         view.addSubview(exhibitionTitleLabel)
         exhibitionTitleLabel.anchor(top: customNavigationBarView.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 16, paddingRight: 16)
-        exhibitionTitleLabel.text = exhibitionTitleText
+        
 
         view.addSubview(collectionView)
         collectionView.anchor(top: exhibitionTitleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 20)
@@ -231,6 +250,12 @@ class ExhibitionUploadController: UIViewController {
         exhibitionSendView.heightAnchor.constraint(equalToConstant: sendViewHeight).isActive = true
         exhibitionSendView.layer.cornerRadius = 24
         exhibitionSendView.delegate = self
+    }
+    
+    func callBack(exhibition: ExhibitionDetail) {
+        DispatchQueue.main.async {
+            self.exhibitionTitleLabel.text = exhibition.exhibitionName
+        }
     }
 }
 
@@ -298,8 +323,13 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     }
     
     func didTappedEditInfo() {
-        guard let exhibitionID = exhibitionID else { return }
-        let controller = ExhibitionEditController(exhibitionID: exhibitionID)
+        guard let exhibition = exhibition else { return }
+        let controller = ExhibitionEditController(exhibition: exhibition)
+        
+        controller.exhibitionCallBack = { (exhibition) in
+            self.callBack(exhibition: exhibition)
+        }
+        
         let nav = UINavigationController(rootViewController: controller)
         present(nav, animated: true, completion: nil)
     }

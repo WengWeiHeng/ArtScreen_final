@@ -149,7 +149,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-//        fetchExhibitions()
+        fetchExhibitions()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -321,6 +321,10 @@ class MainViewController: UIViewController {
             }
         }, completion: nil)
     }
+    
+    func callBack(exhibition: ExhibitionDetail) {
+        
+    }
 }
 
 
@@ -382,6 +386,7 @@ extension MainViewController: MainCollectionViewCellDelegate {
             self.usernameLabel.alpha = 1
             self.exhibitionTitleLabel.alpha = 1
             self.moreButton.alpha = 1
+//            self.collectionView.reloadData()
         }
     }
     
@@ -390,9 +395,7 @@ extension MainViewController: MainCollectionViewCellDelegate {
         guard let user = user else { return }
         let controller = ArtworkDetailController(user: user, artwork: artwork)
         let nav = UINavigationController(rootViewController: controller)
-//        nav.modalPresentationStyle = .fullScreen
         nav.isModalInPresentation = true
-        
         present(nav, animated: true, completion: nil)
     }
     
@@ -412,8 +415,6 @@ extension MainViewController: MainCollectionViewCellDelegate {
         alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let controller = ExhibitionUploadController(user: user)
             controller.exhibitionID = exhibition.exhibitionID
-            controller.exhibitionTitleText = exhibition.exhibitionName
-//            controller.modalPresentationStyle = .fullScreen
             controller.isModalInPresentation = true
             self.present(controller, animated: true, completion: completion)
         }))

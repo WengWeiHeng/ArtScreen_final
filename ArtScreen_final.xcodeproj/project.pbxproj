@@ -61,6 +61,7 @@
 		B0111442253FD7DB009D55FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111441253FD7DB009D55FA /* MainViewController.swift */; };
 		B0111445253FD9FC009D55FA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0111444253FD9FC009D55FA /* Extensions.swift */; };
 		B024BB122562A3F400FAA319 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B024BB112562A3F400FAA319 /* SearchController.swift */; };
+		B035A1C825DF59DF007F26E3 /* ArtworkEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B035A1C725DF59DF007F26E3 /* ArtworkEditController.swift */; };
 		B03ACC992549B33C00410BF7 /* ExhibitionEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */; };
 		B046BEB7254ECF3900B3F923 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */; };
 		B047BD8C255E29FB0059B342 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B047BD8B255E29FB0059B342 /* NotificationCell.swift */; };
@@ -187,6 +188,7 @@
 		B0111441253FD7DB009D55FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B0111444253FD9FC009D55FA /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B024BB112562A3F400FAA319 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		B035A1C725DF59DF007F26E3 /* ArtworkEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkEditController.swift; sourceTree = "<group>"; };
 		B03ACC982549B33C00410BF7 /* ExhibitionEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExhibitionEditController.swift; sourceTree = "<group>"; };
 		B046BEB6254ECF3900B3F923 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		B047BD8B255E29FB0059B342 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				B01107942542703C00041A01 /* ConfirmImageController.swift */,
 				B01107982542706400041A01 /* ArtworkInfoSettingController.swift */,
 				B0D3BBF32547C07C00A5E8F8 /* AddLocationController.swift */,
+				B035A1C725DF59DF007F26E3 /* ArtworkEditController.swift */,
 			);
 			path = AddArtwork;
 			sourceTree = "<group>";
@@ -849,6 +852,7 @@
 				B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */,
 				B011078925426D4E00041A01 /* CameraViewX.swift in Sources */,
 				B011075F2542623200041A01 /* UserArtworkView.swift in Sources */,
+				B035A1C825DF59DF007F26E3 /* ArtworkEditController.swift in Sources */,
 				B0E16F1225BA65D800CB716D /* NotificationController.swift in Sources */,
 				B011142C253FD777009D55FA /* AppDelegate.swift in Sources */,
 				B07C74BD25411CE700920F59 /* User.swift in Sources */,

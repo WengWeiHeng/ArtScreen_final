@@ -18,6 +18,8 @@ class ExhibitionDetailController: UIViewController {
             }
         }
     }
+    
+    var exhibitionCallBack: ((ExhibitionDetail) -> Void)?
     var exhibition: ExhibitionDetail?
     var isLike = false
     var isFollowed = false
@@ -310,7 +312,12 @@ class ExhibitionDetailController: UIViewController {
     }
     
     @objc func handleDismissal() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            guard let exhibition = self.exhibition else { return }
+            ExhibitionService.shared.fetchExhibitionCallBack(exhibition: exhibition) { (exhibition) in
+                self.exhibitionCallBack?(exhibition)
+            }
+        }
     }
     
     @objc func handleEditAction() {
@@ -323,7 +330,9 @@ class ExhibitionDetailController: UIViewController {
         alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let controller = ExhibitionUploadController(user: user)
             controller.exhibitionID = exhibition.exhibitionID
-            controller.exhibitionTitleText = exhibition.exhibitionName
+            controller.exhibitionCallBack = { (exhibition) in
+                self.callBack(exhibition: exhibition)
+            }
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: true, completion: nil)
         }))
@@ -440,6 +449,14 @@ class ExhibitionDetailController: UIViewController {
                 self.likeButton.backgroundColor = .mainPurple
                 self.likeButton.tintColor = .white
             }
+        }
+    }
+    
+    func callBack(exhibition: ExhibitionDetail) {
+        DispatchQueue.main.async {
+            self.exhibitionTitleLabel.text = exhibition.exhibitionName
+            self.exhibitionImage.sd_setImage(with: exhibition.path)
+            self.exhibitionIntroduction.text = exhibition.information
         }
     }
 }

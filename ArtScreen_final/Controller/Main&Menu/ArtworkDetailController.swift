@@ -35,6 +35,7 @@ class ArtworkDetailController: UITableViewController {
     
     private let footerView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 300))
+
         return view
     }()
     
@@ -165,6 +166,7 @@ extension ArtworkDetailController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("DEBUG: cell be tapped")
         if indexPath.row == 1 {
             guard let user = user else { return }
             guard let artwork = artwork else { return }
@@ -194,6 +196,7 @@ extension ArtworkDetailController: CustomInputAccessoryViewDelegate {
     }
 }
 
+//MARK: - ArtworkDetailHeaderDelegate
 extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
     func handleArtworkLike(button: UIButton) {
         isLike.toggle()
@@ -209,5 +212,13 @@ extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
             LikeService.shared.unlike(withState: .artwork, artwork: artwork)
             likeButtonStyle(isLike: isLike, button: button)
         }
+    }
+    
+    func editArtwork() {
+        guard let artwork = artwork else { return }
+        let controller = ArtworkEditController(artwork: artwork)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }

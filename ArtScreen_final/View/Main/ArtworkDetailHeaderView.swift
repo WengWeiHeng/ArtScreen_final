@@ -9,6 +9,7 @@ import UIKit
 
 protocol ArtworkDetailHeaderViewDelegate: class {
     func handleArtworkLike(button: UIButton)
+    func editArtwork()
 }
 
 class ArtworkDetailHeaderView: UIView {
@@ -25,13 +26,15 @@ class ArtworkDetailHeaderView: UIView {
         return iv
     }()
     
-    let actionButton: UIButton = {
+    lazy var actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "setting").withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .mainDarkGray
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
         button.backgroundColor = .mainBackground
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(handleEditArtwork), for: .touchUpInside)
         
         return button
     }()
@@ -94,5 +97,9 @@ class ArtworkDetailHeaderView: UIView {
     //MARK: - Selectors
     @objc func handleArtworkLike() {
         delegate?.handleArtworkLike(button: likeButton)
+    }
+    
+    @objc func handleEditArtwork() {
+        delegate?.editArtwork()
     }
 }

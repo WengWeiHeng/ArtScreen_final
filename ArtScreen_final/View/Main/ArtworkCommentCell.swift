@@ -21,35 +21,25 @@ class ArtworkCommentCell: UITableViewCell {
     var comments = [CommentDetail]()
     private var tableView = UITableView()
     
+    private let iconImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "redo").withRenderingMode(.alwaysOriginal)
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFit
+        iv.setDimensions(width: 20, height: 12)
+        
+        return iv
+    }()
+    
     private let allCommentButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.mainBackground, for: .normal)
-        button.setTitle("Read all comment", for: .normal)
-        button.setDimensions(width: 120, height: 20)
+        button.setTitle("All comment", for: .normal)
+        button.setDimensions(width: 100, height: 20)
         
         return button
     }()
-//    func configureHeight(bottom: CGFloat) {
-//        addSubview(allCommentButton)
-//        allCommentButton.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 16, paddingBottom: bottom)
-//
-//        addSubview(tableView)
-//        tableView.anchor(top: topAnchor, left: leftAnchor, bottom: allCommentButton.topAnchor, right: rightAnchor)
-////        tableView.setHeight(height: height)
-//        tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
-//        tableView.rowHeight = 65
-//        tableView.backgroundColor = .none
-//        tableView.separatorStyle = .none
-//        tableView.isScrollEnabled = false
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//
-//
-//
-////        print("DEBUG: Height is \(height)")
-//        print("DEBUG: Height is \(tableView.frame.height)")
-//    }
     
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,20 +48,22 @@ class ArtworkCommentCell: UITableViewCell {
         backgroundColor = .mainDarkGray
         selectionStyle = .none
         
+        let stack = UIStackView(arrangedSubviews: [allCommentButton, iconImageView])
+        stack.spacing = 0
+        stack.axis = .horizontal
+        
+        addSubview(stack)
+        stack.anchor(top: topAnchor, right: rightAnchor, paddingTop: 8, paddingRight: 16)
+        
         addSubview(tableView)
-        tableView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
+        tableView.anchor(top: stack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 4)
         tableView.register(CommentCell.self, forCellReuseIdentifier: CommentIdentifier)
-        tableView.rowHeight = 65
+//        tableView.rowHeight = 65
         tableView.backgroundColor = .none
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
-        
-        addSubview(allCommentButton)
-        allCommentButton.anchor(top: tableView.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 16)
-
-        
     }
     
     required init?(coder: NSCoder) {

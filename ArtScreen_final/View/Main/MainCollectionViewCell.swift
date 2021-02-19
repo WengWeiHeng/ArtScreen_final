@@ -74,6 +74,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         return pan
     }()
     
+    private lazy var tapRecognizer: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer()
+        tap.addTarget(self, action: #selector(popupViewTapped(recognizer:)))
+        return tap
+    }()
+    
     //MARK: - Exhibition Info Properties
     let closeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -302,7 +308,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         usernameButton.addTarget(self, action: #selector(handleShowUserProfile), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         
-        addGestureRecognizer(panRecognizer)
+//        addGestureRecognizer(panRecognizer)
+        addGestureRecognizer(tapRecognizer)
     }
     
     required init?(coder: NSCoder) {
@@ -356,6 +363,21 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Selectors
+    @objc func popupViewTapped(recognizer: UITapGestureRecognizer) {
+        print("DEBUG: tapped..")
+        toggle()
+//        switch recognizer.state {
+//        case .began:
+////            toggle()
+//            print("DEBUG: tapped..")
+//        case .ended:
+//
+//
+//        default:
+//            ()
+//        }
+    }
+    
     @objc func popupViewPanned(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state{
         case .began:
@@ -496,7 +518,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     func toggle(){
-        print("DEBUG: toggle..")
         switch state{
         case .expanded:
             collapse()

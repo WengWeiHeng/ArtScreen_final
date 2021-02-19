@@ -10,8 +10,11 @@ import UIKit
 class ExhibitionEditController: UIViewController {
     
     //MARK: - Properties
-    var exhibitionID: String?
     var exhibition: ExhibitionDetail?
+    var exhibitionCallBack: ((ExhibitionDetail) -> Void)?
+    
+    private let imagePicker = UIImagePickerController()
+    private var changeImage: UIImage?
     
     private let basicLabel: UILabel = {
         let label = AddExhibitionUtilities().customTitleLebael(titleText: "Basic", textColor: .mainPurple)
@@ -25,12 +28,15 @@ class ExhibitionEditController: UIViewController {
         return label
     }()
     
-    private let coverImageView: UIImageView = {
+    private lazy var exhibitionImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .mainPurple
+        iv.contentMode = .scaleAspectFill
         iv.setDimensions(width: 100, height: 100)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(selectExhibitionImage))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
         
         return iv
     }()
@@ -63,10 +69,10 @@ class ExhibitionEditController: UIViewController {
     }()
     
     //MARK: - Init
-    init(exhibitionID: String) {
-        self.exhibitionID = exhibitionID
+    init(exhibition: ExhibitionDetail) {
+        self.exhibition = exhibition
         super.init(nibName: nil, bundle: nil)
-        fetchExhibition()
+        configureDate()
     }
     
     required init?(coder: NSCoder) {
@@ -79,28 +85,21 @@ class ExhibitionEditController: UIViewController {
     }
     
     //MARK: - API
-    func fetchExhibition() {
-        guard let exhibitionID = exhibitionID else { return }
-        ExhibitionService.shared.fetchExhibition(withExhibitionID: exhibitionID) { (exhibition) in
-            self.exhibition = exhibition
-            DispatchQueue.main.async {
-                self.coverImageView.sd_setImage(with: exhibition.path)
-                self.exhibitionTitleTextView.text = exhibition.exhibitionName
-                self.introduceTextView.text = exhibition.information
-            }
-        }
-    }
-    
     func updateExhibition() {
-        guard let exhibitionID = exhibitionID else { return }
+        guard let exhibition = exhibition else { return }
         guard let exhibitionName = exhibitionTitleTextView.text else { return }
         guard let information = introduceTextView.text else { return }
         
-        let credential = UpdateExhibitionCredentials(exhibitionID: exhibitionID, exhibitionName: exhibitionName, information: information)
+        let credential = UpdateExhibitionCredentials(exhibitionID: exhibition.exhibitionID, exhibitionName: exhibitionName, information: information, privacy: 0)
         
         ExhibitionService.shared.updateExhibition(credentials: credential)
-        dismiss(animated: true, completion: nil)
         
+        dismiss(animated: true) {
+            guard let exhibition = self.exhibition else { return }
+            ExhibitionService.shared.fetchExhibitionCallBack(exhibition: exhibition) { (exhibition) in
+                self.exhibitionCallBack?(exhibition)
+            }
+        }
     }
     
     //MARK: - Selectors
@@ -119,16 +118,22 @@ class ExhibitionEditController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    @objc func selectExhibitionImage() {
+        print("DEBUG: select image..")
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
     //MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .mainBackground
         configureNavigationBar()
+        configureImagePicker()
         
         let titleStack = UIStackView(arrangedSubviews: [exhibitionTitleLabel, exhibitionTitleTextView])
         titleStack.axis = .vertical
         titleStack.spacing = 4
         
-        let imageStack = UIStackView(arrangedSubviews: [coverImageView, titleStack])
+        let imageStack = UIStackView(arrangedSubviews: [exhibitionImageView, titleStack])
         imageStack.axis = .horizontal
         imageStack.spacing = 12
         imageStack.alignment = .top
@@ -160,5 +165,32 @@ class ExhibitionEditController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
         navigationItem.rightBarButtonItem?.tintColor = .mainPurple
+    }
+    
+    func configureDate() {
+        guard let exhibition = exhibition else { return }
+        DispatchQueue.main.async {
+            self.exhibitionImageView.sd_setImage(with: exhibition.path)
+            self.exhibitionTitleTextView.text = exhibition.exhibitionName
+            self.introduceTextView.text = exhibition.information
+        }
+    }
+    
+    func configureImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+    }
+}
+
+//MARK: - UIImagePickerControllerDelegate
+extension ExhibitionEditController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let changeImage = info[.editedImage] as? UIImage else { return }
+        self.changeImage = changeImage
+        
+        exhibitionImageView.image = changeImage
+//        coverImageButton.setImage(changeImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
+        dismiss(animated: true, completion: nil)
     }
 }

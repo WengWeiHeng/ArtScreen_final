@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 enum CellState {
     case expanded
@@ -267,7 +268,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         addSubview(exhibitionImage)
         exhibitionImage.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
-        exhibitionImage.setHeight(height: 500)
+        exhibitionImage.setHeight(height: screenHeight * 0.59)
         exhibitionImage.layer.cornerRadius = 24
         
         addSubview(actionButtonStack)
@@ -493,7 +494,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Helpers
     func configureData(with exhibition: ExhibitionDetail, collectionView: UICollectionView, index: Int) {
-        exhibitionImage.sd_setImage(with: exhibition.path)
+        exhibitionImage.sd_setImage(with: URL(string: exhibition.path))
         exhibitionTitleLabel.text = exhibition.exhibitionName
         exhibitionIntroduction.text = exhibition.information
         
@@ -637,6 +638,17 @@ class MainCollectionViewCell: UICollectionViewCell {
                 self.likeButton.backgroundColor = .mainPurple
                 self.likeButton.tintColor = .white
             }
+        }
+    }
+    
+    func callBack(exhibition: ExhibitionDetail) {
+        DispatchQueue.main.async {
+            self.exhibitionTitleLabel.text = exhibition.exhibitionName
+            SDImageCache.shared.clearMemory()
+            SDImageCache.shared.clearDisk {
+                self.exhibitionImage.sd_setImage(with: URL(string: exhibition.path))
+            }
+            self.exhibitionIntroduction.text = exhibition.information
         }
     }
 }

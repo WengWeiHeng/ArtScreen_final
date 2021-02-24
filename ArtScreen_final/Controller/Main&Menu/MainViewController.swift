@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 private let reuseIdentifier = "MainCollectionViewCell"
 let collectionViewCellHeightCoefficient: CGFloat = 1.075
@@ -322,9 +323,7 @@ class MainViewController: UIViewController {
         }, completion: nil)
     }
     
-    func callBack(exhibition: ExhibitionDetail) {
-        
-    }
+    
 }
 
 

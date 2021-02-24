@@ -17,6 +17,15 @@ struct ArtworkCredentials {
     let height: Float
     let lat: Double
     let lng: Double
+    let locationName: String
+}
+
+struct UpdateArtworkCredentials {
+    let artworkName: String
+    let information: String
+    let locationName: String
+    let lat: Double
+    let lng: Double
 }
 
 enum ArtworkError: Error {
@@ -44,7 +53,8 @@ struct ArtworkService {
             "width": artworkCredentials.width,
             "height": artworkCredentials.height,
             "locationLat": artworkCredentials.lat,
-            "locationLng": artworkCredentials.lng
+            "locationLng": artworkCredentials.lng,
+            "locationName": artworkCredentials.locationName
         ] as [String: Any]
         
         //body
@@ -158,6 +168,40 @@ struct ArtworkService {
         request.httpBody = body.data(using: .utf8)
         
         readArtworkData(request: request, completion: completion)
+    }
+    
+    func updateArtwork(credential: UpdateArtworkCredentials, artwork: ArtworkDetail) {
+        let url = URL(string: UPDATE_ARTWORK_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "artworkID=\(artwork.artworkID)&artworkName=\(credential.artworkName)&information=\(credential.information)&locationLat=\(credential.lat)&locationLng=\(credential.lng)&locationName=\(credential.locationName)"
+        request.httpBody = body.data(using: String.Encoding.utf8)
+        
+        print("DEBUG: credential: \(credential)")
+
+        URLSession.shared.dataTask(with: request) { (data, request, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        print("DEBUG: updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("Error:\(error)")
+                    
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    
+                }
+            }
+        }.resume()
     }
     
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {

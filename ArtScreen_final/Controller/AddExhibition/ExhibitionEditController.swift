@@ -89,11 +89,13 @@ class ExhibitionEditController: UIViewController {
         guard let exhibition = exhibition else { return }
         guard let exhibitionName = exhibitionTitleTextView.text else { return }
         guard let information = introduceTextView.text else { return }
+        guard let image = changeImage else { return }
         
-        let credential = UpdateExhibitionCredentials(exhibitionID: exhibition.exhibitionID, exhibitionName: exhibitionName, information: information, privacy: 0)
+        let credential = UpdateExhibitionCredentials(exhibitionID: exhibition.exhibitionID, exhibitionName: exhibitionName, exhibitionImage: image, information: information, privacy: 0)
+        
         
         ExhibitionService.shared.updateExhibition(credentials: credential)
-        
+
         dismiss(animated: true) {
             guard let exhibition = self.exhibition else { return }
             ExhibitionService.shared.fetchExhibitionCallBack(exhibition: exhibition) { (exhibition) in
@@ -170,7 +172,7 @@ class ExhibitionEditController: UIViewController {
     func configureDate() {
         guard let exhibition = exhibition else { return }
         DispatchQueue.main.async {
-            self.exhibitionImageView.sd_setImage(with: exhibition.path)
+            self.exhibitionImageView.sd_setImage(with: URL(string: exhibition.path))
             self.exhibitionTitleTextView.text = exhibition.exhibitionName
             self.introduceTextView.text = exhibition.information
         }
@@ -185,11 +187,9 @@ class ExhibitionEditController: UIViewController {
 //MARK: - UIImagePickerControllerDelegate
 extension ExhibitionEditController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let changeImage = info[.editedImage] as? UIImage else { return }
-        self.changeImage = changeImage
-        
-        exhibitionImageView.image = changeImage
-//        coverImageButton.setImage(changeImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        guard let selectedImage = info[.editedImage] as? UIImage else { return }
+        self.changeImage = selectedImage
+        exhibitionImageView.image = selectedImage
         
         dismiss(animated: true, completion: nil)
     }

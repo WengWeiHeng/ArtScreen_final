@@ -56,6 +56,7 @@ class ArtworkEditController: UIViewController {
     //MARK: - Location Properties
     private var locationLat: Double = 0.0
     private var locationLng: Double = 0.0
+    private var locationName: String?
     
     private lazy var addLocationView: UIView = {
         let view = UIView()
@@ -120,7 +121,14 @@ class ArtworkEditController: UIViewController {
     
     //MARK: - Selectors
     @objc func tapbuttonSendImage() {
+        guard let artwork = artwork else { return }
+        guard let artworkName = titleTextField.text else { return }
+        guard let information = introductionTextField.text else { return }
+        guard let locationName = locationName else { return }
         
+        let credential = UpdateArtworkCredentials(artworkName: artworkName, information: information, locationName: locationName, lat: locationLat, lng: locationLng)
+        
+        ArtworkService.shared.updateArtwork(credential: credential, artwork: artwork)
     }
     
     @objc func handleDismissal() {
@@ -194,6 +202,9 @@ class ArtworkEditController: UIViewController {
         artworkImageView.sd_setImage(with: artwork.path)
         titleTextField.text = artwork.artworkName
         introductionTextField.text = artwork.information
+        locationAddressLabel.text = artwork.locationName
+        locationLat = artwork.locationLat
+        locationLng = artwork.locationLng
     }
 }
 
@@ -203,5 +214,6 @@ extension ArtworkEditController: AddLocationControllerDelegate {
         locationAddressLabel.text = address
         locationLat = lat
         locationLng = log
+        locationName = address
     }
 }

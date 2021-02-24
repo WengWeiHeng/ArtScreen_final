@@ -117,40 +117,42 @@ class ARWorldController: UIViewController {
     }
     
     func configureArtworkNode(withNode node: SCNNode) {
-        for index in 0..<artworks.count {
-            let artworkWidth = CGFloat(artworks[index].width)
-            let artworkHeight = CGFloat(artworks[index].height)
-            let artworkBox = SCNBox(width: artworkWidth * 0.0008, height: artworkHeight * 0.0008, length: 0.01, chamferRadius: 0)
+        DispatchQueue.main.async { [self] in
+            for index in 0..<self.artworks.count {
+                let artworkWidth = CGFloat(self.artworks[index].width)
+                let artworkHeight = CGFloat(self.artworks[index].height)
+                let artworkBox = SCNBox(width: artworkWidth * 0.0008, height: artworkHeight * 0.0008, length: 0.01, chamferRadius: 0)
 
-            let artworkNode = SCNNode()
-            
-            if index <= 4 {
-                artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (artworkDistance * Float(index)))
-                artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
-                print("DEBUG: index: \(index)")
-                print("DEBUG: artworkNode position: \(artworkNode.position) <= 4")
-            } else if index > 4 && index < 7{
+                let artworkNode = SCNNode()
                 
-                artworkNode.position = SCNVector3Make(0.2 - (artworkDistance * Float(index - 5)), 0.3, -0.65)
-                artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 1, 0)
+                if index <= 4 {
+                    artworkNode.position = SCNVector3Make(0.5, 0.3, 1 - (self.artworkDistance * Float(index)))
+                    artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 2, 0)
+                    print("DEBUG: index: \(index)")
+                    print("DEBUG: artworkNode position: \(artworkNode.position) <= 4")
+                } else if index > 4 && index < 7{
+                    
+                    artworkNode.position = SCNVector3Make(0.2 - (self.artworkDistance * Float(index - 5)), 0.3, -0.65)
+                    artworkNode.eulerAngles = SCNVector3(0, -Float.pi / 1, 0)
+                    
+                    print("DEBUG: index: \(index)")
+                    print("DEBUG: artworkNode position: \(artworkNode.position) > 4")
+                } else if index > 6 {
+                    artworkNode.position = SCNVector3Make(-0.5, 0.3, -0.5 + (self.artworkDistance * Float(index - 7)))
+                    artworkNode.eulerAngles = SCNVector3(0, Float.pi / 2, 0)
+                }
                 
-                print("DEBUG: index: \(index)")
-                print("DEBUG: artworkNode position: \(artworkNode.position) > 4")
-            } else if index > 6 {
-                artworkNode.position = SCNVector3Make(-0.5, 0.3, -0.5 + (artworkDistance * Float(index - 7)))
-                artworkNode.eulerAngles = SCNVector3(0, Float.pi / 2, 0)
+                
+                let artworkMaterial = SCNMaterial()
+                self.artworkImage = self.getImageByUrl(url: self.artworks[index].path)
+                artworkMaterial.diffuse.contents = self.artworkImage
+
+                artworkBox.firstMaterial = artworkMaterial
+                artworkNode.geometry = artworkBox
+                artworkNode.name = "artworkNode\(index)"
+                artworkNode.renderingOrder = 200
+                node.addChildNode(artworkNode)
             }
-            
-            
-            let artworkMaterial = SCNMaterial()
-            artworkImage = getImageByUrl(url: artworks[index].path)
-            artworkMaterial.diffuse.contents = artworkImage
-
-            artworkBox.firstMaterial = artworkMaterial
-            artworkNode.geometry = artworkBox
-            artworkNode.name = "artworkNode\(index)"
-            artworkNode.renderingOrder = 200
-            node.addChildNode(artworkNode)
         }
     }
     

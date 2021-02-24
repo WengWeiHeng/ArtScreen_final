@@ -24,6 +24,7 @@ struct UpdateArtworkID_Exhibiton {
 struct UpdateExhibitionCredentials {
     let exhibitionID: String
     let exhibitionName: String
+    let exhibitionImage: UIImage
     let information: String
     let privacy: Int
 }
@@ -31,7 +32,7 @@ struct UpdateExhibitionCredentials {
 class ExhibitionService {
     static let shared = ExhibitionService()
     
-    func uploadExhibiton(exhibitionCredentials : ExhibitionCredentials, user : User) -> String {
+    func uploadExhibiton(exhibitionCredentials: ExhibitionCredentials, user: User) -> String {
         let uuid = NSUUID().uuidString
         //url path to php file
         let url = URL(string: POST_EXHIBITION_URL)!
@@ -43,7 +44,7 @@ class ExhibitionService {
             "userID" : user.id,
             "exhibitionName" : exhibitionCredentials.exhibitionName,
             "information" : exhibitionCredentials.information,
-            "privacy" : exhibitionCredentials.privacy,
+            "privacy" : exhibitionCredentials.privacy
         ] as [String : Any]
         print("DEBUG: Postartwork uuid = \(uuid)")
         //body
@@ -90,26 +91,45 @@ class ExhibitionService {
     func updateExhibition(credentials: UpdateExhibitionCredentials) {
         guard let id = Int(userDefault["id"] as! String) else { return }
         let url = URL(string: UPDATE_EXHIBITION_URL)!
-        var request = URLRequest(url: url)
+        let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
-        let body = "exhibitionID=\(credentials.exhibitionID)&userID=\(id)&exhibitionName=\(credentials.exhibitionName)&information=\(credentials.information)&privacy=\(credentials.privacy)"
-        request.httpBody = body.data(using: .utf8)
         
-        URLSession.shared.dataTask(with: request) { (data, request, error) in
+        let param = [
+            "userID": id,
+            "exhibitionID": credentials.exhibitionID,
+            "exhibitionName": credentials.exhibitionName,
+            "information": credentials.information,
+            "privacy": credentials.privacy
+        ] as [String : Any]
+
+        let boundary = "Boundary-\(NSUUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var imageData = Data()
+        
+        imageData = credentials.exhibitionImage.jpegData(compressionQuality: 0.5)!
+        print("DEBUG: upload data contain is \(param)")
+        print("DEBUG: \(credentials.exhibitionImage)")
+        
+        let createBody = AuthService.shared.createBodyWithPath(parameters: param, filePathKey: "file", imageDataKey: imageData, boundary: boundary, filename: "exhibition-\(credentials.exhibitionID).jpg", mimetype: "image/jpg")
+        request.httpBody = createBody
+        
+        //launch session
+        URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             DispatchQueue.main.async {
                 if error == nil {
                     do {
-                        print("DEBUG: updateArtworkID_Exhibition \(String(describing: String(data: data!, encoding: .utf8)))")
+                        print("DEBUG: - echo \(String(describing: String(data: data!, encoding: .utf8)))")
                         //json containers $returnArray from php
                         let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
 
                         //declare new var to store json inf
                         guard json != nil else {
-                            print("DEBUG: Error while parsing")
+                            print("Error while parsing")
                             return
                         }
-                    }catch {
-                        print("DEBUG: error:\(error)")
+                    } catch {
+                        print("Error:\(error)")
                     }
                 } else {
                     print("Error:\(error?.localizedDescription ?? "")")
@@ -150,11 +170,12 @@ class ExhibitionService {
         }.resume()
     }
     
-    func deleteExhibition(withExhibition exhibition: ExhibitionDetail, completion: ((Error?) -> Void)?) {
+    func deleteExhibition(withExhibition exhibition: ExhibitionDetail) {
+        guard let id = Int(userDefault["id"] as! String) else { return }
         let url = URL(string: DELETE_EXHIBITION_URL)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let body = "exhibitionID=\(exhibition.exhibitionID)"
+        let body = "exhibitionID=\(exhibition.exhibitionID)&userID=\(id)"
         request.httpBody = body.data(using: .utf8)
         
         URLSession.shared.dataTask(with: request) { (data, request, error) in
@@ -172,11 +193,9 @@ class ExhibitionService {
                         }
                     }catch {
                         print("DEBUG: error:\(error)")
-                        completion!(error)
                     }
                 } else {
                     print("Error:\(error?.localizedDescription ?? "")")
-                    completion!(error)
                 }
             }
         }.resume()

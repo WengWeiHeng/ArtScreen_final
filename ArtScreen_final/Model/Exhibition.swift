@@ -16,6 +16,6 @@ struct ExhibitionDetail: Decodable {
     var userID: Int
     var exhibitionName: String
     var information: String
-    var path: URL
+    var path: String
     var privacy: Int
 }

@@ -202,7 +202,7 @@ extension SearchController {
             return cell
         case .searchExhibition:
             let cell = tableView.dequeueReusableCell(withIdentifier: searchArtworkIdentifier, for: indexPath) as! ArtworkSearchCell
-            cell.artworkImageView.sd_setImage(with:exhibitions[indexPath.row].path)
+            cell.artworkImageView.sd_setImage(with: URL(string: exhibitions[indexPath.row].path))
             cell.kindLabel.text = "@Exhibition"
             cell.nameLabel.text = exhibitions[indexPath.row].exhibitionName
             

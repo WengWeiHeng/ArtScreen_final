@@ -67,7 +67,7 @@ class ExhibitionCell: UICollectionViewCell {
     //MARK: - Helpers
     func configureData() {
         guard let exhibition = exhibition else { return }
-        imageView.sd_setImage(with: exhibition.path)
+        imageView.sd_setImage(with: URL(string: exhibition.path))
         titleLabel.text = exhibition.exhibitionName
         introductionLabel.text = exhibition.information
     }

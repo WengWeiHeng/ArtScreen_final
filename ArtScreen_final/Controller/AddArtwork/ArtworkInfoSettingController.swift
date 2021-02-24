@@ -83,6 +83,7 @@ class ArtworkInfoSettingController: UIViewController {
     //MARK: - Location Properties
     private var locationLat: Double = 0.0
     private var locationLng: Double = 0.0
+    private var locationName: String?
     
     private lazy var addLocationView: UIView = {
         let view = UIView()
@@ -153,13 +154,14 @@ class ArtworkInfoSettingController: UIViewController {
         guard let artworkname = titleTextField.text else { return }
         guard let information = introductionTextField.text else { return }
         guard let artworkImage = artworkImage else { return }
+        guard let locationName = locationName else { return }
 //        guard let width = artworkImageWidth else { return }
 //        guard let height = artworkImageHeight else { return }
         
         guard let user = user else { return }
         print("DEBUG: user is \(user.id) in artwork upload page")
 
-        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(artworkImageWidth), height: Float(artworkImageHeight), lat: locationLat, lng: locationLng)
+        let credentials = ArtworkCredentials(artworkName: artworkname, information: information, artworkImage: artworkImage, width: Float(artworkImageWidth), height: Float(artworkImageHeight), lat: locationLat, lng: locationLng, locationName: locationName)
         
         if itemCredentials == nil {
             print("DEBUG: send no item artwork..")
@@ -241,5 +243,6 @@ extension ArtworkInfoSettingController: AddLocationControllerDelegate {
         locationAddressLabel.text = address
         locationLat = lat
         locationLng = log
+        locationName = address
     }
 }

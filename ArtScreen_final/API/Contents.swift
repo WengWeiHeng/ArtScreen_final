@@ -35,6 +35,7 @@ let SEARCH_ARTWORK_URL = "http://artscreen.sakura.ne.jp/artwork/searchArtwork.ph
 //MARK: ARTWORK ITEM
 let POST_ITEM_ARTWORK_URL = "http://artscreen.sakura.ne.jp/postItemArtwork.php"
 let GET_ARTWORKITEM_URL = "http://artscreen.sakura.ne.jp/getArtworkItem.php"
+let UPDATE_ARTWORK_URL = "http://artscreen.sakura.ne.jp/artwork/updateArtwork.php"
 
 
 //MARK: - EXHIBITION
@@ -44,8 +45,9 @@ let GET_ALL_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getAllExhibition.php
 let GET_USER_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/getUserExhibition.php"
 let SEARCH_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/exhibition/searchExhibition.php"
 let GET_EXHIBITION_WITHID_URL = "http://artscreen.sakura.ne.jp/getExhibitionWithID.php"
-let UPDATE_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/updateExhibition.php"
-let DELETE_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/deleteExhibition.php"
+let UPDATE_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/exhibition/updateExhibition.php"
+let DELETE_EXHIBITION_URL = "http://artscreen.sakura.ne.jp/exhibition/deleteExhibition.php"
+let DELETE_EXHIBITION_IMAGE = "http://artscreen.sakura.ne.jp/exhibition/deleteImageOfExhibition.php"
 
 //MARK: - COMMENT
 let POST_COMMENT_URL = "http://artscreen.sakura.ne.jp/comment/postComment.php"

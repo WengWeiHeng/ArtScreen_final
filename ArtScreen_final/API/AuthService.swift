@@ -149,7 +149,7 @@ struct AuthService {
         }.resume()
     }
     
-    func createBodyWithPath(parameters: [String : Any], filePathKey: String?, imageDataKey: Data, boundary: String, filename : String, mimetype: String) -> Data{
+    func createBodyWithPath(parameters: [String : Any], filePathKey: String?, imageDataKey: Data, boundary: String, filename : String, mimetype: String) -> Data {
         let body = NSMutableData()
         if !parameters.isEmpty {
             for (key, value) in parameters {

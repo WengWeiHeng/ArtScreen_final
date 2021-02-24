@@ -215,10 +215,27 @@ extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
     }
     
     func editArtwork() {
-        guard let artwork = artwork else { return }
-        let controller = ArtworkEditController(artwork: artwork)
-        let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Edit Artwork information", message: "", preferredStyle: .actionSheet)
+        alert.view.tintColor = .mainPurple
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
+            guard let artwork = self.artwork else { return }
+            let controller = ArtworkEditController(artwork: artwork)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
+            
+            
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
 }

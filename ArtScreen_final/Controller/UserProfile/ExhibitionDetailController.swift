@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ExhibitionDetailController: UIViewController {
     
@@ -337,15 +338,15 @@ class ExhibitionDetailController: UIViewController {
             self.present(controller, animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "Delete", style: .cancel, handler: { _ in
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
             guard let exhibition = self.exhibition else { return }
-            ExhibitionService.shared.deleteExhibition(withExhibition: exhibition) { error in
-                if let error = error {
-                    self.showError(error.localizedDescription)
-                }
-                
-                self.dismiss(animated: true, completion: nil)
-            }
+            ExhibitionService.shared.deleteExhibition(withExhibition: exhibition)
+            
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+//            self.dismiss(animated: true, completion: nil)
         }))
 
         self.present(alert, animated: true, completion: nil)
@@ -366,7 +367,7 @@ class ExhibitionDetailController: UIViewController {
     //MARK: - Helpers
     func configureData() {
         guard let exhibition = exhibition else { return }
-        exhibitionImage.sd_setImage(with: exhibition.path)
+        exhibitionImage.sd_setImage(with: URL(string: exhibition.path))
         exhibitionTitleLabel.text = exhibition.exhibitionName
         exhibitionIntroduction.text = exhibition.information
         
@@ -455,7 +456,10 @@ class ExhibitionDetailController: UIViewController {
     func callBack(exhibition: ExhibitionDetail) {
         DispatchQueue.main.async {
             self.exhibitionTitleLabel.text = exhibition.exhibitionName
-            self.exhibitionImage.sd_setImage(with: exhibition.path)
+            SDImageCache.shared.clearMemory()
+            SDImageCache.shared.clearDisk {
+                self.exhibitionImage.sd_setImage(with: URL(string: exhibition.path))
+            }
             self.exhibitionIntroduction.text = exhibition.information
         }
     }

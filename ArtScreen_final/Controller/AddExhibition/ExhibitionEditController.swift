@@ -14,7 +14,7 @@ class ExhibitionEditController: UIViewController {
     var exhibitionCallBack: ((ExhibitionDetail) -> Void)?
     
     private let imagePicker = UIImagePickerController()
-    private var changeImage: UIImage?
+    var changeImage: UIImage?
     
     private let basicLabel: UILabel = {
         let label = AddExhibitionUtilities().customTitleLebael(titleText: "Basic", textColor: .mainPurple)
@@ -173,6 +173,7 @@ class ExhibitionEditController: UIViewController {
         guard let exhibition = exhibition else { return }
         DispatchQueue.main.async {
             self.exhibitionImageView.sd_setImage(with: URL(string: exhibition.path))
+            self.changeImage = self.exhibitionImageView.image
             self.exhibitionTitleTextView.text = exhibition.exhibitionName
             self.introduceTextView.text = exhibition.information
         }

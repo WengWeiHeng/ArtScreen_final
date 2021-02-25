@@ -80,6 +80,8 @@
 		B06A038D2565F8C3004BB0BE /* ArtworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06A038C2565F8C3004BB0BE /* ArtworkService.swift */; };
 		B0712F962545447F00438FE3 /* ArtMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0712F952545447F00438FE3 /* ArtMapController.swift */; };
 		B071E072254FE266007FBB89 /* ARCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B071E071254FE266007FBB89 /* ARCameraController.swift */; };
+		B0765BD125E6258C00EE0122 /* MainControllerRenew.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0765BD025E6258C00EE0122 /* MainControllerRenew.swift */; };
+		B0765BD425E626F300EE0122 /* MainCellRenew.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0765BD325E626F300EE0122 /* MainCellRenew.swift */; };
 		B07C74BD25411CE700920F59 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74BC25411CE700920F59 /* User.swift */; };
 		B07C74C12541206400920F59 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07C74C02541206400920F59 /* AuthService.swift */; };
 		B07D923F25D61F9A00678849 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07D923E25D61F9A00678849 /* LikeService.swift */; };
@@ -207,6 +209,8 @@
 		B06A038C2565F8C3004BB0BE /* ArtworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkService.swift; sourceTree = "<group>"; };
 		B0712F952545447F00438FE3 /* ArtMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtMapController.swift; sourceTree = "<group>"; };
 		B071E071254FE266007FBB89 /* ARCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCameraController.swift; sourceTree = "<group>"; };
+		B0765BD025E6258C00EE0122 /* MainControllerRenew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainControllerRenew.swift; sourceTree = "<group>"; };
+		B0765BD325E626F300EE0122 /* MainCellRenew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellRenew.swift; sourceTree = "<group>"; };
 		B07C74BC25411CE700920F59 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B07C74C02541206400920F59 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B07D923E25D61F9A00678849 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
@@ -582,6 +586,7 @@
 				B0A685DB255D29480012D391 /* GravitySliderFlowLayout.swift */,
 				B0A685E2255D325C0012D391 /* ArtworkDetailController.swift */,
 				B047BD8F255E32B20059B342 /* CommentController.swift */,
+				B0765BD025E6258C00EE0122 /* MainControllerRenew.swift */,
 			);
 			path = "Main&Menu";
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 				B0A6860A255D518B0012D391 /* ArtworkCommentCell.swift */,
 				B0A6860D255D519B0012D391 /* CommentCell.swift */,
 				B0A68610255D51B10012D391 /* CustomInputAccessoryView.swift */,
+				B0765BD325E626F300EE0122 /* MainCellRenew.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -831,6 +837,7 @@
 				B0C761D125C90AC0008BC721 /* AlbumView.swift in Sources */,
 				B0BB945B25636DDB00FAD25B /* MessageCell.swift in Sources */,
 				B01107D6254272B000041A01 /* EmitterSettingView.swift in Sources */,
+				B0765BD125E6258C00EE0122 /* MainControllerRenew.swift in Sources */,
 				B0C761D725C90B6C008BC721 /* AlbumHeaderView.swift in Sources */,
 				B011076B2542630F00041A01 /* FilterViewCell.swift in Sources */,
 				B0E58D0C2541640000E5A203 /* MenuController.swift in Sources */,
@@ -839,6 +846,7 @@
 				B0D812CE25BEF939005FE183 /* ArtworkSearchCell.swift in Sources */,
 				B01107CA2542725A00041A01 /* ScaleSettingView.swift in Sources */,
 				B07FB4992589BBA60067F399 /* Contents.swift in Sources */,
+				B0765BD425E626F300EE0122 /* MainCellRenew.swift in Sources */,
 				B01107C62542724600041A01 /* RotateSettingView.swift in Sources */,
 				B011074325425DBE00041A01 /* ExhibitionSettingView.swift in Sources */,
 				B0D141192541924300D9A677 /* AddExhibitionUtilities.swift in Sources */,
@@ -974,7 +982,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1029,7 +1037,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

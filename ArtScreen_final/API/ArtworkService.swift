@@ -204,6 +204,63 @@ struct ArtworkService {
         }.resume()
     }
     
+    func deleteArtwork(artworkID: String) {
+        let url = URL(string: DELELE_ARTWORK_URL)!
+        guard let id = Int(userDefault["id"] as! String) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "artworkID=\(artworkID)&userID=\(id)"
+        request.httpBody = body.data(using: String.Encoding.utf8)
+        URLSession.shared.dataTask(with: request) { (data, request, error) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    do {
+                        print("DEBUG: delete Artwork \(String(describing: String(data: data!, encoding: .utf8)))")
+                        //json containers $returnArray from php
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+
+                        //declare new var to store json inf
+                        guard json != nil else {
+                            print("Error while parsing")
+                            return
+                        }
+                    }catch {
+                        print("Error:\(error)")
+                    
+                    }
+                } else {
+                    print("Error:\(error?.localizedDescription ?? "")")
+                    
+                }
+            }
+        }.resume()
+    }
+    
+    func fetchArtworkWithID(artwork: ArtworkDetail, completion: @escaping(ArtworkDetail) -> Void) {
+        let url = URL(string: FETCH_ARTWORK_WITH_ID)!
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        let body = "artworkID=\(artwork.artworkID)"
+        request.httpBody = body.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
+            guard let jsonData = data else {
+                print("DEBUG: data is nil..")
+                return
+            }
+            print("DEBUG: user exhibition data: \(String(data: data!, encoding: .utf8))")
+
+            do {
+                let decoder = JSONDecoder()
+                let artworkDetail = try decoder.decode(ArtworkDetail.self, from: jsonData)
+                completion(artworkDetail)
+            } catch {
+                print("DEBUG: \(error.localizedDescription)")
+            }
+        }
+        task.resume()
+    }
+    
     func readArtworkData(request: NSMutableURLRequest, completion: @escaping([ArtworkDetail]) -> Void) {
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, _) in
             guard let jsonData = data else {

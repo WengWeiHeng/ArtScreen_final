@@ -29,7 +29,10 @@ let GET_USER_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getUserArtwork.php"
 let GET_EXHIBITION_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getExhibitionArtwork.php"
 let GET_ARTWORK_WITH_POSITION_URL = "http://artscreen.sakura.ne.jp/getArtworkWithPosition.php"
 let GET_NOEXHIBITION_ARTWORK_URL = "http://artscreen.sakura.ne.jp/getNoExhibitionArtwork.php"
+let FETCH_ARTWORK_WITH_ID = "http://artscreen.sakura.ne.jp/artwork/fetchArtworkWithID.php"
 let SEARCH_ARTWORK_URL = "http://artscreen.sakura.ne.jp/artwork/searchArtwork.php"
+let DELELE_ARTWORK_URL = "http://artscreen.sakura.ne.jp/artwork/deleteArtwork.php"
+
 
 
 //MARK: ARTWORK ITEM

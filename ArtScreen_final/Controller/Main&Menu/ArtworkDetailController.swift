@@ -60,6 +60,14 @@ class ArtworkDetailController: UITableViewController {
         fetchComment()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchArtworkWithID()
+        print("DEBUG: view will appear in Artwork detail controller..")
+        tableView.reloadData()
+
+    }
+    
     override var inputAccessoryView: UIView? {
         get { return customInputView }
     }
@@ -73,6 +81,17 @@ class ArtworkDetailController: UITableViewController {
         guard let artwork = artwork else { return }
         CommentService.shared.fetchComment(artwork: artwork) { comments in
             self.comments = comments
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+//                self.reloadInputViews()
+            }
+        }
+    }
+    
+    func fetchArtworkWithID() {
+        guard let artwork = artwork else { return }
+        ArtworkService.shared.fetchArtworkWithID(artwork: artwork) { artwork in
+            self.artwork = artwork
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -92,7 +111,6 @@ class ArtworkDetailController: UITableViewController {
 
     //MARK: - Selectors
     @objc func handleDismissal() {
-        print("DEBUG: dismissal detail controller")
         dismiss(animated: true, completion: nil)
     }
     
@@ -145,6 +163,7 @@ class ArtworkDetailController: UITableViewController {
 
 extension ArtworkDetailController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("DEBUG: tableview number")
         return 2
     }
     
@@ -221,13 +240,15 @@ extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
         alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             guard let artwork = self.artwork else { return }
             let controller = ArtworkEditController(artwork: artwork)
+            controller.delegate = self
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         }))
         
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
-            
+            guard let artwork = self.artwork else { return }
+            ArtworkService.shared.deleteArtwork(artworkID: artwork.artworkID)
             
             self.dismiss(animated: true, completion: nil)
         }))
@@ -237,5 +258,11 @@ extension ArtworkDetailController: ArtworkDetailHeaderViewDelegate {
         }))
 
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension ArtworkDetailController: ArtworkEditControllerDelegate {
+    func reloadTableView() {
+        fetchArtworkWithID()
     }
 }

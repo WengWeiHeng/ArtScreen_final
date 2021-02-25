@@ -7,6 +7,7 @@
 
 import UIKit
 import WaterfallLayout
+import SDWebImage
 
 private let reuseIdenfitier = "ArtworkInputViewCell"
 
@@ -325,7 +326,6 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     func didTappedEditInfo() {
         guard let exhibition = exhibition else { return }
         let controller = ExhibitionEditController(exhibition: exhibition)
-        
         controller.exhibitionCallBack = { (exhibition) in
             self.callBack(exhibition: exhibition)
         }

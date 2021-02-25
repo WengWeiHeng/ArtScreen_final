@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol ArtworkEditControllerDelegate: class {
+    func reloadTableView()
+}
+
 class ArtworkEditController: UIViewController {
     
     //MARK: - Properties
     var artwork: ArtworkDetail?
-    
+    weak var delegate: ArtworkEditControllerDelegate?
+
     private let sendButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.black, for: .normal)
@@ -56,7 +61,7 @@ class ArtworkEditController: UIViewController {
     //MARK: - Location Properties
     private var locationLat: Double = 0.0
     private var locationLng: Double = 0.0
-    private var locationName: String?
+    var locationName: String?
     
     private lazy var addLocationView: UIView = {
         let view = UIView()
@@ -124,11 +129,15 @@ class ArtworkEditController: UIViewController {
         guard let artwork = artwork else { return }
         guard let artworkName = titleTextField.text else { return }
         guard let information = introductionTextField.text else { return }
-        guard let locationName = locationName else { return }
+        guard let locationName = locationAddressLabel.text else { return }
         
         let credential = UpdateArtworkCredentials(artworkName: artworkName, information: information, locationName: locationName, lat: locationLat, lng: locationLng)
         
         ArtworkService.shared.updateArtwork(credential: credential, artwork: artwork)
+        dismiss(animated: true, completion: nil)
+//        dismiss(animated: true) {
+//            self.delegate?.reloadTableView()
+//        }
     }
     
     @objc func handleDismissal() {
@@ -163,7 +172,7 @@ class ArtworkEditController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "Send").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(tapbuttonSendImage))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDismissal))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleDismissal))
         navigationItem.leftBarButtonItem?.tintColor = .white
     }
     

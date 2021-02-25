@@ -16,7 +16,8 @@ class ContainerController: UIViewController {
     //MARK: - Properties
     var user: User?
     
-    private var mainController: MainViewController!
+//    private var mainController: MainViewController!
+    private var mainController: MainControllerRenew!
     private var menuController: MenuController!
     private var isExpanded = false
     private lazy var xOrigin = self.view.frame.width - 200
@@ -65,7 +66,8 @@ class ContainerController: UIViewController {
     
     func configureMainController() {
         guard let user = user else { return }
-        mainController = MainViewController(user: user)
+//        mainController = MainViewController(user: user)
+        mainController = MainControllerRenew(user: user)
         addChild(mainController)
         mainController.didMove(toParent: self)
         view.addSubview(mainController.view)
@@ -109,7 +111,14 @@ class ContainerController: UIViewController {
 }
 
 //MARK: - MainController delegate
-extension ContainerController: MainControllerDelegate {
+//extension ContainerController: MainControllerDelegate {
+//    func handleMenuToggle() {
+//        isExpanded.toggle()
+//        animateMenu(shouldExpand: isExpanded)
+//    }
+//}
+
+extension ContainerController: MainControllerRenewDelegate {
     func handleMenuToggle() {
         isExpanded.toggle()
         animateMenu(shouldExpand: isExpanded)

@@ -155,6 +155,7 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("DEBUG: View will appear in main controller..")
         fetchExhibitions()
     }
     
@@ -175,7 +176,7 @@ class MainViewController: UIViewController {
                     self.usernameLabel.text = user.username
                     self.userImageView.sd_setImage(with: user.ava)
                 }
-                
+        
             }
         }
     }

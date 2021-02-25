@@ -47,12 +47,13 @@ class ExhibitionDetailController: UIViewController {
         return iv
     }()
     
-    let shareButton: UIButton = {
+    let ARWorldButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "share").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arCamera").withRenderingMode(.alwaysOriginal), for: .normal)
         button.setDimensions(width: 50, height: 50)
         button.imageView?.setDimensions(width: 18, height: 18)
         button.backgroundColor = .mainDarkGray
+        button.addTarget(self, action: #selector(handleARWorld), for: .touchUpInside)
         
         return button
     }()
@@ -166,7 +167,7 @@ class ExhibitionDetailController: UIViewController {
 
     // StackView
     lazy var actionButtonStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [shareButton, likeButton])
+        let stack = UIStackView(arrangedSubviews: [ARWorldButton, likeButton])
         stack.axis = .horizontal
         stack.spacing = 0
         stack.alignment = .center
@@ -362,6 +363,14 @@ class ExhibitionDetailController: UIViewController {
             LikeService.shared.unlike(withState: .exhibition, exhibition: exhibition)
             likeButtonStyle(isLike: isLike)
         }
+    }
+    
+    @objc func handleARWorld() {
+        guard let exhibition = exhibition else { return }
+        let controller = ARWorldController(exhibition: exhibition)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     //MARK: - Helpers

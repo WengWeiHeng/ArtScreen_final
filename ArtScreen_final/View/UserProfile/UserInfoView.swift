@@ -41,7 +41,6 @@ class UserInfoView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-        label.text = "25.602"
         
         return label
     }()
@@ -50,7 +49,6 @@ class UserInfoView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-//        label.text = "162"
         
         return label
     }()
@@ -59,7 +57,6 @@ class UserInfoView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-//        label.text = "203,301"
         
         return label
     }()

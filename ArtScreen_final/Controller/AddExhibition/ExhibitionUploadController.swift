@@ -38,16 +38,16 @@ class ExhibitionUploadController: UIViewController {
     private lazy var customNavigationBarView: UIView = {
         let view = UIView()
         
-        let leftButton = UIButton(type: .system)
-        leftButton.setTitle("Done", for: .normal)
-        leftButton.setTitleColor(.white, for: .normal)
-        leftButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
-        leftButton.addTarget(self, action: #selector(handleDoneAction), for: .touchUpInside)
-        
         let rightButton = UIButton(type: .system)
-        rightButton.setImage(#imageLiteral(resourceName: "more"), for: .normal)
-        rightButton.addTarget(self, action: #selector(handleEditMoreAction), for: .touchUpInside)
-        rightButton.tintColor = .white
+        rightButton.setTitle("Done", for: .normal)
+        rightButton.setTitleColor(.white, for: .normal)
+        rightButton.titleLabel?.font = .boldSystemFont(ofSize: 18)
+        rightButton.addTarget(self, action: #selector(handleDoneAction), for: .touchUpInside)
+        
+        let leftButton = UIButton(type: .system)
+        leftButton.setImage(#imageLiteral(resourceName: "more"), for: .normal)
+        leftButton.addTarget(self, action: #selector(handleEditMoreAction), for: .touchUpInside)
+        leftButton.tintColor = .white
         
         view.addSubview(leftButton)
         leftButton.anchor(left: view.leftAnchor, paddingLeft: 16)
@@ -104,6 +104,7 @@ class ExhibitionUploadController: UIViewController {
     init(user: User) {
         self.user = user
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -119,6 +120,7 @@ class ExhibitionUploadController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     //MARK: - API
@@ -326,6 +328,7 @@ extension ExhibitionUploadController: ExhibitionSettingViewDelegate {
     func didTappedEditInfo() {
         guard let exhibition = exhibition else { return }
         let controller = ExhibitionEditController(exhibition: exhibition)
+        
         controller.exhibitionCallBack = { (exhibition) in
             self.callBack(exhibition: exhibition)
         }

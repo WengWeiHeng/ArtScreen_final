@@ -76,15 +76,18 @@ class ArtworkCommentCell: UITableViewCell {
         CommentService.shared.fetchComment(artwork: artwork) { comments in
             self.comments = comments
             DispatchQueue.main.async {
+                self.tableView.setHeight(height: CGFloat(3 * 61))
                 if comments.isEmpty {
-                    self.tableView.removeFromSuperview()
-                    self.allCommentButton.removeFromSuperview()
+//                    self.tableView.removeFromSuperview()
+//                    self.allCommentButton.removeFromSuperview()
+//                    self.iconImageView.removeFromSuperview()
                 } else {
-                    if comments.count <= 3 {
-                        self.tableView.setHeight(height: CGFloat(comments.count * 65))
-                    } else {
-                        self.tableView.setHeight(height: CGFloat(3 * 65))
-                    }
+//                    if comments.count <= 3 {
+//                        self.tableView.setHeight(height: CGFloat(comments.count * 65))
+//                    } else {
+//                        self.tableView.setHeight(height: CGFloat(3 * 65))
+//                    }
+                    
                 }
                 self.tableView.reloadData()
             }

@@ -10,13 +10,13 @@ import Foundation
 struct CommentService {
     static let shared = CommentService()
     
-    func uploadComment(artwork: ArtworkDetail, user: User, message: String, completion: ((Error?) -> Void)?) {
+    func uploadComment(artwork: ArtworkDetail, message: String, completion: ((Error?) -> Void)?) {
         let uuid = NSUUID().uuidString
-        
+        guard let id = Int(userDefault["id"] as! String) else { return }
         let url = URL(string: POST_COMMENT_URL)!
         let request = NSMutableURLRequest(url: url)
         request.httpMethod = "POST"
-        let body = "commentID=\(uuid)&artworkID=\(artwork.artworkID)&userID=\(user.id)&message=\(message)"
+        let body = "commentID=\(uuid)&artworkID=\(artwork.artworkID)&userID=\(id)&message=\(message)"
         request.httpBody = body.data(using: .utf8)
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, _, error) in

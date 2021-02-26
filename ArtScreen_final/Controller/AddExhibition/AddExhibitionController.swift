@@ -119,7 +119,7 @@ class AddExhibitionController: UIViewController {
     }
     
     @objc func handleSendAction() {
-        if titleTextField.text == "" && introductionTextField.text == "" {
+        if titleTextField.text!.isEmpty || introductionTextField.text!.isEmpty {
             showError("Please write something")
         } else {
             uploadExhibition()

@@ -122,11 +122,11 @@ class SearchController: UITableViewController, UISearchDisplayDelegate {
     }
     func configureSearchView() {
         searchView.addSubview(searchBar)
-        searchBar.anchor(top: searchView.topAnchor, left: searchView.leftAnchor, right: searchView.rightAnchor, paddingLeft: 8, paddingRight: 8, height: 80)
+        searchBar.anchor(top: searchView.topAnchor, left: searchView.leftAnchor, right: searchView.rightAnchor, paddingLeft: 8, paddingRight: 8, height: 70)
         
         searchView.addSubview(filterView)
         filterView.searchDelegate = self
-        filterView.anchor(top: searchBar.bottomAnchor, left: searchView.leftAnchor, right: searchView.rightAnchor, paddingLeft: 12, paddingRight: 12, height: 40)
+        filterView.anchor(top: searchBar.bottomAnchor, left: searchView.leftAnchor, right: searchView.rightAnchor, paddingTop: -8, paddingLeft: 12, paddingRight: 12, height: 40)
     }
 
     func configureTableView() {

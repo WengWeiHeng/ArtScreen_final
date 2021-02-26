@@ -79,6 +79,11 @@ class ArtworkInputView: UIView {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
+            ExhibitionService.shared.fetchExhibition(withExhibitionID: exhibitionID) { exhibition in
+                DispatchQueue.main.async {
+                    self.exhibitionTitleLabel.text = exhibition.exhibitionName
+                }
+            }
         }
     }
 }

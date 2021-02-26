@@ -64,11 +64,6 @@ class ArtworkDetailHeaderView: UIView {
         return stack
     }()
     
-    private let visitedStack: UIStackView = {
-        let stack = Utilities().customCountStackView(typeText: "Visited", countText: "304,501", textColor: .mainBackground)
-        return stack
-    }()
-    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,7 +78,7 @@ class ArtworkDetailHeaderView: UIView {
         addSubview(actionStack)
         actionStack.anchor(top: artworkImageView.bottomAnchor, left: leftAnchor, paddingTop: -25)
         
-        let socialStack = UIStackView(arrangedSubviews: [followerStack, likesStack, visitedStack])
+        let socialStack = UIStackView(arrangedSubviews: [followerStack, likesStack])
         socialStack.spacing = 16
         
         addSubview(socialStack)

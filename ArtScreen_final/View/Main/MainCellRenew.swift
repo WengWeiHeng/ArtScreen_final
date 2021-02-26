@@ -64,10 +64,8 @@ class MainCellRenew: UITableViewCell {
         exhibitionImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         exhibitionImageView.layer.cornerRadius = 26
         
-        
-        
         addSubview(exhibitionNameLabel)
-        exhibitionNameLabel.anchor(top: exhibitionImageView.bottomAnchor, left: exhibitionImageView.leftAnchor, paddingTop: 8, paddingLeft: 16)
+        exhibitionNameLabel.anchor(top: exhibitionImageView.bottomAnchor, left: exhibitionImageView.leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 16, paddingRight: 16)
         
         let stack = UIStackView(arrangedSubviews: [userImageView, usernameLabel])
         stack.axis = .horizontal

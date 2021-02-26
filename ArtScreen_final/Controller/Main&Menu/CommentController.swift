@@ -96,8 +96,7 @@ extension CommentController {
 extension CommentController: CustomInputAccessoryViewDelegate {
     func inputView(_ inputView: CustomInputAccessoryView, eantsToSend message: String) {
         guard let artwork = artwork else { return }
-        guard let user = user else { return }
-        CommentService.shared.uploadComment(artwork: artwork, user: user, message: message) { error in
+        CommentService.shared.uploadComment(artwork: artwork, message: message) { error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("DEBUG: Error is \(error.localizedDescription)")

@@ -81,9 +81,10 @@ class ArtworkDetailController: UITableViewController {
         guard let artwork = artwork else { return }
         CommentService.shared.fetchComment(artwork: artwork) { comments in
             self.comments = comments
+            print("DEBUG: Commentis \(comments.count)")
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-//                self.reloadInputViews()
+                self.tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
             }
         }
     }
@@ -104,6 +105,7 @@ class ArtworkDetailController: UITableViewController {
             DispatchQueue.main.async {
                 self.isLike = isLike
                 self.likeButtonStyle(isLike: isLike, button: self.headerView.likeButton)
+                
             }
             
         }
@@ -200,8 +202,8 @@ extension ArtworkDetailController {
 extension ArtworkDetailController: CustomInputAccessoryViewDelegate {
     func inputView(_ inputView: CustomInputAccessoryView, eantsToSend message: String) {
         guard let artwork = artwork else { return }
-        guard let user = user else { return }
-        CommentService.shared.uploadComment(artwork: artwork, user: user, message: message) { error in
+        
+        CommentService.shared.uploadComment(artwork: artwork, message: message) { error in
             DispatchQueue.main.async {
                 if let error = error {
                     print("DEBUG: Error is \(error.localizedDescription)")

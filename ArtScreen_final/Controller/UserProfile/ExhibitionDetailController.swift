@@ -66,6 +66,7 @@ class ExhibitionDetailController: UIViewController {
         button.backgroundColor = .mainPurple
         button.layer.maskedCorners = .layerMaxXMinYCorner
         button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(handleLikeAction), for: .touchUpInside)
         
         return button
     }()
@@ -77,11 +78,6 @@ class ExhibitionDetailController: UIViewController {
     
     lazy var likesStack: UIStackView = {
         let stack = Utilities().customCountStackView(typeText: "Likes", countText: "25,104", textColor: .mainDarkGray)
-        return stack
-    }()
-    
-    lazy var visitedStack: UIStackView = {
-        let stack = Utilities().customCountStackView(typeText: "Visited", countText: "304,501", textColor: .mainDarkGray)
         return stack
     }()
 
@@ -176,7 +172,7 @@ class ExhibitionDetailController: UIViewController {
     }()
     
     lazy var socialDataStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [followerStack, likesStack, visitedStack])
+        let stack = UIStackView(arrangedSubviews: [followerStack, likesStack])
         stack.axis = .horizontal
         stack.spacing = 12
         
@@ -268,7 +264,7 @@ class ExhibitionDetailController: UIViewController {
             DispatchQueue.main.async {
                 
                 self.isLike = isLike
-                self.likeButtonStyle(isLike: isLike)
+                self.likeButtonStyle(isLike: isLike, button: self.likeButton)
             }
         }
     }
@@ -358,10 +354,12 @@ class ExhibitionDetailController: UIViewController {
         guard let exhibition = exhibition else { return }
         if isLike {
             LikeService.shared.fetchLikeExhibition(withExhibition: exhibition)
-            likeButtonStyle(isLike: isLike)
+            likeButtonStyle(isLike: isLike, button: likeButton)
+            print("DEBUG: like exhibition")
         } else {
             LikeService.shared.unlike(withState: .exhibition, exhibition: exhibition)
-            likeButtonStyle(isLike: isLike)
+            likeButtonStyle(isLike: isLike, button: likeButton)
+            print("DEBUG: un like exhibition")
         }
     }
     
@@ -396,7 +394,7 @@ class ExhibitionDetailController: UIViewController {
         
         view.addSubview(exhibitionImage)
         exhibitionImage.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-        exhibitionImage.setHeight(height: 500)
+        exhibitionImage.setHeight(height: screenHeight * 0.55)
         exhibitionImage.layer.cornerRadius = 24
         
         view.addSubview(actionButtonStack)
@@ -448,16 +446,16 @@ class ExhibitionDetailController: UIViewController {
         }
     }
     
-    func likeButtonStyle(isLike: Bool) {
+    func likeButtonStyle(isLike: Bool, button: UIButton) {
         if isLike {
             UIView.animate(withDuration: 0.4) {
-                self.likeButton.backgroundColor = .mainBackground
-                self.likeButton.tintColor = .mainPurple
+                button.backgroundColor = .mainBackground
+                button.tintColor = .mainPurple
             }
         } else {
             UIView.animate(withDuration: 0.4) {
-                self.likeButton.backgroundColor = .mainPurple
-                self.likeButton.tintColor = .white
+                button.backgroundColor = .mainPurple
+                button.tintColor = .white
             }
         }
     }

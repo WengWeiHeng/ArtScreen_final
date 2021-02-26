@@ -73,7 +73,6 @@ class NotificationController: UITableViewController {
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 60
         tableView.tableHeaderView = headerView
-        tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         headerView.titleLabel.text = "Notification"
     }

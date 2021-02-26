@@ -37,7 +37,7 @@ class MenuHeader: UIView {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 50 / 2
+        iv.layer.cornerRadius = 46 / 2
         iv.backgroundColor = .white
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleShowProfilePage))
@@ -49,7 +49,7 @@ class MenuHeader: UIView {
     
     lazy var fullnameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .white
         label.text = "翁 偉恆"
         
@@ -80,7 +80,7 @@ class MenuHeader: UIView {
         closeButton.anchor(top: topAnchor, left: leftAnchor, paddingTop: 12, paddingLeft: 12)
         
         addSubview(profileImageView)
-        profileImageView.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 12, paddingBottom: 50, width: 50, height: 50)
+        profileImageView.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 12, paddingBottom: 50, width: 46, height: 46)
         
         let stack = UIStackView(arrangedSubviews: [fullnameLabel, usernameLabel])
         stack.distribution = .fillEqually
@@ -88,7 +88,7 @@ class MenuHeader: UIView {
         stack.axis = .vertical
         
         addSubview(stack)
-        stack.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 12)
+        stack.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 8)
     }
     
     required init?(coder: NSCoder) {

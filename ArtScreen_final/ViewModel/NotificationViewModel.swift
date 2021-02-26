@@ -25,6 +25,10 @@ struct NotificationViewModel {
             return fromUser.username + " was uploaded new artwork"
         case 3:
             return fromUser.username + " was uploaded new exhibition"
+        case 4:
+            return fromUser.username + " like your Artwork"
+        case 5:
+            return fromUser.username + " like your Exhibition"
         default:
             return "DEBUG: Notification is nil"
         }
@@ -53,10 +57,10 @@ struct NotificationViewModel {
         }
         
         if -elapsedHour < 24 {
-            return String(-elapsedHour) + "時前"
+            return String(-elapsedHour) + "時間前"
         }
         
-        if -elapsedDays < 30 {
+        if -elapsedDays < 31 {
             return String(-elapsedDays) + "日前"
         }
         

@@ -263,7 +263,8 @@ extension MainControllerRenew: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selected = exhibitions[indexPath.row]
+        let selected = exhibitions[indexPath.section]
+//        let selected = exhibitions[indexPath.row]
         guard let user = user else { return }
         let controller = ExhibitionDetailController(user: user)
         controller.exhibition = selected

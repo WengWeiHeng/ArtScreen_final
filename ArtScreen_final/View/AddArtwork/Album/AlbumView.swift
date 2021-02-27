@@ -61,7 +61,7 @@ class AlbumView: UIView {
     
     //MARK: - Selectors
     @objc func handleTapNextButton() {
-        guard let image = selectedImage else { return }
+        guard let image = header?.photoImageView.image else { return }
         delegate?.uploadArtwork(image)
     }
     
@@ -82,7 +82,7 @@ class AlbumView: UIView {
         let options = PHFetchOptions()
         
         //fetch limit
-        options.fetchLimit = 200
+        options.fetchLimit = 160
         
         // sort photos by date
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -100,9 +100,9 @@ class AlbumView: UIView {
         DispatchQueue.global(qos: .background).async {
             
             // enumerate objects
-            allPhotos.enumerateObjects { (asset, count, stop) in
+            allPhotos.enumerateObjects { [weak self] (asset, count, stop) in
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 800, height: 800)
+                let targetSize = CGSize(width: 200, height: 200)
                 let options = PHImageRequestOptions()
                 options.isSynchronous = true
                 
@@ -111,21 +111,21 @@ class AlbumView: UIView {
                     if let image = image {
                         
                         // append image to data source
-                        self.images.append(image)
+                        self?.images.append(image)
                         
                         // append asset to data source
-                        self.assets.append(asset)
+                        self?.assets.append(asset)
                         
                         // set selected image
-                        if self.selectedImage == nil {
-                            self.selectedImage = image
+                        if self?.selectedImage == nil {
+                            self?.selectedImage = image
                         }
                         
                         // reload collection view with images ince count has completed
                         if count == allPhotos.count - 1 {
                             // reload collection view on main thread
                             DispatchQueue.main.async {
-                                self.collectionView.reloadData()
+                                self?.collectionView.reloadData()
                             }
                         }
                     }
@@ -161,7 +161,7 @@ extension AlbumView: UICollectionViewDelegate {
             if let index = self.images.firstIndex(of: selectedImage) {
                 let selectedAsset = assets[index]
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 600, height: 600)
+                let targetSize = CGSize(width: assets[index].pixelWidth, height: assets[index].pixelHeight)
                 
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .default, options: nil) { (image, info) in
                     header.photoImageView.image = image

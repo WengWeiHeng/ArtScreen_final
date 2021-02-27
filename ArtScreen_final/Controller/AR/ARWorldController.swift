@@ -202,16 +202,16 @@ extension ARWorldController: ARSCNViewDelegate {
             if let planeAnchor = anchor as? ARPlaneAnchor {
                 let physicalWidth = planeAnchor.extent.x
                 let physicalHeight = planeAnchor.extent.z
-                
+
                 let mainPlane = SCNPlane(width: CGFloat(physicalWidth), height: CGFloat(physicalHeight))
                 mainPlane.firstMaterial?.colorBufferWriteMask = .alpha
-                
+
                 let mainNode = SCNNode()
                 mainNode.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
                 mainNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
                 mainNode.name = "mainNode"
                 node.addChildNode(mainNode)
-                
+
                 self.highlightDetection(on: mainNode, width: CGFloat(physicalWidth), height: CGFloat(physicalHeight)) {
                     self.configureGalleryNode(withNode: node)
                 }

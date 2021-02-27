@@ -8,16 +8,16 @@
 //import UIKit
 //import AVFoundation
 //
-//protocol CameraViewDelegateX: class {
+//protocol CameraViewDelegate: class {
 //    func presentPhotoCheck(_ image: UIImage)
 //}
 //
-//class CameraViewX: UIView, AVCapturePhotoCaptureDelegate {
-//
+//class CameraView: UIView, AVCapturePhotoCaptureDelegate {
+//    
 //    //MARK: - Properties
-//    weak var delegate: CameraViewDelegateX?
-//
-//    var captureSession: AVCaptureSession!
+//    weak var delegate: CameraViewDelegate?
+//    
+//    var captureSession = AVCaptureSession()
 //    var mainCamera: AVCaptureDevice?
 //    var innerCamera: AVCaptureDevice?
 //    var currentDevice: AVCaptureDevice?
@@ -25,18 +25,18 @@
 //    var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
 //    var checkFont_BackCamera : Bool = false
 //    var checkFlash : Bool = false
-//
+//    
 //    var previewLayer : UIView = {
 //        let view = UIView()
 //        view.backgroundColor = .white
 //        view.translatesAutoresizingMaskIntoConstraints = false
 //        return view
 //    }()
-//
+//    
 //    let viewCameraFeature : UIView = {
 //        let view = UIView()
 //        view.translatesAutoresizingMaskIntoConstraints = false
-//
+//        
 //        let buttonFlash : UIButton = {
 //            let button = UIButton()
 //            button.setTitleColor(.black, for: .normal)
@@ -48,7 +48,7 @@
 //
 //            return button
 //        }()
-//
+//        
 //        let buttonTakePhoto : UIButton = {
 //            let button = UIButton()
 //            button.setTitleColor(.black, for: .normal)
@@ -60,7 +60,7 @@
 //            button.addTarget(self, action: #selector(handleTapTakePhoto), for: .touchUpInside)
 //            return button
 //        }()
-//
+//        
 //        let buttonBackCamera : UIButton = {
 //            let button = UIButton()
 //            button.setTitleColor(.black, for: .normal)
@@ -72,7 +72,7 @@
 //            button.addTarget(self, action: #selector(handleTappedSwitchCamera(_ :)), for: .touchUpInside)
 //            return button
 //        }()
-//
+//        
 //        view.addSubview(buttonFlash)
 //        view.addSubview(buttonTakePhoto)
 //        view.addSubview(buttonBackCamera)
@@ -82,10 +82,10 @@
 //        buttonFlash.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 13, paddingLeft: 22, width: 38, height: 38)
 //        buttonTakePhoto.anchor(top: view.topAnchor, left: view.leftAnchor, paddingLeft: screenWidth / 2 - 32, width: 64, height: 64)
 //        buttonBackCamera.anchor(top: view.topAnchor, right: view.rightAnchor, paddingTop: 15, paddingRight: 22, width: 38, height: 38)
-//
+//        
 //        return view
 //    }()
-//
+//    
 //    //MARK: - Init
 //    override init(frame: CGRect) {
 //        super.init(frame: frame)
@@ -94,21 +94,20 @@
 //        setupDevice()
 //        setupInputOutput()
 //        setupPreviewLayer()
-//        guard let captureSession = captureSession else { return }
 //        captureSession.startRunning()
-//
+//        
 //    }
-//
+//    
 //    required init?(coder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
 //    }
-//
+//    
 //    //MARK: - Selectors
 //    @objc func handleTappedFlash() {
 //        checkFlash = !checkFlash
 //        print(checkFlash)
 //    }
-//
+//        
 //    @objc func handleTapTakePhoto() {
 //        print("Take Photo ...")
 //        let settings = AVCapturePhotoSettings()
@@ -119,23 +118,23 @@
 //        settings.isAutoVirtualDeviceFusionEnabled = true
 //        // 撮影された画像をdelegateメソッドで処理
 //        self.photoOutput?.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)
-//
+//       
 //        if (checkFlash == false ){
 //            self.flashOff(device: currentDevice!)
 //        } else {
 //            self.flashOn(device: currentDevice!)
 //        }
-//        captureSession!.commitConfiguration()
+//        captureSession.commitConfiguration()
 //
 //    }
-//
+//    
 //    @objc func handleTappedSwitchCamera(_ sender : UIButton) {
 //        reload()
 //    }
-//
+//    
 //    //MARK: - Helpers
 //    func reload() {
-//        if let session: AVCaptureSession = captureSession {
+//        if let session : AVCaptureSession = captureSession {
 //            //Remove existing input
 //            guard let currentCameraInput: AVCaptureInput = session.inputs.first else {
 //                return
@@ -166,7 +165,7 @@
 //            }
 //
 //            if newVideoInput == nil || err != nil {
-//                print("Error creating capture device input: \(err!.localizedDescription)")
+//                print("Error creating capture device input: \(err?.localizedDescription)")
 //            } else {
 //                session.addInput(newVideoInput)
 //            }
@@ -185,8 +184,8 @@
 //
 //        return nil
 //    }
-//
-//    private func flashOn(device: AVCaptureDevice) {
+//    
+//    private func flashOn(device:AVCaptureDevice){
 //        do {
 //            if (device.hasTorch) {
 //                try device.lockForConfiguration()
@@ -198,7 +197,7 @@
 //            print("Device tourch Flash Error ");
 //        }
 //    }
-//
+//    
 //    private func flashOff(device:AVCaptureDevice) {
 //       do {
 //           if (device.hasTorch) {
@@ -212,7 +211,7 @@
 //           print("Device tourch Flash Error ");
 //       }
 //   }
-//
+//    
 //    func photoOutput(_ captureOutput: AVCapturePhotoOutput,
 //                     didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?,
 //                     previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?,
@@ -233,7 +232,7 @@
 //        }
 //        // Initialise a UIImage with our image data
 //        let capturedImage = UIImage.init(data: imageData , scale: 1.0)
-//
+//        
 //        if let image = capturedImage {
 //            // Save our captured image to photos album
 //            let y = (image.size.height - image.size.width) / 2
@@ -244,7 +243,7 @@
 //            delegate?.presentPhotoCheck(trimImage(image: image, area: croppingRect)!)
 //        }
 //    }
-//
+//    
 //    func trimImage(image: UIImage, area: CGRect) -> UIImage? {
 //        guard let cgImage = image.cgImage else { return nil }
 //        guard let imageCropping = cgImage.cropping(to: area) else { return nil }
@@ -263,10 +262,9 @@
 //}
 //
 ////MARK: - Extension
-//extension CameraView {
+//extension CameraView{
 //    // カメラの画質の設定
 //    func setupCaptureSession() {
-//        guard let captureSession = captureSession else { return }
 //        captureSession.sessionPreset = AVCaptureSession.Preset.photo
 //    }
 //
@@ -290,7 +288,7 @@
 //        } else {
 //            currentDevice = innerCamera
 //        }
-//
+//        
 //    }
 //
 //    // 入出力データの設定
@@ -299,7 +297,6 @@
 //            // 指定したデバイスを使用するために入力を初期化
 //            let captureDeviceInput = try AVCaptureDeviceInput(device: currentDevice!)
 //            // 指定した入力をセッションに追加
-//            guard let captureSession = captureSession else { return }
 //            captureSession.addInput(captureDeviceInput)
 //            // 出力データを受け取るオブジェクトの作成
 //            photoOutput = AVCapturePhotoOutput()
@@ -314,7 +311,6 @@
 //    // カメラのプレビューを表示するレイヤの設定
 //    func setupPreviewLayer() {
 //        // 指定したAVCaptureSessionでプレビューレイヤを初期化
-//        guard let captureSession = captureSession else { return }
 //        self.cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
 //        // プレビューレイヤが、カメラのキャプチャーを縦横比を維持した状態で、表示するように設定
 //        self.cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -323,5 +319,17 @@
 //
 //        self.cameraPreviewLayer?.frame = CGRect(x: 0, y: 94, width: screenWidth, height: screenWidth)
 //        self.layer.insertSublayer(self.cameraPreviewLayer!, at: 0)
+//    }
+//
+//    // ボタンのスタイルを設定
+//    func styleCaptureButton() {
+////        cameraButton.layer.borderColor = UIColor.white.cgColor
+////        cameraButton.layer.borderWidth = 5
+////        cameraButton.clipsToBounds = true
+////        cameraButton.layer.cornerRadius = min(cameraButton.frame.width, cameraButton.frame.height) / 2
+////        button.layer.borderColor = UIColor.white.cgColor
+////        button.layer.borderWidth = 5
+////        button.clipsToBounds = true
+////        button.layer.cornerRadius = min(cameraButton.frame.width, cameraButton.frame.height) / 2
 //    }
 //}

@@ -184,6 +184,10 @@ class ExhibitionDetailController: UIViewController {
         stack.axis = .horizontal
         stack.spacing = 10
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleOpenProfile))
+        stack.addGestureRecognizer(tap)
+        stack.isUserInteractionEnabled = true
+        
         return stack
     }()
 
@@ -369,6 +373,13 @@ class ExhibitionDetailController: UIViewController {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    @objc func handleOpenProfile() {
+        guard let user = user else { return }
+        let controller = UserProfileController(user: user)
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true, completion: nil)
     }
     
     //MARK: - Helpers

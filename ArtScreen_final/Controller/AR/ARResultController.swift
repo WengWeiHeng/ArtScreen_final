@@ -61,8 +61,9 @@ class ARResultController: UIViewController {
         view.addSubview(originImageView)
         originImageView.frame = view.frame
         originImageView.alpha = 0.75
-        
+
         view.addSubview(trimImageView)
+        
     }
     
     //MARK: - API
@@ -79,6 +80,7 @@ class ARResultController: UIViewController {
     func configureArtworkData() {
         guard let artwork = artwork else { return }
         originImageView.sd_setImage(with: artwork.path)
+//        testImageView.sd_setImage(with: artwork.path)
     }
     
     func configureArtworkItemData() {
@@ -154,7 +156,7 @@ class ARResultController: UIViewController {
         emitter.emitterCells = cells
         
         if size == 0 && speed == 0 && red == 0 && green == 0 && blue == 0 {
-            print("DEBUG: Have not data.")
+            print("DEBUG: Have not emitter data.")
         } else {
             self.view.layer.addSublayer(emitter)
         }

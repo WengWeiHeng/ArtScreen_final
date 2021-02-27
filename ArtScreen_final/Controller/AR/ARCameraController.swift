@@ -166,7 +166,6 @@ extension ARCameraController: ARSCNViewDelegate {
             node.addChildNode(mainNode)
             
             self.highlightDetection(on: mainNode, width: physicalWidth, height: physicalHeight) {
-                
                 let animatePlane = SCNPlane(width: physicalWidth, height: physicalHeight)
                 var index = -1
                 for i in 0..<self.artworkImages.count {
@@ -184,9 +183,10 @@ extension ARCameraController: ARSCNViewDelegate {
                 }
                 
                 let animateNode = SCNNode(geometry: animatePlane)
-                animateNode.eulerAngles.x = -.pi / 2
+                animateNode.eulerAngles = mainNode.eulerAngles
                 node.addChildNode(animateNode)
                 node.runAction(.sequence([.wait(duration: 3)]))
+               
             }
         }
     }

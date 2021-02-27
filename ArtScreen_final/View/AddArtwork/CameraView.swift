@@ -103,6 +103,7 @@ class CameraView: UIView {
 }
 
 extension CameraView: AVCapturePhotoCaptureDelegate {
+    
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if error == nil {
             let outputImageView = UIImageView()
@@ -113,16 +114,16 @@ extension CameraView: AVCapturePhotoCaptureDelegate {
             delegate?.presentPhotoCheck(tempImage)
 //            self.addSubview(outputImageView)
 //            session.stopRunning()
-            
-            
-            
-            //再撮影ボタン
+//
+//
+//
+////            再撮影ボタン
 //            let retryBtn = UIButton()
 //            retryBtn.setTitle("再撮影", for:.normal)
 //            retryBtn.frame = CGRect(x: self.frame.width / 2 - 150, y: self.frame.height - 115, width: 70, height: 70)
 //            retryBtn.addTarget(self, action: #selector(retryPhoto), for: .touchUpInside)
 //            addSubview(retryBtn)
-//            
+//
 //            //保存ボタン
 //            let saveBtn = UIButton()
 //            saveBtn.setTitle("保存", for: .normal)

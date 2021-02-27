@@ -15,10 +15,8 @@ class ArtMapController: UIViewController {
     var artworks = [ArtworkDetail]() {
         didSet {
             DispatchQueue.main.async {
-                for count in 0..<self.artworks.count {
-                    self.setupMarker(lat: self.artworks[count].locationLat,
-                                     lng: self.artworks[count].locationLng,
-                                     title: self.artworks[count].artworkName)
+                for index in 0..<self.artworks.count {
+                    self.setupMarker(artwork: self.artworks[index])
                 }
             }
         }
@@ -44,6 +42,10 @@ class ArtMapController: UIViewController {
         super.viewDidLoad()
         fetchArtwork()
         configureUI()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     //MARK: - Selectors
@@ -136,14 +138,41 @@ class ArtMapController: UIViewController {
         locationManager.startUpdatingLocation()
     }
     
-    func setupMarker(lat: Double, lng: Double, title: String) {
-        let position = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+    func setupMarker(artwork: ArtworkDetail) {
+        let position = CLLocationCoordinate2D(latitude: artwork.locationLat, longitude: artwork.locationLng)
         let marker = GMSMarker(position: position)
-        let markerImage = UIImage(imageLiteralResourceName: "marker").withRenderingMode(.alwaysOriginal)
-        let markerView = UIImageView(image: markerImage)
+        
+        let iconImageView = UIImageView()
+        iconImageView.image = #imageLiteral(resourceName: "mapIcon")
+        iconImageView.setDimensions(width: 22, height: 15)
+        
+        let artworkImageView = UIImageView()
+        artworkImageView.clipsToBounds = true
+        artworkImageView.contentMode = .scaleAspectFill
+        artworkImageView.setDimensions(width: 50, height: 50)
+        artworkImageView.backgroundColor = .mainBackground
+        artworkImageView.layer.cornerRadius = 50 / 2
+        artworkImageView.layer.borderWidth = 3
+        artworkImageView.layer.borderColor = UIColor.mainPurple.cgColor
+        artworkImageView.sd_setImage(with: artwork.path)
+        
+        let markerView = UIView()
+        markerView.setDimensions(width: 50, height: 65)
+        
+        markerView.addSubview(iconImageView)
+        iconImageView.centerX(inView: markerView)
+        iconImageView.anchor(bottom: markerView.bottomAnchor)
+        
+        markerView.addSubview(artworkImageView)
+        artworkImageView.centerX(inView: markerView)
+        artworkImageView.centerY(inView: markerView)
+        
+        
+        
  
         marker.iconView = markerView
-        marker.map = mapView
+        marker.map = self.mapView
+        
     }
 }
 

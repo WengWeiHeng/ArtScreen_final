@@ -113,12 +113,10 @@ class MainControllerRenew: UIViewController {
     
     //MARK: - API
     func fetchExhibitions() {
-        tableView.refreshControl?.beginRefreshing()
         ExhibitionService.shared.fetchExhibitions { exhibitions in
             self.exhibitions = exhibitions
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.tableView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -167,7 +165,9 @@ class MainControllerRenew: UIViewController {
     }
     
     @objc func handleRefresh() {
+        tableView.refreshControl?.beginRefreshing()
         fetchExhibitions()
+        tableView.refreshControl?.endRefreshing()
     }
     
     //MARK: - Helpers

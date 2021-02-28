@@ -33,7 +33,6 @@ class NotificationCell: UITableViewCell {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
         label.textColor = .mainPurple
-        label.text = "@Weng_Heng0301 is following"
         
         return label
     }()
@@ -42,7 +41,6 @@ class NotificationCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12)
         label.textColor = .mainAlphaGray
-//        label.text = "3s"
         
         return label
     }()

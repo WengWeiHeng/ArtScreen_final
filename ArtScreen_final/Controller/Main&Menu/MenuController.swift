@@ -107,10 +107,13 @@ extension MenuController: UITableViewDelegate {
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil)
-        case .setting:
-            print("DEBUG: Show setting page..")
+//        case .setting:
+//            print("DEBUG: Show setting page..")
         case .instructions:
-            print("DEBUG: Show Instructions page..")
+            let controller = InstructionsController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil)
         case .logOut:
             UserDefaults.standard.removeObject(forKey: "parseJSON")
             UserDefaults.standard.synchronize()

@@ -106,10 +106,7 @@ class ARWorldController: UIViewController {
     
     //MARK: - Helpers
     func configureUI() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleDismissal))
+        navigationBarRightItem(selector: #selector(handleDismissal), buttonColor: .white)
 
         view.addSubview(sceneView)
         sceneView.addConstraintsToFillView(view)

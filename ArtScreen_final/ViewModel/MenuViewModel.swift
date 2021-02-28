@@ -11,7 +11,7 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible{
     case notification
     case placeMap
     case arCamere
-    case setting
+//    case setting
     case instructions
     case logOut
     
@@ -23,8 +23,8 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible{
             return "Art Map"
         case .arCamere:
             return "AR Camera"
-        case .setting:
-            return "Setting"
+//        case .setting:
+//            return "Setting"
         case .instructions:
             return "Instructions"
         case .logOut:
@@ -40,8 +40,8 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible{
             return "placeMap"
         case .arCamere:
             return "arCamera"
-        case .setting:
-            return "setting"
+//        case .setting:
+//            return "setting"
         case .instructions:
             return "instructions"
         case .logOut:

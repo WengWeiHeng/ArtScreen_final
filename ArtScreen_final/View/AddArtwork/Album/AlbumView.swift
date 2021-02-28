@@ -82,7 +82,7 @@ class AlbumView: UIView {
         let options = PHFetchOptions()
         
         //fetch limit
-        options.fetchLimit = 160
+        options.fetchLimit = 500
         
         // sort photos by date
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -100,7 +100,7 @@ class AlbumView: UIView {
         DispatchQueue.global(qos: .background).async {
             
             // enumerate objects
-            allPhotos.enumerateObjects { [weak self] (asset, count, stop) in
+            allPhotos.enumerateObjects { (asset, count, stop) in
                 let imageManager = PHImageManager.default()
                 let targetSize = CGSize(width: 200, height: 200)
                 let options = PHImageRequestOptions()
@@ -111,21 +111,21 @@ class AlbumView: UIView {
                     if let image = image {
                         
                         // append image to data source
-                        self?.images.append(image)
+                        self.images.append(image)
                         
                         // append asset to data source
-                        self?.assets.append(asset)
+                        self.assets.append(asset)
                         
                         // set selected image
-                        if self?.selectedImage == nil {
-                            self?.selectedImage = image
+                        if self.selectedImage == nil {
+                            self.selectedImage = image
                         }
                         
                         // reload collection view with images ince count has completed
                         if count == allPhotos.count - 1 {
                             // reload collection view on main thread
                             DispatchQueue.main.async {
-                                self?.collectionView.reloadData()
+                                self.collectionView.reloadData()
                             }
                         }
                     }

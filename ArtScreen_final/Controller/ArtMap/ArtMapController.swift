@@ -97,10 +97,7 @@ class ArtMapController: UIViewController {
     }
     
     func configureNavigationBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleCloseMap))
+        navigationBarRightItem(selector: #selector(handleCloseMap), buttonColor: .mainPurple)
     }
     
     func configureInfoInputView() {

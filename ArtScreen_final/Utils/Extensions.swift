@@ -175,10 +175,12 @@ extension UIViewController {
         }
     }
     
-    func hideNavigationBar(selector: Selector) {
+    func navigationBarRightItem(selector: Selector, buttonColor: UIColor) {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: selector)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "close").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: selector)
+        navigationItem.rightBarButtonItem?.tintColor = buttonColor
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: selector)
     }
 }
 

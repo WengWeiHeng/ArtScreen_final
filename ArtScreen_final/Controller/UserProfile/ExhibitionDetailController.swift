@@ -222,7 +222,7 @@ class ExhibitionDetailController: UIViewController {
         
         configureUI()
         configureData()
-        hideNavigationBar(selector: #selector(handleDismissal))
+        navigationBarRightItem(selector: #selector(handleDismissal), buttonColor: .mainAlphaGray)
     }
     
     //MARK: - API

@@ -29,7 +29,7 @@ class ArtworkInputViewCell: UICollectionViewCell {
     private let artworkName: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
-        label.numberOfLines = 0
+        label.numberOfLines = 3
         label.textColor = .mainBackground
         label.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         

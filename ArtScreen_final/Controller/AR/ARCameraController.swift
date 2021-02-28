@@ -28,11 +28,8 @@ class ARCameraController: UIViewController {
     //MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "close"), style: .plain, target: self, action: #selector(handleDismissal))
-        navigationItem.rightBarButtonItem?.tintColor = .white
+
+        navigationBarRightItem(selector: #selector(handleDismissal), buttonColor: .white)
         
         configureSceneView()
     }

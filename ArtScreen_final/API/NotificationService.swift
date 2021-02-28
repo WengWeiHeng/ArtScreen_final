@@ -12,12 +12,12 @@ struct NotificationService {
     static let share = NotificationService()
 
     //MARK: - GET NOTIFICATION
-    func getNotification(forUser user: User, completion: @escaping([NotificationDetail]) -> Void){
+    func getNotification(completion: @escaping([NotificationDetail]) -> Void){
+        guard let currentUid = Int(userDefault["id"] as! String) else { return }
         let url = URL(string: GET_NOTIFICATION_URL)
         let request = NSMutableURLRequest(url: url!)
         request.httpMethod = "POST"
-        let body = "userID=\(user.id)"
-        print(user.id)
+        let body = "userID=\(currentUid)"        
         request.httpBody = body.data(using: .utf8)
         
         readNotification(request: request, completion: completion)

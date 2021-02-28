@@ -26,14 +26,7 @@ class ARResultController: UIViewController {
     var circleWidth: CGFloat!
     var circleHeight: CGFloat!
     var trimImageView = UIImageView()
-    
-    var originImageView: UIImageView = {
-        let iv = UIImageView()
-        
-        let iv2 = UIImageView()
-        iv.addSubview(iv2)
-        return iv
-    }()
+    var originImageView = UIImageView()
     
     // Emitter animate
     lazy var particleImage: UIImage = {
@@ -80,7 +73,6 @@ class ARResultController: UIViewController {
     func configureArtworkData() {
         guard let artwork = artwork else { return }
         originImageView.sd_setImage(with: artwork.path)
-//        testImageView.sd_setImage(with: artwork.path)
     }
     
     func configureArtworkItemData() {

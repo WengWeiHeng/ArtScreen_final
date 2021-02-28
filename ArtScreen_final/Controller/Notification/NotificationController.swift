@@ -38,8 +38,8 @@ class NotificationController: UITableViewController {
     
     //MARK: - API
     func fetchUserNotification() {
-        guard let user = user else { return }
-        NotificationService.share.getNotification(forUser: user) { notifications in
+//        guard let user = user else { return }
+        NotificationService.share.getNotification { notifications in
             self.notifications = notifications
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -52,16 +52,19 @@ class NotificationController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleRefresh() {
+        tableView.refreshControl?.beginRefreshing()
+        fetchUserNotification()
+        tableView.refreshControl?.endRefreshing()
+    }
+    
     //MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .mainBackground
     }
     
     func configureNavigationBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClose))
+        navigationBarRightItem(selector: #selector(handleClose), buttonColor: .mainPurple)
         
         view.backgroundColor = .mainBackground
     }
@@ -75,6 +78,10 @@ class NotificationController: UITableViewController {
         tableView.tableHeaderView = headerView
         tableView.separatorStyle = .none
         headerView.titleLabel.text = "Notification"
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
     }
 }
 
